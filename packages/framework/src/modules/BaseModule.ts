@@ -5,7 +5,6 @@ export abstract class BaseModule {
 
 	/**
 	 * The options for this module.
-	 * @internal
 	 */
 	public readonly options: ModuleOptions;
 
