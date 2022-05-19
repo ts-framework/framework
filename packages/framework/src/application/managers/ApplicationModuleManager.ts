@@ -38,7 +38,6 @@ export class ApplicationModuleManager {
 	 * @internal
 	 */
 	public async import(module: BaseModule, options?: ModuleOverrideOptions) {
-		const imports = module.options.imports ?? [];
 
 		this.modules.add(module);
 		this.constructors.set(module.constructor as Constructor<BaseModule>, module);
@@ -57,7 +56,7 @@ export class ApplicationModuleManager {
 			}
 		}
 
-		for (const importable of imports) {
+		for (const importable of module.options.imports ?? []) {
 			await this.register(importable, module);
 		}
 	}
