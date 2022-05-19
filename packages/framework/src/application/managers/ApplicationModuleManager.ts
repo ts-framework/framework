@@ -37,8 +37,9 @@ export class ApplicationModuleManager {
 		this.modules.add(module);
 		this.graph.addNode(module);
 
-		if (!(module instanceof Application)) {
+		if (module instanceof Module) {
 			this.application.container.registerInstance(module);
+			await module.onModuleRegister();
 		}
 
 		if (options !== undefined && module instanceof Module) {
