@@ -89,4 +89,4 @@ jobs:
           mike deploy ${{ steps.target.outputs.name }} latest --update-aliases --no-redirect
           mike set-default --push latest
 env:
-  GH_TOKEN: ${{ secrets.GH_TOKEN }
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
