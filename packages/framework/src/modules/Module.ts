@@ -30,11 +30,4 @@ export abstract class Module extends BaseModule {
 		this.logger.level = normalizeLogLevel(options.logging);
 	}
 
-	/**
-	 * Invoked when the module is initially registered in the application.
-	 */
-	public async onModuleRegister(): Promise<void> {
-
-	}
-
 }

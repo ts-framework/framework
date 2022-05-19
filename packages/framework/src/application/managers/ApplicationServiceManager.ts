@@ -2,11 +2,12 @@ import { registry } from '@baileyherbert/container';
 import { DependencyGraph } from '@baileyherbert/dependency-graph';
 import { ReflectionClass, ReflectionParameter } from '@baileyherbert/reflection';
 import { Constructor } from '@baileyherbert/types';
-import { NotImplementedError } from '../../main';
+import { Module, NotImplementedError } from '../../main';
 import { BaseModule } from '../../modules/BaseModule';
 import { Service } from '../../services/Service';
 import { isConstructor } from '../../utilities/types';
 import { Application } from '../Application';
+import { ModuleToken } from './ApplicationModuleManager';
 
 export class ApplicationServiceManager {
 
@@ -23,12 +24,27 @@ export class ApplicationServiceManager {
 	/**
 	 * A map linking services to their parent modules.
 	 */
-	protected modules = new Map<Constructor<Service>, BaseModule>();
+	protected parents = new Map<Constructor<Service>, BaseModule>();
+
+	/**
+	 * A map linking modules to the services registered directly under them (not nested).
+	 */
+	protected modules = new Map<BaseModule, Set<Constructor<Service>>>();
 
 	/**
 	 * A cache for the computed load paths, to be reset whenever new modules are registered.
 	 */
 	protected cachedPaths?: Constructor<Service>[][];
+
+	/**
+	 * A set containing all running services.
+	 */
+	protected active = new Set<Service>();
+
+	/**
+	 * A map linking modules to all services running under them recursively (nested).
+	 */
+	protected activeMapNested = new Map<BaseModule, Set<Service>>();
 
 	/**
 	 * Constructs a new `ApplicationServiceManager` instance for the given root application object.
@@ -44,9 +60,15 @@ export class ApplicationServiceManager {
 	public register(service: Constructor<Service>, module: BaseModule) {
 		if (!this.services.has(service)) {
 			this.services.add(service);
-			this.modules.set(service, module);
+			this.parents.set(service, module);
 			this.application.container.registerSingleton(service);
 			this.cachedPaths = undefined;
+
+			if (!this.modules.has(module)) {
+				this.modules.set(module, new Set());
+			}
+
+			this.modules.get(module)?.add(service);
 		}
 	}
 
@@ -216,9 +238,42 @@ export class ApplicationServiceManager {
 	 * @param service
 	 * @returns
 	 */
-	private start(service: ServiceToken) {
+	private async start(service: ServiceToken) {
 		const instance = this.resolve(service);
-		return instance.__internStart();
+		const parents = this.getParentModules(instance);
+
+		if (this.active.has(instance)) {
+			return;
+		}
+
+		// Invoke the beforeModuleBoot lifecycle method on modules
+		for (const parent of parents) {
+			if (!this.activeMapNested.has(parent)) {
+				this.activeMapNested.set(parent, new Set());
+			}
+
+			const nested = this.activeMapNested.get(parent)!;
+
+			if (nested.size === 0) {
+				await this.application.modules.invokeLifecycle(parent, 'beforeModuleBoot');
+			}
+
+			nested.add(instance);
+		}
+
+		this.active.add(instance);
+		await instance.__internStart();
+
+		// Invoke the onModuleBoot lifecycle method if modules are fully loaded
+		for (const parent of parents) {
+			const nested = this.activeMapNested.get(parent)!;
+			const goal = this.getFromModule(parent, true);
+			nested.add(instance);
+
+			if (nested.size === goal.length) {
+				await this.application.modules.invokeLifecycle(parent, 'onModuleBoot');
+			}
+		}
 	}
 
 	/**
@@ -227,9 +282,38 @@ export class ApplicationServiceManager {
 	 * @param service
 	 * @returns
 	 */
-	private stop(service: ServiceToken) {
+	private async stop(service: ServiceToken) {
 		const instance = this.resolve(service);
-		return instance.__internStop();
+		const parents = this.getParentModules(instance);
+
+		if (!this.active.has(instance)) {
+			return;
+		}
+
+		// Invoke the beforeModuleShutdown lifecycle method on modules
+		for (const parent of parents) {
+			const nested = this.activeMapNested.get(parent)!;
+			const goal = this.getFromModule(parent, true);
+
+			if (nested.size === goal.length) {
+				await this.application.modules.invokeLifecycle(parent, 'beforeModuleShutdown');
+			}
+
+			nested.delete(instance);
+		}
+
+		this.active.delete(instance);
+		await instance.__internStop();
+
+		// Invoke the onModuleShutdown lifecycle method if modules are fully loaded
+		for (const parent of parents) {
+			const nested = this.activeMapNested.get(parent)!;
+			nested.delete(instance);
+
+			if (nested.size === 0) {
+				await this.application.modules.invokeLifecycle(parent, 'onModuleShutdown');
+			}
+		}
 	}
 
 	/**
@@ -238,13 +322,18 @@ export class ApplicationServiceManager {
 	 * @internal
 	 */
 	public async startAll() {
+		if (this.active.size > 0) {
+			return;
+		}
+
 		const paths = this.getResolutionOrder();
 		const promises = new Array<Promise<void>>();
 
 		for (const path of paths) {
-			promises.push(this.onPath(path, service => {
-				return this.start(service);
-			}));
+			promises.push(this.onPath(
+				path,
+				service => this.start(service)
+			));
 		}
 
 		return Promise.all(promises);
@@ -256,13 +345,18 @@ export class ApplicationServiceManager {
 	 * @internal
 	 */
 	public async stopAll() {
+		if (this.active.size === 0) {
+			return;
+		}
+
 		const paths = this.getResolutionOrder();
 		const promises = new Array<Promise<void>>();
 
 		for (const path of paths) {
-			promises.push(this.onPath(path.reverse(), service => {
-				return this.stop(service);
-			}));
+			promises.push(this.onPath(
+				path.reverse(),
+				service => this.stop(service)
+			));
 		}
 
 		return Promise.all(promises);
@@ -285,12 +379,12 @@ export class ApplicationServiceManager {
 	 * @param service
 	 * @returns
 	 */
-	public getModule(service: ServiceToken) {
+	public getParentModule(service: ServiceToken) {
 		if (!isConstructor(service)) {
 			service = service.constructor as Constructor<Service>;
 		}
 
-		const module = this.modules.get(service);
+		const module = this.parents.get(service);
 
 		if (module === undefined) {
 			throw new Error(
@@ -300,6 +394,76 @@ export class ApplicationServiceManager {
 		}
 
 		return module;
+	}
+
+	/**
+	 * Returns an array of all modules that are above the given service. The first module in the array will be the
+	 * direct parent of the service, and the last module will be the application.
+	 *
+	 * @param service
+	 * @returns
+	 */
+	public getParentModules(service: ServiceToken) {
+		if (!isConstructor(service)) {
+			service = service.constructor as Constructor<Service>;
+		}
+
+		const parents = new Set<BaseModule>();
+		let parent = this.parents.get(service);
+
+		if (parent === undefined) {
+			throw new Error(
+				`Failed to retrieve the module for service instance "${service.name}" because no module ` +
+				`was registered in the service manager`
+			);
+		}
+
+		while (parent) {
+			parents.add(parent);
+			parent = this.application.modules.getParentModule(parent);
+		}
+
+		parents.add(this.application);
+
+		return [...parents];
+	}
+
+	/**
+	 * Returns an array of all services inside the given module.
+	 * @param module The module to search.
+	 * @param deep Whether or not to include services in child modules (default=true).
+	 * @returns
+	 */
+	public getFromModule(module: ModuleToken, deep = true): Service[] {
+		const instance = this.application.modules.resolve(module);
+
+		if (!this.modules.has(instance)) {
+			if (module === this.application && deep) {
+				return [...this.instances.values()];
+			}
+
+			return [];
+		}
+
+		if (!deep) {
+			return [...this.modules.get(instance)!].map(constructor => this.resolve(constructor));
+		}
+
+		const services = new Set<Service>();
+
+		for (const constructor of this.modules.get(instance)!) {
+			services.add(this.resolve(constructor));
+		}
+
+		const children = this.application.modules.getChildModules(instance);
+
+		for (const childModule of children) {
+			for (const constructor of this.getFromModule(childModule, true)) {
+				services.add(this.resolve(constructor));
+			}
+		}
+
+		return [...services];
 	}
 
 	/**

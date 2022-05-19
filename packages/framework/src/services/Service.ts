@@ -61,4 +61,32 @@ export abstract class Service {
 		await this.stop();
 	}
 
+	/**
+	 * Invoked immediately before the first service in the module is started.
+	 */
+	protected beforeModuleBoot(): Promise<void> | void {
+
+	}
+
+	/**
+	 * Invoked after all services in the module have started.
+	 */
+	protected onModuleBoot(): Promise<void> | void {
+
+	}
+
+	/**
+	 * Invoked immediately before the first service in the module is stopped.
+	 */
+	protected beforeModuleShutdown(): Promise<void> | void {
+
+	}
+
+	/**
+	 * Invoked after all services in the module have shut down.
+	 */
+	protected onModuleShutdown(): Promise<void> | void {
+
+	}
+
 }

@@ -1,4 +1,5 @@
 import { DependencyGraph } from '@baileyherbert/dependency-graph';
+import { Constructor } from '@baileyherbert/types';
 import { BaseModule } from '../../modules/BaseModule';
 import { Importable } from '../../modules/Importable';
 import { Module } from '../../modules/Module';
@@ -13,6 +14,11 @@ export class ApplicationModuleManager {
 	 * A set containing all registered modules.
 	 */
 	protected modules = new Set<BaseModule>();
+
+	/**
+	 * A map of module constructors and their instances.
+	 */
+	protected constructors = new Map<Constructor<BaseModule>, BaseModule>();
 
 	/**
 	 * A dependency graph containing all registered modules to determine the import order.
@@ -35,12 +41,14 @@ export class ApplicationModuleManager {
 		const imports = module.options.imports ?? [];
 
 		this.modules.add(module);
+		this.constructors.set(module.constructor as Constructor<BaseModule>, module);
 		this.graph.addNode(module);
 
 		if (module instanceof Module) {
 			this.application.container.registerInstance(module);
-			await module.onModuleRegister();
 		}
+
+		await this.invokeLifecycle(module, 'onModuleRegister');
 
 		if (options !== undefined && module instanceof Module) {
 			if (options.logging !== undefined) {
@@ -82,7 +90,6 @@ export class ApplicationModuleManager {
 
 	/**
 	 * Resolves an importable into a module instance along with its override options when provided.
-	 *
 	 * @param importable
 	 * @returns
 	 */
@@ -138,13 +145,31 @@ export class ApplicationModuleManager {
 	}
 
 	/**
+	 * Resolves the singleton instance of the given module.
+	 * @param module
+	 * @returns
+	 */
+	public resolve<T extends BaseModule>(module: ModuleToken<T>): T {
+		if (module instanceof BaseModule) {
+			return module;
+		}
+
+		if (this.constructors.has(module)) {
+			return this.constructors.get(module)! as T;
+		}
+
+		throw new Error(`Could not resolve value of type ${typeof module} to a module instance`);
+	}
+
+	/**
 	 * Returns the data associated with the given module.
-	 *
 	 * @param module
 	 */
-	public getData(module: Module): ModuleData | undefined {
-		if (this.graph.hasNodeData(module)) {
-			return this.graph.getNodeData(module);
+	public getData(module: ModuleToken): ModuleData | undefined {
+		const instance = this.resolve(module);
+
+		if (this.graph.hasNodeData(instance)) {
+			return this.graph.getNodeData(instance);
 		}
 
 		return undefined;
@@ -153,12 +178,13 @@ export class ApplicationModuleManager {
 	/**
 	 * Returns the parent module for the given module instance or `undefined` if its parent is unavailable or is the
 	 * root application.
-	 *
 	 * @param module
 	 */
-	public getParentModule(module: BaseModule): BaseModule | undefined {
-		if (this.graph.hasNode(module)) {
-			return this.graph.getDirectDependenciesOf(module)[0];
+	public getParentModule(module: ModuleToken): BaseModule | undefined {
+		const instance = this.resolve(module);
+
+		if (this.graph.hasNode(instance)) {
+			return this.graph.getDirectDependenciesOf(instance)[0];
 		}
 
 		return;
@@ -166,15 +192,38 @@ export class ApplicationModuleManager {
 
 	/**
 	 * Returns all modules registered directly under the specified parent module.
-	 *
 	 * @param module
 	 */
-	public getChildModules(module: BaseModule): BaseModule[] {
-		if (this.graph.hasNode(module)) {
-			return this.graph.getDirectDependentsOf(module);
+	public getChildModules(module: ModuleToken): BaseModule[] {
+		const instance = this.resolve(module);
+
+		if (this.graph.hasNode(instance)) {
+			return this.graph.getDirectDependentsOf(instance);
 		}
 
 		return [];
+	}
+
+	/**
+	 * Runs the specified lifecycle method on the given module and its services.
+	 * @param module
+	 * @param lifecycle
+	 * @internal
+	 */
+	public async invokeLifecycle(module: ModuleToken, lifecycle: Lifecycle) {
+		const promises = new Array<Promise<void> | void>();
+
+		if (lifecycle in module) {
+			promises.push((module as any)[lifecycle]());
+		}
+
+		for (const service of this.application.services.getFromModule(module, false)) {
+			if (lifecycle in service) {
+				promises.push((service as any)[lifecycle]());
+			}
+		}
+
+		return Promise.all(promises);
 	}
 
 }
@@ -189,3 +238,16 @@ interface ResolvedModule {
 	module: BaseModule;
 	options?: ModuleOverrideOptions;
 }
+
+export type ModuleToken<T extends BaseModule = BaseModule> = Constructor<T> | T;
+
+/**
+ * @internal
+ */
+type Lifecycle = (
+	'onModuleRegister' |
+	'beforeModuleBoot' |
+	'onModuleBoot' |
+	'beforeModuleShutdown' |
+	'onModuleShutdown'
+);

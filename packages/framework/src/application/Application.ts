@@ -83,6 +83,8 @@ export abstract class Application extends BaseModule {
 	 * Starts the application manually.
 	 */
 	public async start() {
+		this.logger.info('Starting the application');
+
 		await this.bootstrap();
 		await this.services.startAll();
 	}
@@ -91,6 +93,8 @@ export abstract class Application extends BaseModule {
 	 * Stops the application manually.
 	 */
 	public async stop() {
+		this.logger.info('Stopping the application');
+
 		await this.bootstrap();
 		await this.services.stopAll();
 	}
