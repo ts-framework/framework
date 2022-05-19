@@ -1,3 +1,4 @@
+import { Logger } from '@baileyherbert/logging';
 import { ModuleOptions } from './ModuleOptions';
 
 export abstract class BaseModule {
@@ -9,11 +10,17 @@ export abstract class BaseModule {
 	public readonly options: ModuleOptions;
 
 	/**
+	 * The logger for this module.
+	 */
+	public readonly logger: Logger;
+
+	/**
 	 * Constructs a new `BaseModule` instance with the given options.
 	 * @param options
 	 */
 	public constructor(options: ModuleOptions) {
 		this.options = options;
+		this.logger = new Logger();
 	}
 
 	/**

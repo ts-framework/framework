@@ -19,7 +19,7 @@ export abstract class Module extends BaseModule {
 	/**
 	 * The logger for this module.
 	 */
-	public readonly logger = this.application.logger.createChild(this.constructor.name);
+	public override readonly logger = this.application.logger.createChild(this.constructor.name);
 
 	/**
 	 * Constructs a new `Module` instance with the given options.

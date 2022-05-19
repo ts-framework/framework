@@ -1,10 +1,11 @@
 import { resolver } from '@baileyherbert/container';
 import { Promisable } from '@baileyherbert/types';
 import { Application } from '../application/Application';
+import { BaseModule, Module } from '../main';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { ServiceOptions } from './ServiceOptions';
 
-export abstract class Service {
+export abstract class Service<T extends BaseModule = BaseModule> {
 
 	/**
 	 * The dependency injection container for the parent application.
@@ -17,9 +18,14 @@ export abstract class Service {
 	public readonly application = this.container.resolve(Application);
 
 	/**
+	 * The module that this service belongs to.
+	 */
+	public readonly module = this.application.services.getParentModule(this) as T;
+
+	/**
 	 * The logger for this service.
 	 */
-	public readonly logger = this.application.logger.createChild(this.constructor.name);
+	public readonly logger = this.module.logger.createChild(this.constructor.name);
 
 	/**
 	 * The options for this service.

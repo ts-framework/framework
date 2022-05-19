@@ -17,7 +17,7 @@ export abstract class Application extends BaseModule {
 	/**
 	 * The root logger for the application.
 	 */
-	public readonly logger = new Logger(this.constructor.name);
+	public override readonly logger = new Logger(this.constructor.name);
 
 	/**
 	 * The options for the application.

@@ -69,7 +69,7 @@ importers:
     specifiers:
       '@baileyherbert/container': ^1.6.0
       '@baileyherbert/dependency-graph': ^1.0.0
-      '@baileyherbert/logging': ^2.0.0
+      '@baileyherbert/logging': ^2.0.1
       '@baileyherbert/reflection': ^1.2.2
       '@baileyherbert/types': ^1.0.1
       '@types/jest': ^27.4.1
@@ -81,7 +81,7 @@ importers:
     dependencies:
       '@baileyherbert/container': 1.6.0
       '@baileyherbert/dependency-graph': 1.0.0
-      '@baileyherbert/logging': 2.0.0
+      '@baileyherbert/logging': 2.0.1
       '@baileyherbert/reflection': 1.2.2
       '@baileyherbert/types': 1.0.1
     devDependencies:
@@ -494,8 +494,8 @@ packages:
     resolution: {integrity: sha512-Hw4BaeYDjJkhgVoGB8sLMUIWjs6oT9AQdwLxe+99ygMuDnb3ADVhKUF2ngyTCW6vHWrsIua1d6IEoOMhqBJbJQ==}
     dev: false
 
-  /@baileyherbert/logging/2.0.0:
-    resolution: {integrity: sha512-FieKCSZ8m3lN+7PNheWaKbRW/tQbRzp8AsICXArslcJFaZSaQ5NbRnImVVvXmkDoaXZH4g0RNrM7LnBBJKP1bg==}
+  /@baileyherbert/logging/2.0.1:
+    resolution: {integrity: sha512-BXcBLniOQeRSdJ+2xAlVUl8lPOtQg0x+3aoppF6vHBSHSNcZi334W8zwnOIuzQZL7zrZLnI9maMurwYI0mAeaA==}
     dependencies:
       '@baileyherbert/events': 1.0.1
       chalk: 4.1.2
