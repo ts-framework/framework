@@ -21,4 +21,4 @@ jobs:
           node-version: 16
       - run: npm install -g pnpm
       - run: pnpm install
-      - run: pnpm -r test --workspace-concurrency 1
+      - run: pnpm -w run test
