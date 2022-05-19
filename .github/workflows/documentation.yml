@@ -1,0 +1,92 @@
+name: documentation
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      customMinorVersion:
+        description: 'Minor version (ie 1.0)'
+      customRef:
+        description: 'Checkout ref (tag or SHA)'
+
+jobs:
+  deploy:
+    name: Build documentation
+    runs-on: ubuntu-latest
+    if: github.event.repository.fork == false
+    steps:
+      # Checkout the target ref
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.customRef }}
+
+      # Python
+      - name: Install python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      # Python dependencies
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material
+          pip install mike
+          pip install mkdocs-minify-plugin
+      # Set the git user for commits
+      - name: Set user
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+      # Fetch the gh-pages branch
+      - run: git fetch origin gh-pages --depth=1
+        continue-on-error: true
+
+      # Extract semver information about the current ref
+      - id: get_version
+        name: Extract semver
+        uses: battila7/get-version-action@v2
+
+      # Extract the current branch name
+      - id: extract_branch
+        name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+
+      # Determine what part of the docs this run will build
+      - id: target
+        name: Determine build target
+        run: |
+          if [ "$SEMVER" == "true" ]; then
+            echo "::set-output name=type::release"
+            echo "::set-output name=name::$SEMVER_VERSION"
+          elif [ "$CUSTOM_VERSION" != "" ]; then
+            echo "::set-output name=type::release"
+            echo "::set-output name=name::$CUSTOM_VERSION"
+          else
+            echo "::set-output name=type::branch"
+            echo "::set-output name=name::$BRANCH"
+          fi
+        env:
+          SEMVER: ${{ steps.get_version.outputs.is-semver }}
+          SEMVER_VERSION: ${{ steps.get_version.outputs.major }}.${{ steps.get_version.outputs.minor }}
+          CUSTOM_VERSION: ${{ github.event.inputs.customMinorVersion }}
+          BRANCH: ${{ steps.extract_branch.outputs.branch }}
+
+      # Deploy documentation for a branch
+      - name: Build docs for branch
+        if: steps.target.outputs.type == 'branch'
+        run: mike deploy --push ${{ steps.target.outputs.name }}
+
+      # Deploy documentation for a specific release version (major/minor only)
+      - name: Build docs for release
+        if: steps.target.outputs.type == 'release'
+        run: |
+          mike deploy ${{ steps.target.outputs.name }} latest --update-aliases --no-redirect
+          mike set-default --push latest
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }

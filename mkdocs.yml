@@ -1,0 +1,106 @@
+site_name: ts-framework
+site_url: https://docs.bailey.sh/ts-framework/
+site_author: Bailey Herbert
+site_description:
+
+repo_name: baileyherbert/ts-framework
+repo_url: https://github.com/baileyherbert/ts-framework
+edit_uri: ""
+
+theme:
+  name: material
+  custom_dir: docs/assets/overrides
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - content.code.annotate
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  palette:
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      primary: light blue
+      accent: light blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      media: "(prefers-color-scheme: dark)"
+      primary: light blue
+      accent: light blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+
+extra_css:
+  - assets/styles.css
+
+markdown_extensions:
+  - attr_list
+  - toc:
+      permalink: True
+      separator: '-'
+  - admonition
+  - footnotes
+  - pymdownx.superfences
+  - pymdownx.saneheaders
+  - pymdownx.tabbed
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+nav:
+  - Introduction: index.md
+  - Getting started:
+    - Installation: getting-started/installation.md
+    - Creating applications: getting-started/creating-applications.md
+    - Creating modules: getting-started/creating-modules.md
+    - Creating services: getting-started/creating-services.md
+    - Creating controllers: getting-started/creating-controllers.md
+  - Working with applications:
+    - Configuring applications: applications/configuring-applications.md
+    - Managing applications: applications/managing-applications.md
+    - Managing modules: applications/managing-modules.md
+    - Sending events: applications/sending-events.md
+    - Sending requests: applications/sending-requests.md
+  - Working with modules:
+    - Configuring modules: modules/configuring-modules.md
+    - Lifecycle methods: modules/lifecycle-methods.md
+    - Importing modules: modules/importing-modules.md
+    - Publishing modules: modules/publishing-modules.md
+  - Working with services:
+    - Implementing services: services/implementing-services.md
+    - Adding events: services/adding-events.md
+    - Adding requests: services/adding-requests.md
+    - Adding attributes: services/adding-attributes.md
+  - Working with controllers:
+    - Implementing controllers: controllers/implementing-controllers.md
+    - Using attributes: controllers/using-attributes.md
+    - Handling events: controllers/handling-events.md
+    - Handling requests: controllers/handling-requests.md
+  - Techniques:
+    - Configuration: techniques/configuration.md
+    - Storage: techniques/storage.md
+    - Logging: techniques/logging.md
+    - Scheduling: techniques/scheduling.md
+    - Queues: techniques/queues.md
+  - Integrations:
+    - Express: integrations/express.md
+    - Discord: integrations/discord.md
+
+plugins:
+  - search
+
+extra:
+  version:
+    provider: mike
+    default: latest
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/baileyherbert
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/u/baileyherbert

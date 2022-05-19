@@ -1,0 +1,138 @@
+:root > * {
+	--md-typeset-table-color: rgba(0, 0, 0, 0.09);
+}
+
+[data-md-color-scheme="default"] .md-header {
+	background-color: #fff;
+	color: rgba(0, 0, 0, 0.87);
+}
+
+[data-md-color-scheme="default"] .md-search__input::placeholder {
+	color: var(--md-default-fg-color--light);
+}
+
+[data-md-color-scheme="slate"] .md-header {
+	background-color: #232430;
+}
+
+@media screen and (min-width: 60em) {
+	[data-md-color-scheme="default"] .md-search__form {
+		background-color: rgba(0,0,0,.07);
+	}
+
+	[data-md-color-scheme="default"] .md-search__input+.md-search__icon {
+		color: var(--md-default-fg-color--light);
+	}
+}
+
+.md-header {
+	padding-top: 6px;
+	padding-bottom: 6px;
+	box-shadow: none !important;
+}
+
+.md-header[data-md-state="shadow"] {
+	box-shadow: 0 0 0.2rem rgb(0 0 0 / 4%), 0 0.2rem 0.4rem rgb(0 0 0 / 7%) !important;
+}
+
+.md-main__inner.md-grid {
+	margin-top: 1.2rem;
+	margin-bottom: 1.75rem;
+}
+
+.md-typeset blockquote {
+	color: inherit;
+	border-left: 4px solid var(--md-code-bg-color);
+	padding-left: 22px;
+}
+
+.md-typeset table:not([class]) {
+	border: 2px solid var(--md-code-bg-color);
+}
+
+table thead {
+	background-color: var(--md-code-bg-color);
+}
+
+table thead tr th {
+	line-height: 1;
+	padding: 1.15em 1.25em 1.05em !important;
+}
+
+.highlight span.filename {
+	font-size: 0.8em;
+	color: #444;
+	padding: 15px 23px 13px;
+	line-height: 1;
+
+	border-radius: 6px 6px 0 0;
+	border-bottom: 0.05rem solid rgba(0, 0, 0, 0.05);
+	background-color: #f0f0f0;
+}
+
+.highlight pre code {
+	padding: 23px;
+	font-size: 0.825em;
+	line-height: 1.35;
+	border-radius: 6px;
+}
+
+.highlight span.filename+pre code {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	padding-top: 19px;
+}
+
+.highlight span.filename+pre .md-clipboard {
+	top: -35px;
+}
+
+.highlight span.filename:hover + pre .md-clipboard {
+	color: var(--md-default-fg-color--light);
+}
+
+.md-typeset__table {
+	margin-bottom: 0;
+}
+
+.ref-head {
+	margin-bottom: -10px;
+}
+
+.ref-head strong {
+	display: inline-block;
+	font-size: 0.85em;
+	padding-right: 20px;
+	font-weight: 600;
+	vertical-align: top;
+}
+
+.ref-head span {
+	margin-right: 3px;
+}
+
+.md-tabs__link {
+	margin-top: 0.74rem;
+}
+
+.md-nav__title {
+	display: none;
+}
+
+ul.md-nav__list li:first-of-type a.md-nav__link {
+	margin-top: 0;
+}
+
+ul.md-nav__list ul.md-nav__list li:first-of-type a.md-nav__link {
+	margin-top: 0.625em;
+}
+
+@media screen and (max-width: 76.25em) {
+	.md-nav__title {
+		display: block;
+	}
+
+	ul.md-nav__list li:first-of-type a.md-nav__link {
+		margin-top: 0.625em;
+	}
+}
