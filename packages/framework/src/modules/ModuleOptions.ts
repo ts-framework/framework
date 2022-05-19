@@ -17,7 +17,7 @@ export interface ModuleOptions extends ModuleOverrideOptions {
 	/**
 	 * An array of modules to import.
 	 */
-	imports: Importable[];
+	imports?: Importable[];
 
 	/**
 	 * An array of service classes to register as a part of this module.
