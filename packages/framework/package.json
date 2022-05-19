@@ -17,6 +17,10 @@
 		"dev": "rimraf dist && tsc -w",
 		"test": "jest"
 	},
+	"dependencies": {
+		"@baileyherbert/logging": "^2.0.0",
+		"@baileyherbert/types": "^1.0.1"
+	},
 	"devDependencies": {
 		"@types/jest": "^27.4.1",
 		"@types/node": "^16.11.7",
