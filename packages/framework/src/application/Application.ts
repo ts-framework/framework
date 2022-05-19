@@ -4,23 +4,34 @@ import { NotImplementedError } from '../errors/development/NotImplementedError';
 import { BaseModule } from '../modules/BaseModule';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { ApplicationOptions } from './ApplicationOptions';
+import { ApplicationModuleManager } from './managers/ApplicationModuleManager';
 
 export abstract class Application extends BaseModule {
 
 	/**
 	 * The dependency injection container for the application.
 	 */
-	public container = resolver.getConstructorInstance();
+	public readonly container = resolver.getConstructorInstance();
 
 	/**
 	 * The root logger for the application.
 	 */
-	public logger = new Logger(this.constructor.name);
+	public readonly logger = new Logger(this.constructor.name);
 
 	/**
 	 * The options for the application.
 	 */
 	public override readonly options: ApplicationOptions;
+
+	/**
+	 * Whether or not the application has been bootstrapped yet.
+	 */
+	private isBootstrapped: boolean = false;
+
+	/**
+	 * The manager for this application's modules.
+	 */
+	public readonly modules: ApplicationModuleManager;
 
 	/**
 	 * Constructs a new `Application` instance with the given options.
@@ -31,8 +42,19 @@ export abstract class Application extends BaseModule {
 
 		this.options = options;
 		this.logger.level = normalizeLogLevel(this.options.logging);
-		this.container = new Container();
-		this.container.registerInstance(Application, this);
+
+		this.modules = new ApplicationModuleManager(this);
+	}
+
+	/**
+	 * Bootstraps the application if needed.
+	 */
+	private async bootstrap() {
+		if (!this.isBootstrapped) {
+			this.isBootstrapped = true;
+
+			await this.modules.import(this);
+		}
 	}
 
 	/**

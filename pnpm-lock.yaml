@@ -68,6 +68,7 @@ importers:
   packages/framework:
     specifiers:
       '@baileyherbert/container': ^1.5.0
+      '@baileyherbert/dependency-graph': ^1.0.0
       '@baileyherbert/logging': ^2.0.0
       '@baileyherbert/types': ^1.0.1
       '@types/jest': ^27.4.1
@@ -78,6 +79,7 @@ importers:
       typescript: ^4.6.2
     dependencies:
       '@baileyherbert/container': 1.5.0
+      '@baileyherbert/dependency-graph': 1.0.0
       '@baileyherbert/logging': 2.0.0
       '@baileyherbert/types': 1.0.1
     devDependencies:
@@ -480,6 +482,10 @@ packages:
     dependencies:
       '@baileyherbert/reflection': 1.2.2
       '@baileyherbert/types': 1.0.1
+    dev: false
+
+  /@baileyherbert/dependency-graph/1.0.0:
+    resolution: {integrity: sha512-98vGiu3Wo8Ca0Uxo6k/U6R7l9jw86BXZNeSsTg2ndHD0jxd1HPWjfnPpJ8E8MnPDa+bKpdVtSSvJixpk4vROfA==}
     dev: false
 
   /@baileyherbert/events/1.0.1:
