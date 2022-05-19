@@ -199,6 +199,9 @@ export class ApplicationServiceManager {
 			for (let index = 0; index < roots.length; index++) {
 				paths[index] = [];
 				traverse([roots[index]], index);
+
+				// Use set magic to remove duplicates and preserve only the first instances
+				paths[index] = [...(new Set(paths[index]))];
 			}
 
 			this.cachedPaths = paths;
