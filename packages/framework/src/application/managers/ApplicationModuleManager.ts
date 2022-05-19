@@ -94,7 +94,7 @@ export class ApplicationModuleManager {
 		}
 		else if (isConstructor(importable)) {
 			return {
-				module: new importable()
+				module: this.application.container.resolve(importable)
 			};
 		}
 		else if (typeof importable === 'function') {
@@ -107,7 +107,7 @@ export class ApplicationModuleManager {
 			}
 
 			if (isConstructor(result)) {
-				const instance = new result();
+				const instance = this.application.container.resolve(result);
 
 				if (instance instanceof Module) {
 					return {
