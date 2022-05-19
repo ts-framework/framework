@@ -1,6 +1,7 @@
 import { Container, resolver } from '@baileyherbert/container';
 import { Logger } from '@baileyherbert/logging';
 import { NotImplementedError } from '../errors/development/NotImplementedError';
+import { ApplicationServiceManager } from '../main';
 import { BaseModule } from '../modules/BaseModule';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { ApplicationOptions } from './ApplicationOptions';
@@ -24,14 +25,19 @@ export abstract class Application extends BaseModule {
 	public override readonly options: ApplicationOptions;
 
 	/**
-	 * Whether or not the application has been bootstrapped yet.
-	 */
-	private isBootstrapped: boolean = false;
-
-	/**
 	 * The manager for this application's modules.
 	 */
 	public readonly modules: ApplicationModuleManager;
+
+	/**
+	 * The manager for this application's services.
+	 */
+	public readonly services: ApplicationServiceManager;
+
+	/**
+	 * Whether or not the application has been bootstrapped yet.
+	 */
+	private isBootstrapped: boolean = false;
 
 	/**
 	 * Constructs a new `Application` instance with the given options.
@@ -44,6 +50,7 @@ export abstract class Application extends BaseModule {
 		this.logger.level = normalizeLogLevel(this.options.logging);
 
 		this.modules = new ApplicationModuleManager(this);
+		this.services = new ApplicationServiceManager(this);
 	}
 
 	/**
@@ -53,7 +60,12 @@ export abstract class Application extends BaseModule {
 		if (!this.isBootstrapped) {
 			this.isBootstrapped = true;
 
+			// Register modules
 			await this.modules.import(this);
+
+			// Register services
+			this.services.registerFromModule(this);
+			this.services.resolveAll();
 		}
 	}
 
@@ -71,14 +83,16 @@ export abstract class Application extends BaseModule {
 	 * Starts the application manually.
 	 */
 	public async start() {
-		throw new NotImplementedError();
+		await this.bootstrap();
+		await this.services.startAll();
 	}
 
 	/**
 	 * Stops the application manually.
 	 */
 	public async stop() {
-		throw new NotImplementedError();
+		await this.bootstrap();
+		await this.services.stopAll();
 	}
 
 }

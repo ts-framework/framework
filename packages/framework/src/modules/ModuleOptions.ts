@@ -1,5 +1,6 @@
 import { LogLevel } from '@baileyherbert/logging';
 import { Constructor } from '@baileyherbert/types';
+import { Service } from '../services/Service';
 import { Importable } from './Importable';
 
 export interface ModuleOptions extends ModuleOverrideOptions {
@@ -22,7 +23,7 @@ export interface ModuleOptions extends ModuleOverrideOptions {
 	/**
 	 * An array of service classes to register as a part of this module.
 	 */
-	services?: Constructor<'TODO'>[];
+	services?: Constructor<Service>[];
 
 	/**
 	 * An array of controller classes to register as a part of this module.

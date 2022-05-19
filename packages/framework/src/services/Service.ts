@@ -58,7 +58,7 @@ export abstract class Service {
 	 * @internal
 	 */
 	public async __internStop() {
-		await this.start();
+		await this.stop();
 	}
 
 }
