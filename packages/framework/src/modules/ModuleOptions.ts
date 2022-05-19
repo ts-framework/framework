@@ -34,7 +34,7 @@ export interface ModuleOptions extends ModuleOverrideOptions {
 /**
  * Describes the module options that can be overridden when importing.
  */
- export interface ModuleOverrideOptions {
+export interface ModuleOverrideOptions {
 
 	/**
 	 * Overrides the logging level for this module and its children.

@@ -1,21 +1,21 @@
-import { Container } from '@baileyherbert/container';
+import { Container, resolver } from '@baileyherbert/container';
 import { Logger } from '@baileyherbert/logging';
 import { NotImplementedError } from '../errors/development/NotImplementedError';
-import { Module } from '../modules/Module';
+import { BaseModule } from '../modules/BaseModule';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { ApplicationOptions } from './ApplicationOptions';
 
-export abstract class Application extends Module {
+export abstract class Application extends BaseModule {
 
 	/**
 	 * The dependency injection container for the application.
 	 */
-	public container: Container;
+	public container = resolver.getConstructorInstance();
 
 	/**
 	 * The root logger for the application.
 	 */
-	public logger: Logger;
+	public logger = new Logger(this.constructor.name);
 
 	/**
 	 * The options for the application.
@@ -30,7 +30,7 @@ export abstract class Application extends Module {
 		super(options);
 
 		this.options = options;
-		this.logger = new Logger(this.constructor.name, normalizeLogLevel(this.options.logging));
+		this.logger.level = normalizeLogLevel(this.options.logging);
 		this.container = new Container();
 		this.container.registerInstance(Application, this);
 	}
