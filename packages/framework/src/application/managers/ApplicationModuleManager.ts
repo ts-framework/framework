@@ -1,3 +1,4 @@
+import { Cache } from '@baileyherbert/cache';
 import { DependencyGraph } from '@baileyherbert/dependency-graph';
 import { Constructor } from '@baileyherbert/types';
 import { BaseModule } from '../../modules/BaseModule';
@@ -26,6 +27,11 @@ export class ApplicationModuleManager {
 	protected graph = new DependencyGraph<BaseModule, ModuleData>();
 
 	/**
+	 * A cache of module lifecycle invocations and their timestamps.
+	 */
+	protected lifecycleCache = new Cache<[BaseModule, Lifecycle], number>();
+
+	/**
 	 * Constructs a new `ApplicationModuleManager` instance for the given root application object.
 	 * @param application
 	 */
@@ -38,7 +44,6 @@ export class ApplicationModuleManager {
 	 * @internal
 	 */
 	public async import(module: BaseModule, options?: ModuleOverrideOptions) {
-
 		this.modules.add(module);
 		this.constructors.set(module.constructor as Constructor<BaseModule>, module);
 		this.graph.addNode(module);
@@ -211,6 +216,10 @@ export class ApplicationModuleManager {
 	 */
 	public async invokeLifecycle(module: ModuleToken, lifecycle: Lifecycle) {
 		const promises = new Array<Promise<void> | void>();
+		const instance = this.resolve(module);
+
+		if (this.lifecycleCache.has([instance, lifecycle])) return;
+		this.lifecycleCache.set([instance, lifecycle], Date.now());
 
 		if (lifecycle in module) {
 			promises.push((module as any)[lifecycle]());
@@ -223,6 +232,67 @@ export class ApplicationModuleManager {
 		}
 
 		return Promise.all(promises);
+	}
+
+	/**
+	 * Clears the internal lifecycle cache. This should be called when the application is stopped.
+	 * @internal
+	 */
+	public clearLifecycleCache() {
+		this.lifecycleCache.clear();
+	}
+
+	/**
+	 * Invokes the boot lifecycle method on the given module.
+	 * @param module
+	 * @param finished
+	 * @returns
+	 * @internal
+	 */
+	public async startModule(module: ModuleToken, finished: boolean) {
+		return this.invokeModuleMethod(module, finished, ['beforeModuleBoot', 'onModuleBoot']);
+	}
+
+	/**
+	 * Invokes the shutdown lifecycle method on the given module.
+	 * @param module
+	 * @param finished
+	 * @returns
+	 * @internal
+	 */
+	public async stopModule(module: ModuleToken, finished: boolean) {
+		return this.invokeModuleMethod(module, finished, ['beforeModuleShutdown', 'onModuleShutdown']);
+	}
+
+	/**
+	 * Invokes a lifecycle method on the given module, choosing between the given types[0] when not finished and the
+	 * given types[1] when finished. In addition, the module's children will be recursively iterated and the same
+	 * lifecycle method will be applied on child modules with no services.
+	 * @param module
+	 * @param finished
+	 * @param types
+	 */
+	private async invokeModuleMethod(module: ModuleToken, finished: boolean, types: [Lifecycle, Lifecycle]) {
+		const event: Lifecycle = types[finished ? 1 : 0];
+		const nest = async () => {
+			for (const childModule of this.getChildModules(module)) {
+				const children = this.application.services.getFromModule(childModule, true);
+
+				if (children.length === 0) {
+					await this.invokeModuleMethod(childModule, finished, types);
+				}
+			}
+		};
+
+		if (finished) {
+			await nest();
+		}
+
+		await this.invokeLifecycle(module, event);
+
+		if (!finished) {
+			await nest();
+		}
 	}
 
 }
@@ -250,3 +320,13 @@ type Lifecycle = (
 	'beforeModuleShutdown' |
 	'onModuleShutdown'
 );
+
+/**
+ * @internal
+ */
+export enum ModuleLifecycleType {
+	BeforeStart = 'beforeModuleBoot',
+	BeforeStop = 'beforeModuleShutdown',
+	AfterStart = 'onModuleBoot',
+	AfterStop = 'onModuleShutdown'
+}

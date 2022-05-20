@@ -1,11 +1,11 @@
-import { Container, resolver } from '@baileyherbert/container';
+import { resolver } from '@baileyherbert/container';
 import { Logger } from '@baileyherbert/logging';
 import { NotImplementedError } from '../errors/development/NotImplementedError';
 import { ApplicationServiceManager } from '../main';
 import { BaseModule } from '../modules/BaseModule';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { ApplicationOptions } from './ApplicationOptions';
-import { ApplicationModuleManager } from './managers/ApplicationModuleManager';
+import { ApplicationModuleManager, ModuleLifecycleType } from './managers/ApplicationModuleManager';
 
 export abstract class Application extends BaseModule {
 
@@ -87,6 +87,9 @@ export abstract class Application extends BaseModule {
 
 		await this.bootstrap();
 		await this.services.startAll();
+
+		await this.modules.startModule(this, false);
+		await this.modules.startModule(this, true);
 	}
 
 	/**
@@ -97,6 +100,11 @@ export abstract class Application extends BaseModule {
 
 		await this.bootstrap();
 		await this.services.stopAll();
+
+		await this.modules.stopModule(this, false);
+		await this.modules.stopModule(this, true);
+
+		this.modules.clearLifecycleCache();
 	}
 
 }

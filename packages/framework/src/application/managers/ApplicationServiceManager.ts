@@ -2,7 +2,7 @@ import { registry } from '@baileyherbert/container';
 import { DependencyGraph } from '@baileyherbert/dependency-graph';
 import { ReflectionClass, ReflectionParameter } from '@baileyherbert/reflection';
 import { Constructor } from '@baileyherbert/types';
-import { Module, NotImplementedError } from '../../main';
+import { NotImplementedError } from '../../main';
 import { BaseModule } from '../../modules/BaseModule';
 import { Service } from '../../services/Service';
 import { isConstructor } from '../../utilities/types';
@@ -37,6 +37,11 @@ export class ApplicationServiceManager {
 	protected cachedPaths?: Constructor<Service>[][];
 
 	/**
+	 * A cache for deeply nested services inside each module.
+	 */
+	protected cachedChildServices?: Map<BaseModule, Service[]>;
+
+	/**
 	 * A set containing all running services.
 	 */
 	protected active = new Set<Service>();
@@ -63,6 +68,7 @@ export class ApplicationServiceManager {
 			this.parents.set(service, module);
 			this.application.container.registerSingleton(service);
 			this.cachedPaths = undefined;
+			this.cachedChildServices = new Map();
 
 			if (!this.modules.has(module)) {
 				this.modules.set(module, new Set());
@@ -240,38 +246,23 @@ export class ApplicationServiceManager {
 	 */
 	private async start(service: ServiceToken) {
 		const instance = this.resolve(service);
-		const parents = this.getParentModules(instance);
+		const parents = this.getParentModules(service);
 
-		if (this.active.has(instance)) {
-			return;
+		for (const parent of [...parents].reverse()) {
+			await this.application.modules.startModule(parent, false);
 		}
 
-		// Invoke the beforeModuleBoot lifecycle method on modules
-		for (const parent of parents) {
-			if (!this.activeMapNested.has(parent)) {
-				this.activeMapNested.set(parent, new Set());
-			}
-
-			const nested = this.activeMapNested.get(parent)!;
-
-			if (nested.size === 0) {
-				await this.application.modules.invokeLifecycle(parent, 'beforeModuleBoot');
-			}
-
-			nested.add(instance);
-		}
-
+		if (this.active.has(instance)) return;
 		this.active.add(instance);
+
 		await instance.__internStart();
 
-		// Invoke the onModuleBoot lifecycle method if modules are fully loaded
 		for (const parent of parents) {
-			const nested = this.activeMapNested.get(parent)!;
-			const goal = this.getFromModule(parent, true);
-			nested.add(instance);
+			const services = this.getFromModule(parent, true);
+			const remaining = services.filter(service => !this.active.has(service));
 
-			if (nested.size === goal.length) {
-				await this.application.modules.invokeLifecycle(parent, 'onModuleBoot');
+			if (remaining.length === 0) {
+				await this.application.modules.startModule(parent, true);
 			}
 		}
 	}
@@ -284,34 +275,23 @@ export class ApplicationServiceManager {
 	 */
 	private async stop(service: ServiceToken) {
 		const instance = this.resolve(service);
-		const parents = this.getParentModules(instance);
+		const parents = this.getParentModules(service);
 
-		if (!this.active.has(instance)) {
-			return;
+		for (const parent of [...parents].reverse()) {
+			await this.application.modules.stopModule(parent, false);
 		}
 
-		// Invoke the beforeModuleShutdown lifecycle method on modules
-		for (const parent of parents) {
-			const nested = this.activeMapNested.get(parent)!;
-			const goal = this.getFromModule(parent, true);
-
-			if (nested.size === goal.length) {
-				await this.application.modules.invokeLifecycle(parent, 'beforeModuleShutdown');
-			}
-
-			nested.delete(instance);
-		}
-
+		if (!this.active.has(instance)) return;
 		this.active.delete(instance);
+
 		await instance.__internStop();
 
-		// Invoke the onModuleShutdown lifecycle method if modules are fully loaded
 		for (const parent of parents) {
-			const nested = this.activeMapNested.get(parent)!;
-			nested.delete(instance);
+			const services = this.getFromModule(parent, true);
+			const active = services.filter(service => this.active.has(service));
 
-			if (nested.size === 0) {
-				await this.application.modules.invokeLifecycle(parent, 'onModuleShutdown');
+			if (active.length === 0) {
+				await this.application.modules.stopModule(parent, true);
 			}
 		}
 	}
@@ -449,21 +429,24 @@ export class ApplicationServiceManager {
 			return [...this.modules.get(instance)!].map(constructor => this.resolve(constructor));
 		}
 
-		const services = new Set<Service>();
+		if (!this.cachedChildServices?.has(instance)) {
+			const services = new Set<Service>();
+			const children = this.application.modules.getChildModules(instance);
 
-		for (const constructor of this.modules.get(instance)!) {
-			services.add(this.resolve(constructor));
-		}
-
-		const children = this.application.modules.getChildModules(instance);
-
-		for (const childModule of children) {
-			for (const constructor of this.getFromModule(childModule, true)) {
+			for (const constructor of this.modules.get(instance)!) {
 				services.add(this.resolve(constructor));
 			}
+
+			for (const childModule of children) {
+				for (const constructor of this.getFromModule(childModule, true)) {
+					services.add(this.resolve(constructor));
+				}
+			}
+
+			this.cachedChildServices?.set(instance, [...services]);
 		}
 
-		return [...services];
+		return this.cachedChildServices?.get(instance)!;
 	}
 
 	/**
