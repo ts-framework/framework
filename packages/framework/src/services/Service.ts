@@ -1,9 +1,7 @@
 import { resolver } from '@baileyherbert/container';
 import { Promisable } from '@baileyherbert/types';
 import { Application } from '../application/Application';
-import { BaseModule, Module } from '../main';
-import { normalizeLogLevel } from '../utilities/normalizers';
-import { ServiceOptions } from './ServiceOptions';
+import { BaseModule } from '../main';
 
 export abstract class Service<T extends BaseModule = BaseModule> {
 
@@ -26,20 +24,6 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	 * The logger for this service.
 	 */
 	public readonly logger = this.module.logger.createChild(this.constructor.name);
-
-	/**
-	 * The options for this service.
-	 */
-	public readonly options: ServiceOptions;
-
-	/**
-	 * Constructs a new `Service` instance with the given options.
-	 * @param options
-	 */
-	public constructor(options: ServiceOptions = {}) {
-		this.options = options;
-		this.logger.level = normalizeLogLevel(options.logging);
-	}
 
 	/**
 	 * Starts the service.

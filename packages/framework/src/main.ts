@@ -12,7 +12,6 @@ export * from './modules/Module';
 export * from './modules/ModuleOptions';
 
 export * from './services/Service';
-export * from './services/ServiceOptions';
 
 export * from './errors/development/NotImplementedError';
 
