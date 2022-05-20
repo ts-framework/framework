@@ -32,24 +32,19 @@ export class ApplicationServiceManager {
 	protected modules = new Map<BaseModule, Set<Constructor<Service>>>();
 
 	/**
+	 * A cache for deeply nested services inside each module.
+	 */
+	protected modulesNestedCache?: Map<BaseModule, Service[]>;
+
+	/**
 	 * A cache for the computed load paths, to be reset whenever new modules are registered.
 	 */
 	protected cachedPaths?: Constructor<Service>[][];
 
 	/**
-	 * A cache for deeply nested services inside each module.
-	 */
-	protected cachedChildServices?: Map<BaseModule, Service[]>;
-
-	/**
 	 * A set containing all running services.
 	 */
 	protected active = new Set<Service>();
-
-	/**
-	 * A map linking modules to all services running under them recursively (nested).
-	 */
-	protected activeMapNested = new Map<BaseModule, Set<Service>>();
 
 	/**
 	 * Constructs a new `ApplicationServiceManager` instance for the given root application object.
@@ -68,7 +63,7 @@ export class ApplicationServiceManager {
 			this.parents.set(service, module);
 			this.application.container.registerSingleton(service);
 			this.cachedPaths = undefined;
-			this.cachedChildServices = new Map();
+			this.modulesNestedCache = new Map();
 
 			if (!this.modules.has(module)) {
 				this.modules.set(module, new Set());
@@ -429,7 +424,7 @@ export class ApplicationServiceManager {
 			return [...this.modules.get(instance)!].map(constructor => this.resolve(constructor));
 		}
 
-		if (!this.cachedChildServices?.has(instance)) {
+		if (!this.modulesNestedCache?.has(instance)) {
 			const services = new Set<Service>();
 			const children = this.application.modules.getChildModules(instance);
 
@@ -443,10 +438,10 @@ export class ApplicationServiceManager {
 				}
 			}
 
-			this.cachedChildServices?.set(instance, [...services]);
+			this.modulesNestedCache?.set(instance, [...services]);
 		}
 
-		return this.cachedChildServices?.get(instance)!;
+		return this.modulesNestedCache?.get(instance)!;
 	}
 
 	/**
