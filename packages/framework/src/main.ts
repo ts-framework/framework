@@ -3,6 +3,7 @@ export * from './application/ApplicationOptions';
 export * from './application/ApplicationFactory';
 export * from './application/managers/ApplicationModuleManager';
 export * from './application/managers/ApplicationServiceManager';
+export * from './application/managers/ApplicationControllerManager';
 
 export * from './controllers/Controller';
 

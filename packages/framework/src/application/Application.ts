@@ -5,6 +5,7 @@ import { ApplicationServiceManager } from '../main';
 import { BaseModule } from '../modules/BaseModule';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { ApplicationOptions } from './ApplicationOptions';
+import { ApplicationControllerManager } from './managers/ApplicationControllerManager';
 import { ApplicationModuleManager, ModuleLifecycleType } from './managers/ApplicationModuleManager';
 
 export abstract class Application extends BaseModule {
@@ -35,6 +36,11 @@ export abstract class Application extends BaseModule {
 	public readonly services: ApplicationServiceManager;
 
 	/**
+	 * The manager for this application's controllers.
+	 */
+	public readonly controllers: ApplicationControllerManager;
+
+	/**
 	 * Whether or not the application has been bootstrapped yet.
 	 */
 	private isBootstrapped: boolean = false;
@@ -51,6 +57,7 @@ export abstract class Application extends BaseModule {
 
 		this.modules = new ApplicationModuleManager(this);
 		this.services = new ApplicationServiceManager(this);
+		this.controllers = new ApplicationControllerManager(this);
 	}
 
 	/**
@@ -66,6 +73,10 @@ export abstract class Application extends BaseModule {
 			// Register services
 			this.services.registerFromModule(this);
 			this.services.resolveAll();
+
+			// Register controllers
+			this.controllers.registerFromModule(this);
+			this.controllers.resolveAll();
 		}
 	}
 
