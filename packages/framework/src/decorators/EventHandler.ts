@@ -1,7 +1,7 @@
 import { Attribute, AttributeMethodEvent, ReflectionClass } from '@baileyherbert/reflection';
 import { Controller } from '../controllers/Controller';
-import { Event } from '../events/Event';
-import { EventRegistry } from '../events/EventRegistry';
+import { Event } from '../services/events/Event';
+import { EventRegistry } from '../services/events/EventRegistry';
 import { Service } from '../services/Service';
 
 class EventHandlerImpl extends Attribute<Service | Controller> {

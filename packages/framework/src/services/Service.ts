@@ -1,7 +1,7 @@
 import { resolver } from '@baileyherbert/container';
 import { Constructor, Promisable } from '@baileyherbert/types';
 import { Application } from '../application/Application';
-import { Event } from '../events/Event';
+import { Event } from './events/Event';
 import { BaseModule } from '../modules/BaseModule';
 import { isConstructor } from '../utilities/types';
 

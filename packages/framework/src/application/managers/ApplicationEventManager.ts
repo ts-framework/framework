@@ -1,8 +1,8 @@
 import { Constructor, Type } from '@baileyherbert/types';
 import { Controller } from '../../controllers/Controller';
-import { Event } from '../../events/Event';
-import { EventListenerHandle } from '../../events/EventListenerHandle';
-import { EventRegistry } from '../../events/EventRegistry';
+import { Event } from '../../services/events/Event';
+import { EventListenerHandle } from '../../services/events/EventListenerHandle';
+import { EventRegistry } from '../../services/events/EventRegistry';
 import { Service } from '../../services/Service';
 import { isConstructor } from '../../utilities/types';
 import { Application } from '../Application';

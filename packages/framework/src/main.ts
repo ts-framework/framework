@@ -9,10 +9,10 @@ export * from './controllers/Controller';
 
 export * from './decorators/EventHandler';
 
-export * from './events/Event';
-export * from './events/EventData';
-export * from './events/EventListenerHandle';
-export * from './events/EventRegistry';
+export * from './services/events/Event';
+export * from './services/events/EventData';
+export * from './services/events/EventListenerHandle';
+export * from './services/events/EventRegistry';
 
 export * from './modules/BaseModule';
 export * from './modules/Importable';
