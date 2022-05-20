@@ -30,12 +30,12 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	/**
 	 * Starts the service.
 	 */
-	protected abstract start(): Promisable<void>;
+	protected start(): Promisable<void> {}
 
 	/**
 	 * Stops the service.
 	 */
-	protected abstract stop(): Promisable<void>;
+	protected stop(): Promisable<void> {}
 
 	/**
 	 * Starts the service externally.
