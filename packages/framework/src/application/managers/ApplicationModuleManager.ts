@@ -320,13 +320,3 @@ type Lifecycle = (
 	'beforeModuleShutdown' |
 	'onModuleShutdown'
 );
-
-/**
- * @internal
- */
-export enum ModuleLifecycleType {
-	BeforeStart = 'beforeModuleBoot',
-	BeforeStop = 'beforeModuleShutdown',
-	AfterStart = 'onModuleBoot',
-	AfterStop = 'onModuleShutdown'
-}

@@ -6,7 +6,7 @@ import { normalizeLogLevel } from '../utilities/normalizers';
 import { ApplicationOptions } from './ApplicationOptions';
 import { ApplicationControllerManager } from './managers/ApplicationControllerManager';
 import { ApplicationEventManager } from './managers/ApplicationEventManager';
-import { ApplicationModuleManager, ModuleLifecycleType } from './managers/ApplicationModuleManager';
+import { ApplicationModuleManager } from './managers/ApplicationModuleManager';
 import { ApplicationServiceManager } from './managers/ApplicationServiceManager';
 
 export abstract class Application extends BaseModule {
