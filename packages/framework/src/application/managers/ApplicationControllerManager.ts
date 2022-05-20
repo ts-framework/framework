@@ -1,5 +1,6 @@
 import { Constructor } from '@baileyherbert/types';
-import { BaseModule, Controller } from '../../main';
+import { Controller } from '../../controllers/Controller';
+import { BaseModule } from '../../modules/BaseModule';
 import { isConstructor } from '../../utilities/types';
 import { Application } from '../Application';
 import { ModuleToken } from './ApplicationModuleManager';

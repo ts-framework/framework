@@ -1,6 +1,6 @@
 import { resolver } from '@baileyherbert/container';
 import { Application } from '../application/Application';
-import { BaseModule } from '../main';
+import { BaseModule } from '../modules/BaseModule';
 
 export abstract class Controller<T extends BaseModule = BaseModule> {
 

@@ -1,6 +1,6 @@
 import { LogLevel } from '@baileyherbert/logging';
 import { Constructor } from '@baileyherbert/types';
-import { Controller } from '../main';
+import { Controller } from '../controllers/Controller';
 import { Service } from '../services/Service';
 import { Importable } from './Importable';
 

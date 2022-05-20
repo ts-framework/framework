@@ -2,7 +2,7 @@ import { registry } from '@baileyherbert/container';
 import { DependencyGraph } from '@baileyherbert/dependency-graph';
 import { ReflectionClass, ReflectionParameter } from '@baileyherbert/reflection';
 import { Constructor } from '@baileyherbert/types';
-import { NotImplementedError } from '../../main';
+import { NotImplementedError } from '../../errors/development/NotImplementedError';
 import { BaseModule } from '../../modules/BaseModule';
 import { Service } from '../../services/Service';
 import { isConstructor } from '../../utilities/types';

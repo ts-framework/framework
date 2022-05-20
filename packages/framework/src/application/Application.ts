@@ -1,13 +1,13 @@
 import { resolver } from '@baileyherbert/container';
 import { Logger } from '@baileyherbert/logging';
 import { NotImplementedError } from '../errors/development/NotImplementedError';
-import { ApplicationServiceManager } from '../main';
 import { BaseModule } from '../modules/BaseModule';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { ApplicationOptions } from './ApplicationOptions';
 import { ApplicationControllerManager } from './managers/ApplicationControllerManager';
 import { ApplicationEventManager } from './managers/ApplicationEventManager';
 import { ApplicationModuleManager, ModuleLifecycleType } from './managers/ApplicationModuleManager';
+import { ApplicationServiceManager } from './managers/ApplicationServiceManager';
 
 export abstract class Application extends BaseModule {
 
