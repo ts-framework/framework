@@ -4,6 +4,7 @@ import { NotImplementedError } from '../errors/development/NotImplementedError';
 import { BaseModule } from '../modules/BaseModule';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { ApplicationOptions } from './ApplicationOptions';
+import { ApplicationAttributeManager } from './managers/ApplicationAttributeManager';
 import { ApplicationControllerManager } from './managers/ApplicationControllerManager';
 import { ApplicationEventManager } from './managers/ApplicationEventManager';
 import { ApplicationModuleManager } from './managers/ApplicationModuleManager';
@@ -47,6 +48,11 @@ export abstract class Application extends BaseModule {
 	public readonly events: ApplicationEventManager;
 
 	/**
+	 * The manager for this application's attributes.
+	 */
+	public readonly attributes: ApplicationAttributeManager;
+
+	/**
 	 * Whether or not the application has been bootstrapped yet.
 	 */
 	private isBootstrapped: boolean = false;
@@ -65,6 +71,7 @@ export abstract class Application extends BaseModule {
 		this.services = new ApplicationServiceManager(this);
 		this.controllers = new ApplicationControllerManager(this);
 		this.events = new ApplicationEventManager(this);
+		this.attributes = new ApplicationAttributeManager(this);
 	}
 
 	/**

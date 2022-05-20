@@ -47,6 +47,11 @@ export class ApplicationServiceManager {
 	protected active = new Set<Service>();
 
 	/**
+	 * A set containing all registered services.
+	 */
+	protected registered = new Set<Service>();
+
+	/**
 	 * Constructs a new `ApplicationServiceManager` instance for the given root application object.
 	 * @param application
 	 */
@@ -249,6 +254,11 @@ export class ApplicationServiceManager {
 
 		if (this.active.has(instance)) return;
 		this.active.add(instance);
+
+		if (!this.registered.has(instance)) {
+			this.registered.add(instance);
+			await instance.__internRegister();
+		}
 
 		await instance.__internStart();
 
