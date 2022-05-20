@@ -1,7 +1,9 @@
 import { resolver } from '@baileyherbert/container';
-import { Promisable } from '@baileyherbert/types';
+import { Constructor, Promisable } from '@baileyherbert/types';
 import { Application } from '../application/Application';
-import { BaseModule } from '../main';
+import { Event } from '../events/Event';
+import { BaseModule } from '../modules/BaseModule';
+import { isConstructor } from '../utilities/types';
 
 export abstract class Service<T extends BaseModule = BaseModule> {
 
@@ -49,6 +51,27 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	 */
 	public async __internStop() {
 		await this.stop();
+	}
+
+	/**
+	 * Emits an event of the specified type with the given data.
+	 * @param event A reference to the event constructor.
+	 * @param data The data to use for the event.
+	 */
+	protected emit<T>(event: Constructor<Event<T>>, data: T): void;
+	protected emit<T>(event: Constructor<Event<void | undefined>>): void;
+
+	/**
+	 * Emits the given event.
+	 * @param event An event instance.
+	 */
+	protected emit<T>(event: Event<T>): void;
+	protected emit<T>(event: Constructor<Event<T>> | Event<any>, data?: T): void {
+		if (isConstructor(event)) {
+			event = new event(data, this);
+		}
+
+		this.application.events.emit(event);
 	}
 
 	/**

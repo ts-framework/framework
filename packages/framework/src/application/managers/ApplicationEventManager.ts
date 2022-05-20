@@ -1,0 +1,140 @@
+import { Constructor, Type } from '@baileyherbert/types';
+import { Controller } from '../../controllers/Controller';
+import { Event } from '../../events/Event';
+import { EventListenerHandle } from '../../events/EventListenerHandle';
+import { EventRegistry } from '../../events/EventRegistry';
+import { Service } from '../../services/Service';
+import { isConstructor } from '../../utilities/types';
+import { Application } from '../Application';
+
+export class ApplicationEventManager {
+
+	protected listeners = new Map<Type<Event<any>>, Set<EventHandlerDescriptor>>();
+
+	/**
+	 * Constructs a new `ApplicationEventManager` instance for the given root application object.
+	 * @param application
+	 */
+	public constructor(protected application: Application) {}
+
+	/**
+	 * Emits an event of the specified type with the given data.
+	 * @param event A reference to the event constructor.
+	 * @param data The data to use for the event.
+	 */
+	public emit<T>(event: Constructor<Event<T>>, data: T): void;
+	public emit<T>(event: Constructor<Event<void | undefined>>): void;
+
+	/**
+	 * Emits the given event.
+	 * @param event An event instance.
+	 */
+	public emit<T>(event: Event<T>): void;
+	public emit<T>(event: Constructor<Event<T>> | Event<any>, data?: T): void {
+		if (isConstructor(event)) {
+			event = new event(data);
+		}
+
+		if (this.listeners.has(event.constructor)) {
+			for (const descriptor of this.listeners.get(event.constructor)!) {
+				descriptor.handler(event);
+
+				// Auto remove 'once' handlers
+				if (descriptor.once) {
+					this.listeners.get(event.constructor)!.delete(descriptor);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Listens for an event.
+	 * @param event A reference to the event constructor.
+	 * @param handler A callback to handle the event.
+	 * @returns An instance that can be used to manually detach the event listener.
+	 */
+	public on<T>(event: Type<Event<T>>, handler: EventHandler): EventListenerHandle {
+		return this.attach(event, false, handler);
+	}
+
+	/**
+	 * Listens for an event once and then automatically detaches.
+	 * @param event A reference to the event constructor.
+	 * @param handler A callback to handle the event.
+	 * @returns An instance that can be used to manually detach the event listener.
+	 */
+	public once(event: Type<Event<any>>, handler: EventHandler): EventListenerHandle {
+		return this.attach(event, true, handler);
+	}
+
+	/**
+	 * Attaches an event handler.
+	 * @param event A reference to the event constructor.
+	 * @param once A boolean indicating if the listener should be removed after the first invocation.
+	 * @param handler A callback to handle the event.
+	 * @returns An instance that can be used to manually detach the event listener.
+	 */
+	protected attach(event: Type<Event<any>>, once: boolean, handler: EventHandler): EventListenerHandle {
+		if (!this.listeners.has(event)) {
+			this.listeners.set(event, new Set());
+		}
+
+		const descriptor = { handler, once };
+		this.listeners.get(event)?.add(descriptor);
+
+		return new EventListenerHandle(() => {
+			this.listeners.get(event)?.delete(descriptor);
+		});
+	}
+
+	/**
+	 * Removes an event listener.
+	 * @param event A reference to the event constructor.
+	 * @param handler A callback to handle the event.
+	 */
+	public removeListener(event: Type<Event<any>>, handler: (event: Event<any>) => void) {
+		if (this.listeners.has(event)) {
+			// Find a matching descriptor
+			for (const descriptor of this.listeners.get(event)!) {
+				if (descriptor.handler === handler) {
+					this.listeners.get(event)?.delete(descriptor);
+					break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Attaches event listeners from the global registry.
+	 *
+	 * @internal
+	 */
+	public async init() {
+		const classes = new Array<Constructor<Service | Controller>>();
+
+		classes.push(...this.application.services.getAll());
+		classes.push(...this.application.controllers.getAll());
+
+		this.listeners.clear();
+
+		for (const target of classes) {
+			const handlers = EventRegistry.getMethods(target);
+
+			for (const [methodName, eventType] of handlers) {
+				this.on(eventType, e => {
+					const instance = this.application.container.resolve(target);
+					const method = (instance as any)[methodName] as EventHandler;
+
+					method.call(instance, e);
+				});
+			}
+		}
+	}
+
+}
+
+type EventHandler = (event: Event<any>) => any;
+type EventHandlerDescriptor = {
+	handler: EventHandler;
+	once: boolean;
+}

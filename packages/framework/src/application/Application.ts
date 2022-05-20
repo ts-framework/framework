@@ -6,6 +6,7 @@ import { BaseModule } from '../modules/BaseModule';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { ApplicationOptions } from './ApplicationOptions';
 import { ApplicationControllerManager } from './managers/ApplicationControllerManager';
+import { ApplicationEventManager } from './managers/ApplicationEventManager';
 import { ApplicationModuleManager, ModuleLifecycleType } from './managers/ApplicationModuleManager';
 
 export abstract class Application extends BaseModule {
@@ -41,6 +42,11 @@ export abstract class Application extends BaseModule {
 	public readonly controllers: ApplicationControllerManager;
 
 	/**
+	 * The manager for this application's events.
+	 */
+	public readonly events: ApplicationEventManager;
+
+	/**
 	 * Whether or not the application has been bootstrapped yet.
 	 */
 	private isBootstrapped: boolean = false;
@@ -58,6 +64,7 @@ export abstract class Application extends BaseModule {
 		this.modules = new ApplicationModuleManager(this);
 		this.services = new ApplicationServiceManager(this);
 		this.controllers = new ApplicationControllerManager(this);
+		this.events = new ApplicationEventManager(this);
 	}
 
 	/**
@@ -97,6 +104,7 @@ export abstract class Application extends BaseModule {
 		this.logger.info('Starting the application');
 
 		await this.bootstrap();
+		await this.events.init();
 		await this.services.startAll();
 
 		await this.modules.startModule(this, false);
