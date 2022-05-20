@@ -28,6 +28,8 @@ export * from './errors/development/NotImplementedError';
 
 export * from '@baileyherbert/container';
 export * from '@baileyherbert/logging';
+export * from '@baileyherbert/dependency-graph';
+export * from '@baileyherbert/nested-collections';
 
 // @ts-ignore
 export * from '@baileyherbert/reflection';

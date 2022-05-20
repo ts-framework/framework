@@ -1,4 +1,4 @@
-import { Cache } from '@baileyherbert/cache';
+import { NestedSet } from '@baileyherbert/nested-collections';
 import { DependencyGraph } from '@baileyherbert/dependency-graph';
 import { Constructor } from '@baileyherbert/types';
 import { BaseModule } from '../../modules/BaseModule';
@@ -27,9 +27,9 @@ export class ApplicationModuleManager {
 	protected graph = new DependencyGraph<BaseModule, ModuleData>();
 
 	/**
-	 * A cache of module lifecycle invocations and their timestamps.
+	 * A cache of module lifecycle invocations.
 	 */
-	protected lifecycleCache = new Cache<[BaseModule, Lifecycle], number>();
+	protected lifecycleCache = new NestedSet<BaseModule, Lifecycle>();
 
 	/**
 	 * Constructs a new `ApplicationModuleManager` instance for the given root application object.
@@ -218,8 +218,8 @@ export class ApplicationModuleManager {
 		const promises = new Array<Promise<void> | void>();
 		const instance = this.resolve(module);
 
-		if (this.lifecycleCache.has([instance, lifecycle])) return;
-		this.lifecycleCache.set([instance, lifecycle], Date.now());
+		if (this.lifecycleCache.has(instance, lifecycle)) return;
+		this.lifecycleCache.add(instance, lifecycle);
 
 		if (lifecycle in module) {
 			promises.push((module as any)[lifecycle]());

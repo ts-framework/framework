@@ -18,10 +18,10 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"@baileyherbert/cache": "^1.0.0",
 		"@baileyherbert/container": "^1.6.0",
 		"@baileyherbert/dependency-graph": "^1.0.0",
 		"@baileyherbert/logging": "^2.0.1",
+		"@baileyherbert/nested-collections": "^1.1.0",
 		"@baileyherbert/reflection": "^1.2.2",
 		"@baileyherbert/types": "^1.0.1"
 	},

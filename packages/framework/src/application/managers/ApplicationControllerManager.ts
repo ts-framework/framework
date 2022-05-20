@@ -1,3 +1,4 @@
+import { NestedSet } from '@baileyherbert/nested-collections';
 import { Constructor } from '@baileyherbert/types';
 import { Controller } from '../../controllers/Controller';
 import { BaseModule } from '../../modules/BaseModule';
@@ -14,7 +15,7 @@ export class ApplicationControllerManager {
 	/**
 	 * A map linking modules to the controllers registered directly under them (not nested).
 	 */
-	protected modules = new Map<BaseModule, Set<Constructor<Controller>>>();
+	protected modules = new NestedSet<BaseModule, Constructor<Controller>>();
 
 	/**
 	 * A cache for deeply nested services inside each module.
@@ -34,12 +35,7 @@ export class ApplicationControllerManager {
 			this.parents.set(controller, module);
 			this.application.container.registerSingleton(controller);
 			this.modulesNestedCache = new Map();
-
-			if (!this.modules.has(module)) {
-				this.modules.set(module, new Set());
-			}
-
-			this.modules.get(module)?.add(controller);
+			this.modules.add(module, controller);
 		}
 	}
 
@@ -169,8 +165,9 @@ export class ApplicationControllerManager {
 	 */
 	public getFromModule(module: ModuleToken, deep = true): Controller[] {
 		const instance = this.application.modules.resolve(module);
+		const moduleInstances = this.modules.get(instance);
 
-		if (!this.modules.has(instance)) {
+		if (!moduleInstances) {
 			if (module === this.application && deep) {
 				return [...this.instances.values()];
 			}
@@ -179,14 +176,14 @@ export class ApplicationControllerManager {
 		}
 
 		if (!deep) {
-			return [...this.modules.get(instance)!].map(constructor => this.resolve(constructor));
+			return [...moduleInstances].map(constructor => this.resolve(constructor));
 		}
 
 		if (!this.modulesNestedCache?.has(instance)) {
 			const controllers = new Set<Controller>();
 			const children = this.application.modules.getChildModules(instance);
 
-			for (const constructor of this.modules.get(instance)!) {
+			for (const constructor of moduleInstances) {
 				controllers.add(this.resolve(constructor));
 			}
 

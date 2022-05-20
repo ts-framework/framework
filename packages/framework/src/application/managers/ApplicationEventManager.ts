@@ -1,3 +1,4 @@
+import { NestedSet } from '@baileyherbert/nested-collections';
 import { Constructor, Type } from '@baileyherbert/types';
 import { Controller } from '../../controllers/Controller';
 import { Event } from '../../services/events/Event';
@@ -9,7 +10,10 @@ import { Application } from '../Application';
 
 export class ApplicationEventManager {
 
-	protected listeners = new Map<Type<Event<any>>, Set<EventHandlerDescriptor>>();
+	/**
+	 * The listeners that are currently attached.
+	 */
+	protected listeners = new NestedSet<Type<Event<any>>, EventHandlerDescriptor>();
 
 	/**
 	 * Constructs a new `ApplicationEventManager` instance for the given root application object.
@@ -35,14 +39,12 @@ export class ApplicationEventManager {
 			event = new event(data);
 		}
 
-		if (this.listeners.has(event.constructor)) {
-			for (const descriptor of this.listeners.get(event.constructor)!) {
-				descriptor.handler(event);
+		for (const descriptor of this.listeners.values(event.constructor)) {
+			descriptor.handler(event);
 
-				// Auto remove 'once' handlers
-				if (descriptor.once) {
-					this.listeners.get(event.constructor)!.delete(descriptor);
-				}
+			// Auto remove 'once' handlers
+			if (descriptor.once) {
+				this.listeners.delete(event.constructor, descriptor);
 			}
 		}
 	}
@@ -75,15 +77,11 @@ export class ApplicationEventManager {
 	 * @returns An instance that can be used to manually detach the event listener.
 	 */
 	protected attach(event: Type<Event<any>>, once: boolean, handler: EventHandler): EventListenerHandle {
-		if (!this.listeners.has(event)) {
-			this.listeners.set(event, new Set());
-		}
-
 		const descriptor = { handler, once };
-		this.listeners.get(event)?.add(descriptor);
+		this.listeners.add(event, descriptor);
 
 		return new EventListenerHandle(() => {
-			this.listeners.get(event)?.delete(descriptor);
+			this.listeners.delete(event, descriptor);
 		});
 	}
 
@@ -93,13 +91,11 @@ export class ApplicationEventManager {
 	 * @param handler A callback to handle the event.
 	 */
 	public removeListener(event: Type<Event<any>>, handler: (event: Event<any>) => void) {
-		if (this.listeners.has(event)) {
-			// Find a matching descriptor
-			for (const descriptor of this.listeners.get(event)!) {
-				if (descriptor.handler === handler) {
-					this.listeners.get(event)?.delete(descriptor);
-					break;
-				}
+		// Find a matching descriptor
+		for (const descriptor of this.listeners.values(event)) {
+			if (descriptor.handler === handler) {
+				this.listeners.delete(event, descriptor);
+				break;
 			}
 		}
 	}
