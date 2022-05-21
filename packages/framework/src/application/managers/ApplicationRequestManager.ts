@@ -16,6 +16,11 @@ export class ApplicationRequestManager {
 	protected handlers = new NestedSet<Type<Request<any, any>>, RequestHandler>();
 
 	/**
+	 * The listeners that should be cleaned up when the application restarts.
+	 */
+	protected ephemeral = new Set<[ type: Type<Request<any, any>>, handler: RequestHandler ]>();
+
+	/**
 	 * Constructs a new `ApplicationRequestManager` instance for the given root application object.
 	 * @param application
 	 */
@@ -134,18 +139,25 @@ export class ApplicationRequestManager {
 		classes.push(...this.application.services.getAll());
 		classes.push(...this.application.controllers.getAll());
 
-		this.handlers.clear();
+		for (const [type, handler] of this.ephemeral) {
+			this.handlers.delete(type, handler);
+		}
+
+		this.ephemeral.clear();
 
 		for (const target of classes) {
 			const handlers = RequestRegistry.getMethods(target);
 
 			for (const [methodName, eventType] of handlers) {
-				this.register(eventType, e => {
+				const handler = (e: Request<any, any>) => {
 					const instance = this.application.container.resolve(target);
 					const method = (instance as any)[methodName] as RequestHandler;
 
 					return method.call(instance, e);
-				});
+				}
+
+				this.register(eventType, handler);
+				this.ephemeral.add([eventType, handler]);
 			}
 		}
 

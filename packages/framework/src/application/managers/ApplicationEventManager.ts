@@ -16,6 +16,11 @@ export class ApplicationEventManager {
 	protected listeners = new NestedSet<Type<Event<any>>, EventHandlerDescriptor>();
 
 	/**
+	 * The listeners that should be cleaned up when the application restarts.
+	 */
+	protected ephemeral = new Set<EventListenerHandle>();
+
+	/**
 	 * Constructs a new `ApplicationEventManager` instance for the given root application object.
 	 * @param application
 	 */
@@ -111,18 +116,24 @@ export class ApplicationEventManager {
 		classes.push(...this.application.services.getAll());
 		classes.push(...this.application.controllers.getAll());
 
-		this.listeners.clear();
+		for (const handle of this.ephemeral) {
+			handle.detach();
+		}
+
+		this.ephemeral.clear();
 
 		for (const target of classes) {
 			const handlers = EventRegistry.getMethods(target);
 
 			for (const [methodName, eventType] of handlers) {
-				this.on(eventType, e => {
+				const handle = this.on(eventType, e => {
 					const instance = this.application.container.resolve(target);
 					const method = (instance as any)[methodName] as EventHandler;
 
 					method.call(instance, e);
 				});
+
+				this.ephemeral.add(handle);
 			}
 		}
 
