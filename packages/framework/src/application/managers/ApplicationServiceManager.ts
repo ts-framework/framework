@@ -258,10 +258,33 @@ export class ApplicationServiceManager {
 
 		if (!this.registered.has(instance)) {
 			this.registered.add(instance);
-			await instance.__internRegister();
+
+			try {
+				await instance.__internRegister();
+			}
+			catch (error) {
+				this.application.logger.error(
+					'Error when registering the %s service:',
+					instance.constructor.name,
+					error
+				);
+
+				throw error;
+			}
 		}
 
-		await instance.__internStart();
+		try {
+			await instance.__internStart();
+		}
+		catch (startError) {
+			this.application.logger.error(
+				'Error when starting the %s service:',
+				instance.constructor.name,
+				startError
+			);
+
+			throw startError;
+		}
 
 		for (const parent of parents) {
 			const services = this.getFromModule(parent, true);
@@ -295,7 +318,18 @@ export class ApplicationServiceManager {
 		this.active.delete(instance);
 		this.application.logger.trace('Stopping service:', instance.constructor.name);
 
-		await instance.__internStop();
+		try {
+			await instance.__internStop();
+		}
+		catch (stopError) {
+			this.application.logger.error(
+				'Error when stopping the %s service:',
+				instance.constructor.name,
+				stopError
+			);
+
+			throw stopError;
+		}
 
 		for (const parent of parents) {
 			const services = this.getFromModule(parent, true);

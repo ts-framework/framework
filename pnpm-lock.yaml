@@ -69,6 +69,7 @@ importers:
     specifiers:
       '@baileyherbert/container': ^1.6.0
       '@baileyherbert/dependency-graph': ^1.0.0
+      '@baileyherbert/env': ^1.2.0
       '@baileyherbert/logging': ^2.0.1
       '@baileyherbert/nested-collections': ^1.2.0
       '@baileyherbert/promises': ^1.0.0
@@ -83,6 +84,7 @@ importers:
     dependencies:
       '@baileyherbert/container': 1.6.0
       '@baileyherbert/dependency-graph': 1.0.0
+      '@baileyherbert/env': 1.2.0
       '@baileyherbert/logging': 2.0.1
       '@baileyherbert/nested-collections': 1.2.0
       '@baileyherbert/promises': 1.0.0
@@ -492,6 +494,10 @@ packages:
 
   /@baileyherbert/dependency-graph/1.0.0:
     resolution: {integrity: sha512-98vGiu3Wo8Ca0Uxo6k/U6R7l9jw86BXZNeSsTg2ndHD0jxd1HPWjfnPpJ8E8MnPDa+bKpdVtSSvJixpk4vROfA==}
+    dev: false
+
+  /@baileyherbert/env/1.2.0:
+    resolution: {integrity: sha512-++J51KBZp9c0tsZKtjt5LQ0SEAmmxOKG3Yg4z58N18tjHFb5kIoTl9t4GwEB2eiuJoKU4Lq4wNztFfLeI4iBMg==}
     dev: false
 
   /@baileyherbert/events/1.0.1:

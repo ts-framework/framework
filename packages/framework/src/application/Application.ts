@@ -1,8 +1,10 @@
 import { resolver } from '@baileyherbert/container';
-import { Logger } from '@baileyherbert/logging';
-import { NotImplementedError } from '../errors/development/NotImplementedError';
+import { ConsoleTransport, Logger, LogLevel } from '@baileyherbert/logging';
+import { PromiseCompletionSource } from '@baileyherbert/promises';
 import { BaseModule } from '../modules/BaseModule';
+import { onExit } from '../utilities/async-exit-hook';
 import { normalizeLogLevel } from '../utilities/normalizers';
+import { ApplicationEnvironment } from './ApplicationEnvironment';
 import { ApplicationOptions } from './ApplicationOptions';
 import { ApplicationAttributeManager } from './managers/ApplicationAttributeManager';
 import { ApplicationControllerManager } from './managers/ApplicationControllerManager';
@@ -59,6 +61,11 @@ export abstract class Application extends BaseModule {
 	public readonly attributes: ApplicationAttributeManager;
 
 	/**
+	 * A promise source created by the start method which must resolve or reject when the application exits.
+	 */
+	private startPromiseSource?: PromiseCompletionSource<void>;
+
+	/**
 	 * Whether or not the application has been bootstrapped yet.
 	 */
 	private isBootstrapped: boolean = false;
@@ -98,6 +105,7 @@ export abstract class Application extends BaseModule {
 			this.services.resolveAll();
 
 			// Register controllers
+			this.logger.trace('Registering controllers');
 			this.controllers.registerFromModule(this);
 			this.controllers.resolveAll();
 		}
@@ -116,28 +124,58 @@ export abstract class Application extends BaseModule {
 	/**
 	 * Starts the application manually.
 	 */
-	public async start() {
+		if (this.startPromiseSource) {
+			return;
+		}
+
 		this.logger.info('Starting the application');
+		this.logger.trace('Starting in %s mode', this.mode);
+
+		this.startPromiseSource = new PromiseCompletionSource();
 
 		await this.bootstrap();
 		await this.events.init();
 		await this.requests.init();
-		await this.services.startAll();
+
+		try {
+			await this.services.startAll();
+		}
+		catch (error) {
+			try {
+				await this.services.stopAll();
+			}
+			catch (_) {}
+
+			this.startPromiseSource = undefined;
+			this.abort(error);
+		}
 
 		await this.modules.startModule(this, false);
 		await this.modules.startModule(this, true);
 
 		this.logger.info('Started the application successfully');
+
+		return this.startPromiseSource.promise;
 	}
 
 	/**
 	 * Stops the application manually.
 	 */
 	public async stop() {
+		if (!this.startPromiseSource) {
+			return;
+		}
+
 		this.logger.info('Stopping the application');
 
 		await this.bootstrap();
-		await this.services.stopAll();
+
+		try {
+			await this.services.stopAll();
+		}
+		catch (error) {
+			this.abort(error);
+		}
 
 		await this.modules.stopModule(this, false);
 		await this.modules.stopModule(this, true);
@@ -145,6 +183,43 @@ export abstract class Application extends BaseModule {
 		this.modules.clearLifecycleCache();
 
 		this.logger.info('Stopped the application successfully');
+
+		this.startPromiseSource?.resolve();
+		this.startPromiseSource = undefined;
+	}
+
+	/**
+	 * Aborts with the given error. If aborting is disabled, throws the error instead.
+	 * @param error
+	 */
+	private abort(error?: any): never {
+			this.logger.error('Aborting application due to a fatal error');
+			process.exit(1);
+	}
+
+	/**
+	 * The current environment mode that the application is running in.
+	 */
+	public get mode(): ApplicationMode {
+		const env = ApplicationEnvironment.NODE_ENV.toLowerCase().trim();
+
+		switch (env) {
+			case 'production': return 'production';
+			case 'staging': return 'staging';
+			case 'testing': return 'testing';
+			default: return 'development';
+		}
+	}
+
+	/**
+	 * Returns the default log level for the current environment.
+	 * @returns
+	 * @internal
+	 */
+	public getDefaultLogLevel() {
+		return this.mode === 'production' ? LogLevel.Information : LogLevel.Debug;
 	}
 
 }
+
+type ApplicationMode = 'production' | 'staging' | 'testing' | 'development';

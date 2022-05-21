@@ -1,5 +1,7 @@
 export * from './application/Application';
 export * from './application/ApplicationOptions';
+export * from './application/ApplicationAttachOptions';
+export * from './application/ApplicationStartOptions';
 export * from './application/ApplicationFactory';
 export * from './application/managers/ApplicationModuleManager';
 export * from './application/managers/ApplicationServiceManager';
@@ -35,6 +37,7 @@ export * from '@baileyherbert/container';
 export * from '@baileyherbert/logging';
 export * from '@baileyherbert/dependency-graph';
 export * from '@baileyherbert/nested-collections';
+export * from '@baileyherbert/env';
 
 // @ts-ignore
 export * from '@baileyherbert/reflection';
