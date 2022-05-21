@@ -10,14 +10,14 @@
         <meta name="author" content="Bailey Herbert">
       
       
-        <link rel="canonical" href="https://docs.bailey.sh/ts-framework/main/applications/managing-modules/">
+        <link rel="canonical" href="https://docs.bailey.sh/ts-framework/main/getting-started/creating-attributes/">
       
       <link rel="icon" href="../../assets/logo.png">
       <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
     
     
       
-        <title>Managing modules - ts-framework</title>
+        <title>Creating attributes - ts-framework</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#managing-modules" class="md-skip">
+        <a href="#creating-attributes" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Managing modules
+              Creating attributes
             
           </span>
         </div>
@@ -274,12 +274,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -302,7 +304,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/installation/" class="md-nav__link">
+      <a href="../installation/" class="md-nav__link">
         Installation
       </a>
     </li>
@@ -316,7 +318,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/creating-applications/" class="md-nav__link">
+      <a href="../creating-applications/" class="md-nav__link">
         Creating applications
       </a>
     </li>
@@ -330,7 +332,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/creating-modules/" class="md-nav__link">
+      <a href="../creating-modules/" class="md-nav__link">
         Creating modules
       </a>
     </li>
@@ -344,7 +346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/creating-services/" class="md-nav__link">
+      <a href="../creating-services/" class="md-nav__link">
         Creating services
       </a>
     </li>
@@ -358,7 +360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/creating-controllers/" class="md-nav__link">
+      <a href="../creating-controllers/" class="md-nav__link">
         Creating controllers
       </a>
     </li>
@@ -372,7 +374,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/creating-events/" class="md-nav__link">
+      <a href="../creating-events/" class="md-nav__link">
         Creating events
       </a>
     </li>
@@ -384,11 +386,93 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../getting-started/creating-attributes/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Creating attributes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Creating attributes
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-attribute" class="md-nav__link">
+    Create the attribute
+  </a>
+  
+    <nav class="md-nav" aria-label="Create the attribute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-helper-tokens" class="md-nav__link">
+    Create the helper tokens
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-service" class="md-nav__link">
+    Create the service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-attribute" class="md-nav__link">
+    Using the attribute
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -406,14 +490,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
       
       
       
@@ -436,7 +518,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configuring-applications/" class="md-nav__link">
+      <a href="../../applications/configuring-applications/" class="md-nav__link">
         Configuring applications
       </a>
     </li>
@@ -450,7 +532,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../managing-applications/" class="md-nav__link">
+      <a href="../../applications/managing-applications/" class="md-nav__link">
         Managing applications
       </a>
     </li>
@@ -462,21 +544,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../applications/managing-modules/" class="md-nav__link">
         Managing modules
       </a>
-      
     </li>
   
 
@@ -488,7 +560,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sending-events/" class="md-nav__link">
+      <a href="../../applications/sending-events/" class="md-nav__link">
         Sending events
       </a>
     </li>
@@ -502,7 +574,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sending-requests/" class="md-nav__link">
+      <a href="../../applications/sending-requests/" class="md-nav__link">
         Sending requests
       </a>
     </li>
@@ -972,6 +1044,62 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-attribute" class="md-nav__link">
+    Create the attribute
+  </a>
+  
+    <nav class="md-nav" aria-label="Create the attribute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-the-helper-tokens" class="md-nav__link">
+    Create the helper tokens
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-service" class="md-nav__link">
+    Create the service
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-the-attribute" class="md-nav__link">
+    Using the attribute
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -984,9 +1112,125 @@
                 
 
 
-<h1 id="managing-modules">Managing modules<a class="headerlink" href="#managing-modules" title="Permanent link">&para;</a></h1>
-<p>TODO: How to check the status of and manually start and stop modules using an application's process manager, plus how
-to track the progress of modules as they work through their lifecycles.</p>
+<h1 id="creating-attributes">Creating attributes<a class="headerlink" href="#creating-attributes" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Here's where the fun really begins! <img alt="✨" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2728.svg" title=":sparkles:" /></p>
+<p>Other frameworks solve particular problems. For example, Nest.js makes it simple to interface with a web server using
+decorators within controllers.</p>
+<p>On the other hand, this framework solves no particular problems – not a single one! Instead, you can build your own
+solutions to whatever problems you face using <strong>service attributes</strong>. Need <code>@Get()</code> and <code>@Post()</code> decorators? They
+can be written in minutes!</p>
+<p>The framework builds upon the attributes decoration concept introduced in my
+<a href="https://docs.bailey.sh/reflection/latest/decorators/attributes/">reflection library</a>. If you're not familiar,
+attributes are simple classes that are easily converted into decorators, and a class instance is preserved for each
+decoration.</p>
+<p>Services have first-class integration with attributes. The framework tracks attribute instances and makes it extremely
+easy to query and interface with them.</p>
+<p>This guide will demonstrate how to create the <code>@Get()</code>, <code>@Req()</code>, and <code>@Res()</code> attributes and bind them to a service
+that spins up an <code>express</code> server. For the record, you don't actually need to do this yourself – check out the
+<a href="../../integrations/express/">express integration</a>.</p>
+<h2 id="create-the-attribute">Create the attribute<a class="headerlink" href="#create-the-attribute" title="Permanent link">&para;</a></h2>
+<p>First and foremost, we'll create the <code>@Get()</code> decorator using an attribute.</p>
+<div class="highlight"><span class="filename">src/example/attributes/Get.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Attribute</span><span class="p">,</span><span class="w"> </span><span class="nx">AttributeMethodEvent</span><span class="p">,</span><span class="w"> </span><span class="nx">Component</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">Get</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Attribute</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="kd">class</span><span class="w"> </span><span class="nx">GetAttribute</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Attribute</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">(</span><span class="k">public</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">super</span><span class="p">();</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onMethod</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">AttributeMethodEvent</span><span class="o">&lt;</span><span class="nx">Component</span><span class="p">,</span><span class="w"> </span><span class="nx">any</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
+</code></pre></div>
+<p>Check the <a href="https://docs.bailey.sh/reflection/latest/decorators/attributes/">upstream documentation on attributes</a> to
+learn how to easily write your own attributes. In short, by overriding <code>onMethod()</code> in our implementation, we've
+enabled the attribute to be used on methods, with the constructor argument <code>path</code> as its sole parameter.</p>
+<h3 id="create-the-helper-tokens">Create the helper tokens<a class="headerlink" href="#create-the-helper-tokens" title="Permanent link">&para;</a></h3>
+<p>We'll also need the <code>@Req()</code> and <code>@Res()</code> decorators to make it easier to inject the express <code>Request</code> and <code>Response</code>
+types which don't have an equivalent class readily available for injection.</p>
+<div class="highlight"><span class="filename">src/example/decorators/Req.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Token</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">Req</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">Token</span><span class="p">(</span><span class="s1">&#39;express:request&#39;</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<div class="highlight"><span class="filename">src/example/decorators/Res.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Token</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">Res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">Token</span><span class="p">(</span><span class="s1">&#39;express:response&#39;</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>To make this work, we'll need to tell the dependency container what values to inject for these tokens when we invoke
+the methods that use them. Fortunately, this is very easy to do with the framework's attribute system, as you're about
+to see.</p>
+<h2 id="create-the-service">Create the service<a class="headerlink" href="#create-the-service" title="Permanent link">&para;</a></h2>
+<p>Create a new <code>HttpService</code> and register it in a module of your choosing. Then read over and implement the code show
+below.</p>
+<div class="highlight"><span class="filename">src/example/HttpService.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">PromiseCompletionSource</span><span class="p">,</span><span class="w"> </span><span class="nx">Service</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Get</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./attributes/Get&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Server</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;http&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="nx">express</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;express&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">HttpService</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Service</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">express</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="nx">server?</span><span class="o">:</span><span class="w"> </span><span class="kt">Server</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">register</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// (1)</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">registration</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">getMethods</span><span class="p">(</span><span class="nx">Get</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">registration</span><span class="p">.</span><span class="nx">first</span><span class="p">().</span><span class="nx">path</span><span class="p">,</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kd">const</span><span class="w"> </span><span class="nx">dispatcher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">registration</span><span class="p">.</span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">clone</span><span class="p">();</span><span class="w"> </span><span class="c1">// (2)</span><span class="w"></span>
+
+<span class="w">                </span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">setTokenParameter</span><span class="p">(</span><span class="s1">&#39;express:request&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="p">);</span><span class="w"> </span><span class="c1">// (3)</span><span class="w"></span>
+<span class="w">                </span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">setTokenParameter</span><span class="p">(</span><span class="s1">&#39;express:response&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">                </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">invoke</span><span class="p">();</span><span class="w"> </span><span class="c1">// (4)</span><span class="w"></span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">response</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span><span class="w"> </span><span class="c1">// (5)</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">});</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">PromiseCompletionSource</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mf">3000</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">source</span><span class="p">.</span><span class="nx">resolve</span><span class="p">());</span><span class="w"> </span><span class="c1">// (6)</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">source</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">server</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="nx">source</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">PromiseCompletionSource</span><span class="o">&lt;</span><span class="ow">void</span><span class="o">&gt;</span><span class="p">();</span><span class="w"></span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">server</span><span class="p">.</span><span class="nx">close</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">source</span><span class="p">.</span><span class="nx">resolve</span><span class="p">());</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">source</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<ol>
+<li>This is a special method that runs immediately before the service is started for the first time.
+   It won't run again, making it great for slow, one-time operations like applying attributes.</li>
+<li>The registration object for method-based attributes exposes a <strong>dispatcher</strong> that can be used to easily invoke the
+   method with dependency injection. We're making a clone to avoid contaminating the original dispatcher object.</li>
+<li>Here, we're overriding the injection behavior for these specific tokens, which we set with the decorators in the
+   previous section. The container will inject these values for the parameters instead.</li>
+<li>This will invoke the controller method that registered the route and then forward its return value. We'll await this
+   value just in case it's a promise.</li>
+<li>If the controller method returned anything, let's add it to the response and send it off. This makes it easier for
+   controllers to send their responses.</li>
+<li>Here we do some magic to promisify the listen step. We'll repeat similar magic when closing the server.</li>
+</ol>
+<h2 id="using-the-attribute">Using the attribute<a class="headerlink" href="#using-the-attribute" title="Permanent link">&para;</a></h2>
+<p>With the attribute and service configured, we can now easily configure and handle routes from any controller in the
+entire application!</p>
+<div class="highlight"><span class="filename">src/example/ExampleController.ts</span><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleController</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Controller</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">@Get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">index</span><span class="p">(</span><span class="kd">@Req</span><span class="p">()</span><span class="w"> </span><span class="nx">request</span><span class="o">:</span><span class="w"> </span><span class="kt">Request</span><span class="p">,</span><span class="w"> </span><span class="kd">@Res</span><span class="p">()</span><span class="w"> </span><span class="nx">response</span><span class="o">:</span><span class="w"> </span><span class="kt">Response</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;Hello world!&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Give <code>localhost:3000</code> a view and you should see the familiar greeting. <img alt="✨" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2728.svg" title=":sparkles:" /></p>
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p>I hope this demonstrates the versatility of this framework. In this manner, it's a framework to create other
+frameworks, and most of the magic relies on the attribute system. It should be possible to recreate Nest.js in its
+entirety, or to create an entirely different framework.</p>
 
               
             </article>
@@ -1005,7 +1249,7 @@ to track the progress of modules as they work through their lifecycles.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../managing-applications/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Managing applications" rel="prev">
+        <a href="../creating-events/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Creating events" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1014,20 +1258,20 @@ to track the progress of modules as they work through their lifecycles.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Managing applications
+              Creating events
             </div>
           </div>
         </a>
       
       
         
-        <a href="../sending-events/" class="md-footer__link md-footer__link--next" aria-label="Next: Sending events" rel="next">
+        <a href="../../applications/configuring-applications/" class="md-footer__link md-footer__link--next" aria-label="Next: Configuring applications" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Sending events
+              Configuring applications
             </div>
           </div>
           <div class="md-footer__button md-icon">

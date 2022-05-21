@@ -355,9 +355,60 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Creating services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Creating services
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-service-class" class="md-nav__link">
+    Create the service class
+  </a>
+  
+    <nav class="md-nav" aria-label="Create the service class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stopping-a-service-safely" class="md-nav__link">
+    Stopping a service safely
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-the-service" class="md-nav__link">
+    Import the service
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -372,6 +423,34 @@
     <li class="md-nav__item">
       <a href="../creating-controllers/" class="md-nav__link">
         Creating controllers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../creating-events/" class="md-nav__link">
+        Creating events
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../creating-attributes/" class="md-nav__link">
+        Creating attributes
       </a>
     </li>
   
@@ -944,6 +1023,41 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-service-class" class="md-nav__link">
+    Create the service class
+  </a>
+  
+    <nav class="md-nav" aria-label="Create the service class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#stopping-a-service-safely" class="md-nav__link">
+    Stopping a service safely
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-the-service" class="md-nav__link">
+    Import the service
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -957,7 +1071,62 @@
 
 
 <h1 id="creating-services">Creating services<a class="headerlink" href="#creating-services" title="Permanent link">&para;</a></h1>
-<p>TODO: How to create service classes and import them into a module, plus a basic introduction to the service lifecycle.</p>
+<p>Services are special classes that host some kind of background activity or process. They can be started and gracefully
+stopped upon request, and can even extend the functionality of the framework through the attributes system (more on
+that later).</p>
+<h2 id="create-the-service-class">Create the service class<a class="headerlink" href="#create-the-service-class" title="Permanent link">&para;</a></h2>
+<p>Create a class called <code>ExampleService</code> alongside its parent module that looks like the following:</p>
+<div class="highlight"><span class="filename">src/example/ExampleService.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Injectable</span><span class="p">,</span><span class="w"> </span><span class="nx">Service</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="kd">@Injectable</span><span class="p">()</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleService</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Service</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="nx">interval?</span><span class="o">:</span><span class="w"> </span><span class="kt">NodeJS.Timeout</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">super</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Creating the interval&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">setInterval</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;The interval callback was invoked!&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Clearing the interval&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="nx">clearInterval</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>This simple service starts a one-second interval that prints a message to the output each time. When the service is
+stopped, the interval is cleared using <code>clearInterval()</code>.</p>
+<h3 id="stopping-a-service-safely">Stopping a service safely<a class="headerlink" href="#stopping-a-service-safely" title="Permanent link">&para;</a></h3>
+<p>Note how the <code>stop()</code> method defined above checks if <code class="highlight"><span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="w"></span></code> has been initialized before attempting to
+clear it. This is an extremely important concept.</p>
+<p>Imagine this – the <code>start()</code> method above is called. However, before we have a chance to initialize the interval, an
+error is thrown by some other code before it. The start has failed.</p>
+<p>When a service fails to start, the framework will immediately call the <code>stop()</code> method for us to clear anything that
+was initialized before the error.</p>
+<h2 id="import-the-service">Import the service<a class="headerlink" href="#import-the-service" title="Permanent link">&para;</a></h2>
+<p>Go back to the <code>ExampleModule.ts</code> file and add the new class to the <code>services</code> array.</p>
+<div class="highlight"><span class="filename">src/example/ExampleModule.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ExampleService</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./ExampleService&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
+<span class="w">            </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">            </span><span class="nx">services</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">ExampleService</span><span class="p">],</span><span class="w"></span>
+<span class="w">            </span><span class="nx">controllers</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">        </span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 
               
             </article>

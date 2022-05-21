@@ -341,9 +341,54 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Creating modules
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Creating modules
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#file-structure" class="md-nav__link">
+    File structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-module-class" class="md-nav__link">
+    Create the module class
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-the-module" class="md-nav__link">
+    Import the module
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -372,6 +417,34 @@
     <li class="md-nav__item">
       <a href="../creating-controllers/" class="md-nav__link">
         Creating controllers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../creating-events/" class="md-nav__link">
+        Creating events
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../creating-attributes/" class="md-nav__link">
+        Creating attributes
       </a>
     </li>
   
@@ -944,6 +1017,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#file-structure" class="md-nav__link">
+    File structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-module-class" class="md-nav__link">
+    Create the module class
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-the-module" class="md-nav__link">
+    Import the module
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -957,8 +1059,63 @@
 
 
 <h1 id="creating-modules">Creating modules<a class="headerlink" href="#creating-modules" title="Permanent link">&para;</a></h1>
-<p>TODO: How to create new modules and import them into other modules (or the application itself), plus a basic overview
-of module options and importing services/controllers.</p>
+<p>This framework uses a concept called <strong>modules</strong> to help organize code. You'll want to bundle related services,
+controllers, utilities, and other code together inside modules. You can also create nested modules to break down
+complex logic into smaller parts.</p>
+<p>You've already created your first module in fact – the root application class is actually a module, and it can even
+host its own services and controllers, although this is not recommended as it's best to put those in dedicated modules
+instead.</p>
+<h2 id="file-structure">File structure<a class="headerlink" href="#file-structure" title="Permanent link">&para;</a></h2>
+<p>It's important to have an idea on the file structure you'd like to use. The general convention around here is
+something like this:</p>
+<div class="highlight"><pre><span></span><code>src/
+├── example/
+│   ├── ExampleController.ts
+│   ├── ExampleModule.ts
+│   └── ExampleService.ts
+├── advanced/
+│   ├── controllers/
+│   │   ├── AdvancedController1.ts
+│   │   └── AdvancedController2.ts
+│   ├── modules/
+│   │   ├── submodule1/
+│   │   └── submodule2/
+│   ├── services/
+│   │   ├── AdvancedService1.ts
+│   │   └── AdvancedService2.ts
+│   └── AdvancedModule.ts
+├── App.ts
+└── main.ts
+</code></pre></div>
+<p>Feel free to use whatever file structure works best for you!</p>
+<h2 id="create-the-module-class">Create the module class<a class="headerlink" href="#create-the-module-class" title="Permanent link">&para;</a></h2>
+<p>Create a class called <code>ExampleModule</code> that looks like the following:</p>
+<div class="highlight"><span class="filename">src/example/ExampleModule.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
+<span class="w">            </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">            </span><span class="nx">services</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">            </span><span class="nx">controllers</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">        </span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="import-the-module">Import the module<a class="headerlink" href="#import-the-module" title="Permanent link">&para;</a></h2>
+<p>With the module's class defined, now we must import it inside a parent module. Let's go back and import it inside the
+root application module:</p>
+<div class="highlight"><span class="filename">src/App.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Application</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./example/ExampleModule&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">App</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Application</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
+<span class="w">            </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">ExampleModule</span><span class="p">],</span><span class="w"></span>
+<span class="w">        </span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 
               
             </article>

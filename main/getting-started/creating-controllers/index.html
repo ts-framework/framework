@@ -369,10 +369,76 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Creating controllers
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Creating controllers
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-controller-class" class="md-nav__link">
+    Create the controller class
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-the-controller" class="md-nav__link">
+    Import the controller
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../creating-events/" class="md-nav__link">
+        Creating events
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../creating-attributes/" class="md-nav__link">
+        Creating attributes
+      </a>
     </li>
   
 
@@ -944,6 +1010,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-controller-class" class="md-nav__link">
+    Create the controller class
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-the-controller" class="md-nav__link">
+    Import the controller
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -957,7 +1045,35 @@
 
 
 <h1 id="creating-controllers">Creating controllers<a class="headerlink" href="#creating-controllers" title="Permanent link">&para;</a></h1>
-<p>TODO: How to create controller classes and import them into a module, plus a basic introduction to attributes.</p>
+<p>Controllers are classes that handle events dispatched by the application's services. That might sound simple, but
+events in this framework come in many forms and controllers can easily become the stars of your application.</p>
+<h2 id="create-the-controller-class">Create the controller class<a class="headerlink" href="#create-the-controller-class" title="Permanent link">&para;</a></h2>
+<p>Create a class called <code>ExampleController</code> alongside its parent module that looks like the following:</p>
+<div class="highlight"><span class="filename">src/example/ExampleController.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Injectable</span><span class="p">,</span><span class="w"> </span><span class="nx">Controller</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="kd">@Injectable</span><span class="p">()</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleController</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Controller</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>For now, there's nothing to put in the controller, so we'll keep it empty. The next guide will modify the service to
+emit events, and show how to handle those events in the controller.</p>
+<h2 id="import-the-controller">Import the controller<a class="headerlink" href="#import-the-controller" title="Permanent link">&para;</a></h2>
+<p>Go back to the <code>ExampleModule.ts</code> file and add the new class to the <code>controllers</code> array.</p>
+<div class="highlight"><span class="filename">src/example/ExampleModule.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ExampleService</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./ExampleService&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ExampleController</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./ExampleController&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
+<span class="w">            </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">            </span><span class="nx">services</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">ExampleService</span><span class="p">],</span><span class="w"></span>
+<span class="w">            </span><span class="nx">controllers</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">ExampleController</span><span class="p">],</span><span class="w"></span>
+<span class="w">        </span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 
               
             </article>
@@ -992,13 +1108,13 @@
       
       
         
-        <a href="../../applications/configuring-applications/" class="md-footer__link md-footer__link--next" aria-label="Next: Configuring applications" rel="next">
+        <a href="../creating-events/" class="md-footer__link md-footer__link--next" aria-label="Next: Creating events" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Configuring applications
+              Creating events
             </div>
           </div>
           <div class="md-footer__button md-icon">
