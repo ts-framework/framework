@@ -18,7 +18,7 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"@baileyherbert/container": "^1.6.0",
+		"@baileyherbert/container": "^1.8.0",
 		"@baileyherbert/dependency-graph": "^1.0.0",
 		"@baileyherbert/env": "^1.2.0",
 		"@baileyherbert/logging": "^2.0.1",

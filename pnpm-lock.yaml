@@ -67,7 +67,7 @@ importers:
 
   packages/framework:
     specifiers:
-      '@baileyherbert/container': ^1.6.0
+      '@baileyherbert/container': ^1.8.0
       '@baileyherbert/dependency-graph': ^1.0.0
       '@baileyherbert/env': ^1.2.0
       '@baileyherbert/logging': ^2.0.1
@@ -82,7 +82,7 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
-      '@baileyherbert/container': 1.6.0
+      '@baileyherbert/container': 1.8.0
       '@baileyherbert/dependency-graph': 1.0.0
       '@baileyherbert/env': 1.2.0
       '@baileyherbert/logging': 2.0.1
@@ -485,8 +485,8 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@baileyherbert/container/1.6.0:
-    resolution: {integrity: sha512-VPrDmybLQ1h9Uu/YNh1Bj4KLnSDekB3HxYORBlmkP1ZdYQN0VKueMI9rJY4CZza+jNQ2GLOeiahSTRC1ORflXg==}
+  /@baileyherbert/container/1.8.0:
+    resolution: {integrity: sha512-ftnDUyKse8j5QQwlHej90CKWnp7mP0SKqMlt4g+lpeTGFc9dQbw7FrhAAr22KN2F+RGXPsgF0ibhGUklcVG0dQ==}
     dependencies:
       '@baileyherbert/reflection': 1.2.2
       '@baileyherbert/types': 1.0.1
