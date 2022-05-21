@@ -38,6 +38,22 @@ export * from '@baileyherbert/logging';
 export * from '@baileyherbert/dependency-graph';
 export * from '@baileyherbert/nested-collections';
 export * from '@baileyherbert/env';
+export * from '@baileyherbert/promises';
 
 // @ts-ignore
 export * from '@baileyherbert/reflection';
+
+export {
+	Action,
+	Constructor,
+	Delegate,
+	Fallback,
+	Json,
+	JsonArray,
+	JsonMap,
+	Key,
+	Promisable,
+	Pull,
+	Type,
+	Value,
+} from '@baileyherbert/types';
