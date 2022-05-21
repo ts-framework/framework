@@ -89,9 +89,11 @@ export abstract class Application extends BaseModule {
 			this.isBootstrapped = true;
 
 			// Register modules
+			this.logger.trace('Registering module imports');
 			await this.modules.import(this);
 
 			// Register services
+			this.logger.trace('Registering services');
 			this.services.registerFromModule(this);
 			this.services.resolveAll();
 
@@ -124,6 +126,8 @@ export abstract class Application extends BaseModule {
 
 		await this.modules.startModule(this, false);
 		await this.modules.startModule(this, true);
+
+		this.logger.info('Started the application successfully');
 	}
 
 	/**
@@ -139,6 +143,8 @@ export abstract class Application extends BaseModule {
 		await this.modules.stopModule(this, true);
 
 		this.modules.clearLifecycleCache();
+
+		this.logger.info('Stopped the application successfully');
 	}
 
 }

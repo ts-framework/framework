@@ -248,8 +248,13 @@ export class ApplicationServiceManager {
 			await this.application.modules.startModule(parent, false);
 		}
 
-		if (this.active.has(instance)) return;
+		if (this.active.has(instance)) {
+			this.application.logger.trace('Ignored request to start active service: %s', instance.constructor.name);
+			return;
+		}
+
 		this.active.add(instance);
+		this.application.logger.trace('Starting service:', instance.constructor.name);
 
 		if (!this.registered.has(instance)) {
 			this.registered.add(instance);
@@ -282,8 +287,13 @@ export class ApplicationServiceManager {
 			await this.application.modules.stopModule(parent, false);
 		}
 
-		if (!this.active.has(instance)) return;
+		if (!this.active.has(instance)) {
+			this.application.logger.trace('Ignored request to stop inactive service: %s', instance.constructor.name);
+			return;
+		}
+
 		this.active.delete(instance);
+		this.application.logger.trace('Stopping service:', instance.constructor.name);
 
 		await instance.__internStop();
 

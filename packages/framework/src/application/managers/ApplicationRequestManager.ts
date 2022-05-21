@@ -148,6 +148,12 @@ export class ApplicationRequestManager {
 				});
 			}
 		}
+
+		this.application.logger.trace(
+			'Initialized %d request handler%s from the registry',
+			this.handlers.size,
+			this.handlers.size !== 1 ? 's' : ''
+		);
 	}
 
 }

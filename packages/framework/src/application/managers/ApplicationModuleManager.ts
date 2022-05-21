@@ -250,7 +250,13 @@ export class ApplicationModuleManager {
 	 * @internal
 	 */
 	public async startModule(module: ModuleToken, finished: boolean) {
-		return this.invokeModuleMethod(module, finished, ['beforeModuleBoot', 'onModuleBoot']);
+		const instance = this.resolve(module);
+
+		if (!finished && !this.lifecycleCache.has(instance, 'beforeModuleBoot')) {
+			this.application.logger.trace('Starting module:', instance.constructor.name);
+		}
+
+		return this.invokeModuleMethod(instance, finished, ['beforeModuleBoot', 'onModuleBoot']);
 	}
 
 	/**
@@ -261,6 +267,12 @@ export class ApplicationModuleManager {
 	 * @internal
 	 */
 	public async stopModule(module: ModuleToken, finished: boolean) {
+		const instance = this.resolve(module);
+
+		if (!finished && !this.lifecycleCache.has(instance, 'beforeModuleShutdown')) {
+			this.application.logger.trace('Stopping module:', instance.constructor.name);
+		}
+
 		return this.invokeModuleMethod(module, finished, ['beforeModuleShutdown', 'onModuleShutdown']);
 	}
 

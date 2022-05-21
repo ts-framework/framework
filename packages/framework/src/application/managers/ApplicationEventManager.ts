@@ -125,6 +125,12 @@ export class ApplicationEventManager {
 				});
 			}
 		}
+
+		this.application.logger.trace(
+			'Initialized %d event listener%s from the registry',
+			this.listeners.size,
+			this.listeners.size !== 1 ? 's' : ''
+		);
 	}
 
 }
