@@ -71,6 +71,7 @@ importers:
       '@baileyherbert/dependency-graph': ^1.0.0
       '@baileyherbert/logging': ^2.0.1
       '@baileyherbert/nested-collections': ^1.2.0
+      '@baileyherbert/promises': ^1.0.0
       '@baileyherbert/reflection': ^1.2.2
       '@baileyherbert/types': ^1.0.1
       '@types/jest': ^27.4.1
@@ -84,6 +85,7 @@ importers:
       '@baileyherbert/dependency-graph': 1.0.0
       '@baileyherbert/logging': 2.0.1
       '@baileyherbert/nested-collections': 1.2.0
+      '@baileyherbert/promises': 1.0.0
       '@baileyherbert/reflection': 1.2.2
       '@baileyherbert/types': 1.0.1
     devDependencies:
@@ -505,6 +507,13 @@ packages:
 
   /@baileyherbert/nested-collections/1.2.0:
     resolution: {integrity: sha512-gw0vmjUyooJK6kStYq3po7sGAX74jL7KY1Jhujtqn1a0GCO06qVVNS+BJSyEMw5lMKIi3jJp+wLbfH08h7dV5w==}
+    dev: false
+
+  /@baileyherbert/promises/1.0.0:
+    resolution: {integrity: sha512-OIIHVYKqM4Hvzu9w8ob1+pcqlrpZepVPK9Bm9l9OyfNaECi/2yZSOpa2qvcdC7a11Or6FungReUv1ieCzl96Xw==}
+    dependencies:
+      '@baileyherbert/events': 1.0.1
+      '@baileyherbert/types': 1.0.1
     dev: false
 
   /@baileyherbert/reflection/1.2.2:
