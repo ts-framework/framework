@@ -4,8 +4,10 @@ import { PromiseCompletionSource } from '@baileyherbert/promises';
 import { BaseModule } from '../modules/BaseModule';
 import { onExit } from '../utilities/async-exit-hook';
 import { normalizeLogLevel } from '../utilities/normalizers';
+import { ApplicationAttachOptions } from './ApplicationAttachOptions';
 import { ApplicationEnvironment } from './ApplicationEnvironment';
 import { ApplicationOptions } from './ApplicationOptions';
+import { ApplicationStartOptions } from './ApplicationStartOptions';
 import { ApplicationAttributeManager } from './managers/ApplicationAttributeManager';
 import { ApplicationControllerManager } from './managers/ApplicationControllerManager';
 import { ApplicationEventManager } from './managers/ApplicationEventManager';
@@ -59,6 +61,11 @@ export abstract class Application extends BaseModule {
 	 * The manager for this application's attributes.
 	 */
 	public readonly attributes: ApplicationAttributeManager;
+
+	/**
+	 * The options used to start the application.
+	 */
+	private startOptions?: Required<ApplicationStartOptions>;
 
 	/**
 	 * A promise source created by the start method which must resolve or reject when the application exits.
@@ -117,13 +124,36 @@ export abstract class Application extends BaseModule {
 	 * This will start the application with automatic error handling and graceful shutdown listeners. It will also
 	 * end the process with an appropriate error code after shutting down (unless configured otherwise).
 	 */
-	public async attach() {
-		throw new NotImplementedError();
+	public async attach(options?: ApplicationAttachOptions) {
+		const opts = this.getAttachOptions(options);
+
+		// Set the logging level
+		this.logger.level = normalizeLogLevel(opts.loggingLevel, this.getDefaultLogLevel());
+
+		// Attach logging transports
+		for (const transport of opts.loggingTransports) {
+			transport.attach(this.logger);
+		}
+
+		if (opts.interceptTerminationSignals) {
+			onExit(async callback => {
+				try {
+					await this.stop();
+					callback();
+				}
+				catch (error) {
+					this.abort(error);
+				}
+			});
+		}
+
+		return this.start(options);
 	}
 
 	/**
 	 * Starts the application manually.
 	 */
+	public async start(options?: ApplicationStartOptions) {
 		if (this.startPromiseSource) {
 			return;
 		}
@@ -131,6 +161,7 @@ export abstract class Application extends BaseModule {
 		this.logger.info('Starting the application');
 		this.logger.trace('Starting in %s mode', this.mode);
 
+		this.startOptions = this.getStartOptions(options);
 		this.startPromiseSource = new PromiseCompletionSource();
 
 		await this.bootstrap();
@@ -193,8 +224,12 @@ export abstract class Application extends BaseModule {
 	 * @param error
 	 */
 	private abort(error?: any): never {
+		if (this.startOptions?.abortOnError) {
 			this.logger.error('Aborting application due to a fatal error');
 			process.exit(1);
+		}
+
+		throw error;
 	}
 
 	/**
@@ -209,6 +244,39 @@ export abstract class Application extends BaseModule {
 			case 'testing': return 'testing';
 			default: return 'development';
 		}
+	}
+
+	/**
+	 * Returns the attachment options with defaults applied.
+	 * @param options
+	 * @returns
+	 * @internal
+	 */
+	public getAttachOptions(options?: ApplicationAttachOptions): Required<ApplicationAttachOptions> {
+		options ??= {};
+
+		options.abortOnError ??= true;
+		options.interceptTerminationSignals ??= true;
+
+		options.loggingLevel ??= this.getDefaultLogLevel();
+		options.loggingTransports ??= [
+			new ConsoleTransport()
+		];
+
+		return options as Required<ApplicationAttachOptions>;
+	}
+
+	/**
+	 * Returns the start options with defaults applied.
+	 * @param options
+	 * @returns
+	 * @internal
+	 */
+	public getStartOptions(options?: ApplicationStartOptions): Required<ApplicationStartOptions> {
+		options ??= {};
+		options.abortOnError ??= true;
+
+		return options as Required<ApplicationStartOptions>;
 	}
 
 	/**
