@@ -61,6 +61,8 @@ nav:
     - Creating modules: getting-started/creating-modules.md
     - Creating services: getting-started/creating-services.md
     - Creating controllers: getting-started/creating-controllers.md
+    - Creating events: getting-started/creating-events.md
+    - Creating attributes: getting-started/creating-attributes.md
   - Working with applications:
     - Configuring applications: applications/configuring-applications.md
     - Managing applications: applications/managing-applications.md
