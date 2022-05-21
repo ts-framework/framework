@@ -1,9 +1,12 @@
-import { Injectable, TiedContainerDispatcher } from '@baileyherbert/container';
-import { IAttribute, IAttributeInstance, ReflectionClass, ReflectionMethod } from '@baileyherbert/reflection';
+import { Injectable } from '@baileyherbert/container';
+import { NestedSet } from '@baileyherbert/nested-collections';
+import { IAttribute, IAttributeInstance, ReflectionClass } from '@baileyherbert/reflection';
 import { Constructor } from '@baileyherbert/types';
 import { Application } from '../../application/Application';
-import { Controller } from '../../controllers/Controller';
-import { Service } from '../Service';
+import { ClassAttributeRegistration } from './registration/ClassAttributeRegistration';
+import { MethodAttributeRegistration } from './registration/MethodAttributeRegistration';
+import { ParameterAttributeRegistration } from './registration/ParameterAttributeRegistration';
+import { PropertyAttributeRegistration } from './registration/PropertyAttributeRegistration';
 
 class AttributeRegistryImpl {
 
@@ -19,10 +22,10 @@ class AttributeRegistryImpl {
 		}
 
 		this.attributes.set(attribute, {
-			classes: new Map(),
-			methods: new Map(),
-			parameters: new Map(),
-			properties: new Map()
+			classes: new NestedSet(),
+			methods: new NestedSet(),
+			parameters: new NestedSet(),
+			properties: new NestedSet()
 		});
 
 		const registration = this.attributes.get(attribute)!;
@@ -31,11 +34,7 @@ class AttributeRegistryImpl {
 		 * Record class attachments.
 		 */
 		attribute.events.on('classAttached', (constructor, attribute) => {
-			if (!registration.classes.has(constructor)) {
-				registration.classes.set(constructor, new Set());
-			}
-
-			registration.classes.get(constructor)!.add(attribute);
+			registration.classes.add([constructor], attribute);
 			Injectable(constructor);
 		});
 
@@ -43,15 +42,7 @@ class AttributeRegistryImpl {
 		 * Record method attachments.
 		 */
 		attribute.events.on('methodAttached', (prototype, methodName, descriptor, attribute) => {
-			if (!registration.methods.has(prototype)) {
-				registration.methods.set(prototype, new Map());
-			}
-
-			if (!registration.methods.get(prototype)!.has(methodName)) {
-				registration.methods.get(prototype)!.set(methodName, new Set());
-			}
-
-			registration.methods.get(prototype)!.get(methodName)!.add(attribute);
+			registration.methods.add([prototype, methodName], attribute);
 			Injectable(prototype, methodName, descriptor);
 		});
 
@@ -59,34 +50,14 @@ class AttributeRegistryImpl {
 		 * Record property attachments.
 		 */
 		attribute.events.on('propertyAttached', (prototype, propertyName, attribute) => {
-			if (!registration.properties.has(prototype)) {
-				registration.properties.set(prototype, new Map());
-			}
-
-			if (!registration.properties.get(prototype)!.has(propertyName)) {
-				registration.properties.get(prototype)!.set(propertyName, new Set());
-			}
-
-			registration.properties.get(prototype)!.get(propertyName)!.add(attribute);
+			registration.properties.add([prototype, propertyName], attribute);
 		});
 
 		/**
 		 * Record parameter attachments.
 		 */
 		attribute.events.on('parameterAttached', (prototype, methodName, parameterIndex, attribute) => {
-			if (!registration.parameters.has(prototype)) {
-				registration.parameters.set(prototype, new Map());
-			}
-
-			if (!registration.parameters.get(prototype)!.has(methodName)) {
-				registration.parameters.get(prototype)!.set(methodName, new Map());
-			}
-
-			if (!registration.parameters.get(prototype)!.get(methodName)!.has(parameterIndex)) {
-				registration.parameters.get(prototype)!.get(methodName)!.set(parameterIndex, new Set());
-			}
-
-			registration.parameters.get(prototype)!.get(methodName)!.get(parameterIndex)!.add(attribute);
+			registration.parameters.add([prototype, methodName, parameterIndex], attribute);
 		});
 	}
 
@@ -96,34 +67,21 @@ class AttributeRegistryImpl {
 	 * @param attribute
 	 * @returns
 	 */
-	public getClasses<A extends IAttribute<any>>(application: Application, attribute: A): AttributeClassRegistration<A>[] {
-		if (!this.attributes.has(attribute)) {
-			throw new Error(
-				`Cannot get attribute classes: ` +
-				`The attribute provided was not created with Attribute.create().`
-			);
-		}
+	public getClasses<A extends IAttribute<any>>(application: Application, attribute: A) {
+		const registration = this.getAttributeRegistration(attribute);
+		const classes = new Array<ClassAttributeRegistration<A>>();
+		const constructors = this.getApplicationConstructors(application);
 
-		const registration = this.attributes.get(attribute)!;
-		const classes = new Array<AttributeClassRegistration<A>>();
-		const types = new Set([
-			...application.services.getAll(),
-			...application.controllers.getAll()
-		]);
+		for (const constructor of constructors) {
+			if (registration.classes.hasKey([constructor])) {
+				const attributes = [...registration.classes.get([constructor])!];
+				const reflection = new ReflectionClass(constructor);
 
-		for (const [type, attributes] of registration.classes) {
-			if (types.has(type)) {
-				const reflection = new ReflectionClass(type);
-				const target = application.container.resolve(type);
-				const attributesArr = [...attributes] as any[];
-
-				classes.push({
-					target,
-					reflection,
-					attributes: attributesArr,
-					first() { return attributesArr[attributesArr.length - 1] },
-					last() { return attributesArr[0] }
-				});
+				classes.push(new ClassAttributeRegistration(
+					application,
+					attributes,
+					reflection
+				));
 			}
 		}
 
@@ -135,7 +93,99 @@ class AttributeRegistryImpl {
 	 * @param application
 	 * @param attribute
 	 */
-	public getMethods<A extends IAttribute<any>>(application: Application, attribute: A): AttributeMethodRegistration<A>[] {
+	public getMethods<A extends IAttribute<any>>(application: Application, attribute: A) {
+		const registration = this.getAttributeRegistration(attribute);
+		const methods = new Array<MethodAttributeRegistration<A>>();
+		const prototypes = this.getApplicationPrototypes(application);
+
+		for (const prototype of prototypes) {
+			if (registration.methods.hasKey([prototype])) {
+				const reflection = new ReflectionClass(prototype.constructor);
+
+				for (const [methodName, set] of registration.methods.get([prototype])!) {
+					const method = reflection.getMethod(methodName)!;
+					const attributes = [...set];
+
+					methods.push(new MethodAttributeRegistration(
+						application,
+						attributes,
+						method
+					));
+				}
+			}
+		}
+
+		return methods;
+	}
+
+	/**
+	 * Returns all parameters in the application which have the specified service attribute applied.
+	 * @param application
+	 * @param attribute
+	 */
+	public getParameters<A extends IAttribute<any>>(application: Application, attribute: A) {
+		const registration = this.getAttributeRegistration(attribute);
+		const parameters = new Array<ParameterAttributeRegistration<A>>();
+		const prototypes = this.getApplicationPrototypes(application);
+
+		for (const prototype of prototypes) {
+			if (registration.parameters.hasKey([prototype])) {
+				const reflection = new ReflectionClass(prototype.constructor);
+
+				for (const [methodName, indices] of registration.parameters.get([prototype])!) {
+					for (const [index, set] of indices) {
+						const parameter = reflection.getMethod(methodName)?.getParameter(index)!;
+						const attributes = [...set];
+
+						parameters.push(new ParameterAttributeRegistration(
+							application,
+							attributes,
+							parameter
+						));
+					}
+				}
+			}
+		}
+
+		return parameters;
+	}
+
+	/**
+	 * Returns all properties in the application which have the specified service attribute applied.
+	 * @param application
+	 * @param attribute
+	 */
+	public getProperties<A extends IAttribute<any>>(application: Application, attribute: A) {
+		const registration = this.getAttributeRegistration(attribute);
+		const properties = new Array<PropertyAttributeRegistration<A>>();
+		const prototypes = this.getApplicationPrototypes(application);
+
+		for (const prototype of prototypes) {
+			if (registration.properties.hasKey([prototype])) {
+				const reflection = new ReflectionClass(prototype.constructor);
+
+				for (const [propName, set] of registration.properties.get([prototype])!) {
+					const property = reflection.getProperty(propName)!;
+					const attributes = [...set];
+
+					properties.push(new PropertyAttributeRegistration(
+						application,
+						attributes,
+						property
+					));
+				}
+			}
+		}
+
+		return properties;
+	}
+
+	/**
+	 * Returns the registration for the given attribute or throws an error if it's not found in the registry.
+	 * @param attribute
+	 * @returns
+	 */
+	private getAttributeRegistration<A extends IAttribute<any>>(attribute: A) {
 		if (!this.attributes.has(attribute)) {
 			throw new Error(
 				`Cannot get attribute classes: ` +
@@ -143,35 +193,31 @@ class AttributeRegistryImpl {
 			);
 		}
 
-		const registration = this.attributes.get(attribute)!;
-		const methods = new Array<AttributeMethodRegistration<A>>();
-		const prototypes = new Set([
+		return this.attributes.get(attribute)!;
+	}
+
+	/**
+	 * Returns a set containing all of the given application's prototypes for services and controllers.
+	 * @param application
+	 * @returns
+	 */
+	private getApplicationPrototypes(application: Application): Set<Object> {
+		return new Set([
 			...application.services.getAll().map(o => o.prototype),
 			...application.controllers.getAll().map(o => o.prototype)
 		]);
+	}
 
-		for (const [prototype, methodsMap] of registration.methods) {
-			if (prototypes.has(prototype)) {
-				for (const [methodName, attributes] of methodsMap) {
-					const ref = new ReflectionClass(prototype.constructor);
-					const method = ref.getMethod(methodName)!;
-					const target = application.container.resolve(prototype.constructor);
-					const attributesArr = [...attributes] as any[];
-
-					methods.push({
-						target,
-						methodName,
-						attributes: attributesArr,
-						reflection: method,
-						dispatcher: application.container.createTiedDispatcher(target, methodName),
-						first() { return attributesArr[attributesArr.length - 1] },
-						last() { return attributesArr[0] }
-					});
-				}
-			}
-		}
-
-		return methods;
+	/**
+	 * Returns a set containing all of the given application's constructors for services and controllers.
+	 * @param application
+	 * @returns
+	 */
+	private getApplicationConstructors(application: Application) {
+		return new Set([
+			...application.services.getAll(),
+			...application.controllers.getAll()
+		]);
 	}
 
 }
@@ -182,78 +228,8 @@ class AttributeRegistryImpl {
 export const AttributeRegistry = new AttributeRegistryImpl();
 
 interface AttributeRegistration {
-	classes: AttributeClassMap;
-	methods: AttributeMethodMap;
-	properties: AttributePropertyMap;
-	parameters: AttributeParameterMap;
-}
-
-type AttributeSet = Set<IAttributeInstance<any>>;
-type AttributeClassMap = Map<Constructor<any>, AttributeSet>;
-type AttributeMethodMap = Map<Object, Map<string, AttributeSet>>;
-type AttributePropertyMap = Map<Object, Map<string, AttributeSet>>;
-type AttributeParameterMap = Map<Object, Map<string, Map<number, AttributeSet>>>;
-
-export interface AttributeMethodRegistration<A extends IAttribute<any>> {
-	/**
-	 * The instance of the controller or service where this method is defined.
-	 */
-	target: Service | Controller;
-
-	/**
-	 * The name of the method.
-	 */
-	methodName: string;
-
-	/**
-	 * A reflection instance for the target method.
-	 */
-	reflection: ReflectionMethod<Service | Controller>;
-
-	/**
-	 * The attribute instances that were applied to the method.
-	 */
-	attributes: IAttributeInstance<A>[];
-
-	/**
-	 * A dispatcher used to execute the method with dependency injection.
-	 */
-	dispatcher: TiedContainerDispatcher;
-
-	/**
-	 * Returns the first attribute instance on the method.
-	 */
-	first(): IAttributeInstance<A>;
-
-	/**
-	 * Returns the last attribute instance on the method.
-	 */
-	last(): IAttributeInstance<A>;
-}
-
-export interface AttributeClassRegistration<A extends IAttribute<any>> {
-	/**
-	 * The instance of the controller or service that the attribute was applied to.
-	 */
-	target: Service | Controller;
-
-	/**
-	 * A reflection instance for the target class.
-	 */
-	reflection: ReflectionClass<Service | Controller>;
-
-	/**
-	 * The attribute instances that were applied to the class.
-	 */
-	attributes: IAttributeInstance<A>[];
-
-	/**
-	 * Returns the first attribute instance on the class.
-	 */
-	first(): IAttributeInstance<A>;
-
-	/**
-	 * Returns the last attribute instance on the class.
-	 */
-	last(): IAttributeInstance<A>;
+	classes: NestedSet<[constructor: Constructor<any>], IAttributeInstance<any>>;
+	methods: NestedSet<[target: Object, method: string], IAttributeInstance<any>>;
+	parameters: NestedSet<[target: Object, method: string, index: number], IAttributeInstance<any>>;
+	properties: NestedSet<[target: Object, property: string], IAttributeInstance<any>>;
 }

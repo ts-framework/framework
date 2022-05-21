@@ -22,4 +22,20 @@ export class ApplicationAttributeManager {
 		return AttributeRegistry.getClasses(this.application, attribute);
 	}
 
+	/**
+	 * Returns all parameters in the application which have the specified service attribute applied.
+	 * @param attribute
+	 */
+	public getParameters<T extends IAttribute<any>>(attribute: T) {
+		return AttributeRegistry.getParameters(this.application, attribute);
+	}
+
+	/**
+	 * Returns all properties in the application which have the specified service attribute applied.
+	 * @param attribute
+	 */
+	public getProperties<T extends IAttribute<any>>(attribute: T) {
+		return AttributeRegistry.getProperties(this.application, attribute);
+	}
+
 }
