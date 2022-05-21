@@ -50,7 +50,14 @@ export class ApplicationRequestManager {
 				// Handle promise events from the handler
 				Promise.resolve(response).then(
 					() => source.reject(new Error('The handler did not respond to the request')),
-					error => source.reject(error)
+					error => {
+						if (source.isFinished) {
+							this.application.logger.error('Uncaught error in request handler:', error);
+							return;
+						}
+
+						source.reject(error);
+					}
 				);
 
 				// Wait for the promise and return its response
