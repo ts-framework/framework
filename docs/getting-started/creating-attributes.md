@@ -19,11 +19,11 @@ decoration.
 Services have first-class integration with attributes. The framework tracks attribute instances and makes it extremely
 easy to query and interface with them.
 
-This guide will demonstrate how to create the `@Get()`, `@Req()`, and `@Res()` attributes and bind them to a service
+This guide will demonstrate how to create the `@Get()`, `@Req()`, and `@Res()` decorators and bind them to a service
 that spins up an `express` server. For the record, you don't actually need to do this yourself – check out the
 [express integration](../integrations/express.md).
 
-## Create the attribute
+## Create the decorators
 
 First and foremost, we'll create the `@Get()` decorator using an attribute.
 
@@ -68,11 +68,12 @@ below.
 
 ```ts title="src/example/HttpService.ts"
 import { PromiseCompletionSource, Service } from '@ts-framework/framework';
+import { ExampleModule } from './ExampleModule';
 import { Get } from './attributes/Get';
 import { Server } from 'http';
 import express from 'express';
 
-export class HttpService extends Service {
+export class HttpService extends Service<ExampleModule> {
 
 	private app = express();
 	private server?: Server;
@@ -129,7 +130,7 @@ With the attribute and service configured, we can now easily configure and handl
 entire application!
 
 ```ts title="src/example/ExampleController.ts"
-export class ExampleController extends Controller {
+export class ExampleController extends Controller<ExampleModule> {
 
 	@Get('/')
 	public async index(@Req() request: Request, @Res() response: Response) {

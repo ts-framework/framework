@@ -48,9 +48,10 @@ name, as long as it has the `#!ts @EventHandler` decorator and accepts the event
 
 ```ts title="src/example/ExampleController.ts"
 import { Injectable, Controller, EventHandler } from '@ts-framework/framework';
+import { ExampleModule } from './ExampleModule';
 
 @Injectable()
-export class ExampleController extends Controller {
+export class ExampleController extends Controller<ExampleModule> {
 
 	@EventHandler
 	public onInterval(event: ExampleEvent.Interval) {
@@ -70,9 +71,11 @@ emit the event.
 
 ```ts title="src/example/ExampleService.ts"
 import { Injectable, Service } from '@ts-framework/framework';
+import { ExampleModule } from './ExampleModule';
+import { ExampleEvent } from './ExampleEvent';
 
 @Injectable()
-export class ExampleService extends Service {
+export class ExampleService extends Service<ExampleModule> {
 
 	private interval?: NodeJS.Timeout;
 

@@ -9,9 +9,10 @@ Create a class called `ExampleController` alongside its parent module that looks
 
 ```ts title="src/example/ExampleController.ts"
 import { Injectable, Controller } from '@ts-framework/framework';
+import { ExampleModule } from './ExampleModule';
 
 @Injectable()
-export class ExampleController extends Controller {
+export class ExampleController extends Controller<ExampleModule> {
 
 }
 ```
@@ -25,10 +26,11 @@ Go back to the `ExampleModule.ts` file and add the new class to the `controllers
 
 ```ts title="src/example/ExampleModule.ts"
 import { Module } from '@ts-framework/framework';
+import { App } from '../App';
 import { ExampleService } from './ExampleService';
 import { ExampleController } from './ExampleController';
 
-export class ExampleModule extends Module {
+export class ExampleModule extends Module<App> {
 	public constructor() {
 		super({
 			imports: [],

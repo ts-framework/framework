@@ -42,8 +42,9 @@ Create a class called `ExampleModule` that looks like the following:
 
 ```ts title="src/example/ExampleModule.ts"
 import { Module } from '@ts-framework/framework';
+import { App } from '../App';
 
-export class ExampleModule extends Module {
+export class ExampleModule extends Module<App> {
 	public constructor() {
 		super({
 			imports: [],
@@ -53,6 +54,10 @@ export class ExampleModule extends Module {
 	}
 }
 ```
+
+Note the generic in the parent class `#!ts Module<App>`. It's not required, but you should always add a generic
+pointing to the parent in the hierarchy, all the way up to the root application. This will unlock some extra type
+hinting that will come in handy later.
 
 ## Import the module
 

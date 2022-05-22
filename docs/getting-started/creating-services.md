@@ -10,9 +10,10 @@ Create a class called `ExampleService` alongside its parent module that looks li
 
 ```ts title="src/example/ExampleService.ts"
 import { Injectable, Service } from '@ts-framework/framework';
+import { ExampleModule } from './ExampleModule';
 
 @Injectable()
-export class ExampleService extends Service {
+export class ExampleService extends Service<ExampleModule> {
 
 	private interval?: NodeJS.Timeout;
 
@@ -57,9 +58,10 @@ Go back to the `ExampleModule.ts` file and add the new class to the `services` a
 
 ```ts title="src/example/ExampleModule.ts"
 import { Module } from '@ts-framework/framework';
+import { App } from '../App';
 import { ExampleService } from './ExampleService';
 
-export class ExampleModule extends Module {
+export class ExampleModule extends Module<App> {
 	public constructor() {
 		super({
 			imports: [],
