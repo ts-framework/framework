@@ -26,4 +26,10 @@ export interface ApplicationStartOptions {
 	 */
 	envPrefix?: string;
 
+	/**
+	 * Sets custom environment variables in the application. The variables defined here will override any variables
+	 * loaded from the working environment or `.env` file.
+	 */
+	environment?: Record<string, any>;
+
 }
