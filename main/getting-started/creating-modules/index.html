@@ -1091,8 +1091,9 @@ something like this:</p>
 <h2 id="create-the-module-class">Create the module class<a class="headerlink" href="#create-the-module-class" title="Permanent link">&para;</a></h2>
 <p>Create a class called <code>ExampleModule</code> that looks like the following:</p>
 <div class="highlight"><span class="filename">src/example/ExampleModule.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">App</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;../App&#39;</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="o">&lt;</span><span class="nx">App</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
 <span class="w">            </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
@@ -1102,6 +1103,9 @@ something like this:</p>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
+<p>Note the generic in the parent class <code class="highlight"><span class="nx">Module</span><span class="o">&lt;</span><span class="nx">App</span><span class="o">&gt;</span><span class="w"></span></code>. It's not required, but you should always add a generic
+pointing to the parent in the hierarchy, all the way up to the root application. This will unlock some extra type
+hinting that will come in handy later.</p>
 <h2 id="import-the-module">Import the module<a class="headerlink" href="#import-the-module" title="Permanent link">&para;</a></h2>
 <p>With the module's class defined, now we must import it inside a parent module. Let's go back and import it inside the
 root application module:</p>

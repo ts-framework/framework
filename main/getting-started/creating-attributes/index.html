@@ -429,11 +429,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-the-attribute" class="md-nav__link">
-    Create the attribute
+  <a href="#create-the-decorators" class="md-nav__link">
+    Create the decorators
   </a>
   
-    <nav class="md-nav" aria-label="Create the attribute">
+    <nav class="md-nav" aria-label="Create the decorators">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1058,11 +1058,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#create-the-attribute" class="md-nav__link">
-    Create the attribute
+  <a href="#create-the-decorators" class="md-nav__link">
+    Create the decorators
   </a>
   
-    <nav class="md-nav" aria-label="Create the attribute">
+    <nav class="md-nav" aria-label="Create the decorators">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1126,10 +1126,10 @@ attributes are simple classes that are easily converted into decorators, and a c
 decoration.</p>
 <p>Services have first-class integration with attributes. The framework tracks attribute instances and makes it extremely
 easy to query and interface with them.</p>
-<p>This guide will demonstrate how to create the <code>@Get()</code>, <code>@Req()</code>, and <code>@Res()</code> attributes and bind them to a service
+<p>This guide will demonstrate how to create the <code>@Get()</code>, <code>@Req()</code>, and <code>@Res()</code> decorators and bind them to a service
 that spins up an <code>express</code> server. For the record, you don't actually need to do this yourself – check out the
 <a href="../../integrations/express/">express integration</a>.</p>
-<h2 id="create-the-attribute">Create the attribute<a class="headerlink" href="#create-the-attribute" title="Permanent link">&para;</a></h2>
+<h2 id="create-the-decorators">Create the decorators<a class="headerlink" href="#create-the-decorators" title="Permanent link">&para;</a></h2>
 <p>First and foremost, we'll create the <code>@Get()</code> decorator using an attribute.</p>
 <div class="highlight"><span class="filename">src/example/attributes/Get.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Attribute</span><span class="p">,</span><span class="w"> </span><span class="nx">AttributeMethodEvent</span><span class="p">,</span><span class="w"> </span><span class="nx">Component</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
 
@@ -1159,11 +1159,12 @@ to see.</p>
 <p>Create a new <code>HttpService</code> and register it in a module of your choosing. Then read over and implement the code show
 below.</p>
 <div class="highlight"><span class="filename">src/example/HttpService.ts</span><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">PromiseCompletionSource</span><span class="p">,</span><span class="w"> </span><span class="nx">Service</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./ExampleModule&#39;</span><span class="p">;</span><span class="w"></span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Get</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;./attributes/Get&#39;</span><span class="p">;</span><span class="w"></span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Server</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;http&#39;</span><span class="p">;</span><span class="w"></span>
 <span class="k">import</span><span class="w"> </span><span class="nx">express</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;express&#39;</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">HttpService</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Service</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">HttpService</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Service</span><span class="o">&lt;</span><span class="nx">ExampleModule</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
 <span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">express</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="nx">server?</span><span class="o">:</span><span class="w"> </span><span class="kt">Server</span><span class="p">;</span><span class="w"></span>
@@ -1217,7 +1218,7 @@ below.</p>
 <h2 id="using-the-attribute">Using the attribute<a class="headerlink" href="#using-the-attribute" title="Permanent link">&para;</a></h2>
 <p>With the attribute and service configured, we can now easily configure and handle routes from any controller in the
 entire application!</p>
-<div class="highlight"><span class="filename">src/example/ExampleController.ts</span><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleController</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Controller</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight"><span class="filename">src/example/ExampleController.ts</span><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleController</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Controller</span><span class="o">&lt;</span><span class="nx">ExampleModule</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
 <span class="w">    </span><span class="kd">@Get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">index</span><span class="p">(</span><span class="kd">@Req</span><span class="p">()</span><span class="w"> </span><span class="nx">request</span><span class="o">:</span><span class="w"> </span><span class="kt">Request</span><span class="p">,</span><span class="w"> </span><span class="kd">@Res</span><span class="p">()</span><span class="w"> </span><span class="nx">response</span><span class="o">:</span><span class="w"> </span><span class="kt">Response</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
