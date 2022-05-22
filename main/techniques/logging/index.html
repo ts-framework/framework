@@ -847,9 +847,122 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Logging
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Logging
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#retrieving-loggers" class="md-nav__link">
+    Retrieving loggers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-output" class="md-nav__link">
+    Writing output
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-levels" class="md-nav__link">
+    Logging levels
+  </a>
+  
+    <nav class="md-nav" aria-label="Logging levels">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-module-configuration" class="md-nav__link">
+    From module configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-module-imports" class="md-nav__link">
+    From module imports
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-application-start" class="md-nav__link">
+    From application start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logger-hierarchy" class="md-nav__link">
+    Logger hierarchy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-to-a-file" class="md-nav__link">
+    Logging to a file
+  </a>
+  
+    <nav class="md-nav" aria-label="Logging to a file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-the-attach-method" class="md-nav__link">
+    With the attach() method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-the-start-method" class="md-nav__link">
+    With the start() method
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learn-more" class="md-nav__link">
+    Learn more
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -972,6 +1085,103 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#retrieving-loggers" class="md-nav__link">
+    Retrieving loggers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-output" class="md-nav__link">
+    Writing output
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-levels" class="md-nav__link">
+    Logging levels
+  </a>
+  
+    <nav class="md-nav" aria-label="Logging levels">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-module-configuration" class="md-nav__link">
+    From module configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-module-imports" class="md-nav__link">
+    From module imports
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-application-start" class="md-nav__link">
+    From application start
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logger-hierarchy" class="md-nav__link">
+    Logger hierarchy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logging-to-a-file" class="md-nav__link">
+    Logging to a file
+  </a>
+  
+    <nav class="md-nav" aria-label="Logging to a file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-the-attach-method" class="md-nav__link">
+    With the attach() method
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-the-start-method" class="md-nav__link">
+    With the start() method
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learn-more" class="md-nav__link">
+    Learn more
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -985,8 +1195,109 @@
 
 
 <h1 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h1>
-<p>TODO: How to use and customize logging in the application, modules, services, and controllers, plus how to override
-logging behavior for imported modules.</p>
+<p>This framework has a sweet little logging utility that is easy to access from virtually anywhere, and is highly
+configurable.</p>
+<h2 id="retrieving-loggers">Retrieving loggers<a class="headerlink" href="#retrieving-loggers" title="Permanent link">&para;</a></h2>
+<p>Each service, controller, and module in the application has a built-in logger that can be accessed with the protected
+<code>logger</code> property. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Starting the service!&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="writing-output">Writing output<a class="headerlink" href="#writing-output" title="Permanent link">&para;</a></h2>
+<p>There are six different logging levels that can be used for output:</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">trace</span><span class="p">(</span><span class="s1">&#39;For the most detailed output&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s1">&#39;For investigation during development&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;For tracking the flow of the app&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">warning</span><span class="p">(</span><span class="s1">&#39;For abnormal or unexpected events&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;For failures that cause an activity to stop&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">critical</span><span class="p">(</span><span class="s1">&#39;For unrecoverable crashes and failures&#39;</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<h2 id="logging-levels">Logging levels<a class="headerlink" href="#logging-levels" title="Permanent link">&para;</a></h2>
+<p>You can adjust the logging level of each module as part of the module's configuration. You can also override this
+configuration and enforce a logging level when importing a module.</p>
+<h3 id="from-module-configuration">From module configuration<a class="headerlink" href="#from-module-configuration" title="Permanent link">&para;</a></h3>
+<p>To set the logging level of a module from its configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="o">&lt;</span><span class="nx">App</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
+<span class="w">            </span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">        </span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="from-module-imports">From module imports<a class="headerlink" href="#from-module-imports" title="Permanent link">&para;</a></h3>
+<p>To enforce a logging level on a module when importing it:</p>
+<div class="highlight"><pre><span></span><code><span class="k">super</span><span class="p">({</span><span class="w"></span>
+<span class="w">    </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
+<span class="w">            </span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="w"></span>
+<span class="w">        </span><span class="p">})</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="p">})</span><span class="w"></span>
+</code></pre></div>
+<h3 id="from-application-start">From application start<a class="headerlink" href="#from-application-start" title="Permanent link">&para;</a></h3>
+<p>To enforce a logging level on the entire application when attaching it:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">attach</span><span class="p">({</span><span class="w"></span>
+<span class="w">    </span><span class="nx">loggingLevel</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="w"></span>
+<span class="p">})</span><span class="w"></span>
+</code></pre></div>
+<h3 id="logger-hierarchy">Logger hierarchy<a class="headerlink" href="#logger-hierarchy" title="Permanent link">&para;</a></h3>
+<p>It's important to understand the logger hierarchy when working with logging levels.</p>
+<p>All of the loggers in your application are connected together in a tree-like structure, with the root application
+module's logger acting as the entry point. Say you have a deeply nested service like this list:</p>
+<div class="highlight"><pre><span></span><code>App -&gt; ExampleModule -&gt; NestedModule -&gt; NestedService
+</code></pre></div>
+<p>When the <code>NestedService</code> emits output using its logger, the output will propagate up the chain until it reaches the
+logger for the root <code>App</code> module. As it travels up this chain, it will be subject to each logger's configured logging
+level.</p>
+<p>This means that when the <code>NestedService</code> emits output of the <code>Debug</code> level, it wouldn't arrive to the root logger where
+it can be printed if any other logger between the two had a higher configured logging level than <code>Debug</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>This design allows you to limit the amount of output that modules produce, allowing you to build and import noisy
+and debug-heavy modules without having to limit the rest of your application.</p>
+<p>For this system to work best, avoid configuring logging levels on your modules unless necessary. If you configure
+too many modules, it will become difficult to track and modify in the future.</p>
+</div>
+<h2 id="logging-to-a-file">Logging to a file<a class="headerlink" href="#logging-to-a-file" title="Permanent link">&para;</a></h2>
+<h3 id="with-the-attach-method">With the <code class="highlight"><span class="nx">attach</span><span class="p">()</span><span class="w"></span></code> method<a class="headerlink" href="#with-the-attach-method" title="Permanent link">&para;</a></h3>
+<p>When using the <code>attach()</code> method to start the application, you can specify an array of logging transports as part of
+the attachment options. However, doing so will completely override the default transport (console), so we'll need to
+add both.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">attach</span><span class="p">({</span><span class="w"></span>
+<span class="w">    </span><span class="nx">loggingTransports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="ow">new</span><span class="w"> </span><span class="nx">ConsoleTransport</span><span class="p">(),</span><span class="w"></span>
+<span class="w">        </span><span class="ow">new</span><span class="w"> </span><span class="nx">FileTransport</span><span class="p">({</span><span class="w"></span>
+<span class="w">            </span><span class="nx">fileName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console.log&#39;</span><span class="w"></span>
+<span class="w">        </span><span class="p">})</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
+</code></pre></div>
+<p>You can customize the minimum logging level individually for each transport as well by passing the logging level as
+the first parameter, such as:</p>
+<div class="highlight"><pre><span></span><code><span class="ow">new</span><span class="w"> </span><span class="nx">FileTransport</span><span class="p">(</span><span class="nx">LogLevel</span><span class="p">.</span><span class="ne">Error</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">fileName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console.log&#39;</span><span class="w"></span>
+<span class="p">})</span><span class="w"></span>
+</code></pre></div>
+<p>Note that the file transport has built-in automatic rotation that can be configured. Check out the
+<a href="https://docs.bailey.sh/logging/latest/guide/transports/#file_transports">transport documentation</a> for the full details.</p>
+<h3 id="with-the-start-method">With the <code class="highlight"><span class="nx">start</span><span class="p">()</span><span class="w"></span></code> method<a class="headerlink" href="#with-the-start-method" title="Permanent link">&para;</a></h3>
+<p>You can use the built-in <code>createFileTransport</code> method on the logger when starting manually.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">AppFactory</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">App</span><span class="p">);</span><span class="w"></span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">createFileTransport</span><span class="p">({</span><span class="w"></span>
+<span class="w">    </span><span class="nx">fileName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console.log&#39;</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<h2 id="learn-more">Learn more<a class="headerlink" href="#learn-more" title="Permanent link">&para;</a></h2>
+<p>Check out the <a href="https://docs.bailey.sh/logging/latest/">full documentation</a> for the logging library to learn more,
+such as how to customize the prefixes and how to create your own transports (destinations) for output.</p>
 
               
             </article>
