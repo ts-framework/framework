@@ -1,5 +1,7 @@
 import { EnvironmentError, EnvironmentManager } from '@baileyherbert/env';
 import { Logger } from '@baileyherbert/logging';
+import { Application } from '../application/Application';
+import { RecordEnvironmentSource } from '../utilities/env/RecordEnvironmentSource';
 import { ModuleOptions } from './ModuleOptions';
 
 export abstract class BaseModule {
@@ -25,6 +27,12 @@ export abstract class BaseModule {
 	private _cachedEnvironmentManager?: EnvironmentManager;
 
 	/**
+	 * The internal environment variable overrides from module import.
+	 * @internal
+	 */
+	public _internCustomEnvironment: Record<string, any> = {};
+
+	/**
 	 * Constructs a new `BaseModule` instance with the given options.
 	 * @param options
 	 */
@@ -33,15 +41,35 @@ export abstract class BaseModule {
 		this.logger = new Logger();
 	}
 
+	private _getCustomEnvironmentSources(application: Application) {
+		const sources = [
+			new RecordEnvironmentSource(this._internCustomEnvironment)
+		];
+
+		const parent = application.modules.getParentModule(this);
+
+		if (parent) {
+			sources.push(...parent._getCustomEnvironmentSources(application));
+		}
+
+		return sources;
+	}
+
 	/**
 	 * Internal method to preload the environment for this module and cache it.
 	 * @param env
 	 * @internal
 	 */
-	public _internLoadEnvironment(env: EnvironmentManager) {
+	public _internLoadEnvironment(application: Application, env: EnvironmentManager) {
 		try {
-			this._cachedEnvironmentManager = env;
-			this._cachedEnvironment = this.onEnvironment(env);
+			const internalSources = this._getCustomEnvironmentSources(application);
+			const internalEnv = new EnvironmentManager([
+				...internalSources,
+				...env.sources
+			]);
+
+			this._cachedEnvironmentManager = internalEnv;
+			this._cachedEnvironment = this.onEnvironment(internalEnv);
 		}
 		catch (error) {
 			if (error instanceof EnvironmentError) {

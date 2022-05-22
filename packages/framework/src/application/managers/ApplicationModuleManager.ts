@@ -52,14 +52,19 @@ export class ApplicationModuleManager {
 			this.application.container.registerInstance(module);
 		}
 
-		await this.invokeLifecycle(module, 'onModuleRegister');
-
 		if (options !== undefined && module instanceof Module) {
 			if (options.logging !== undefined) {
 				module.options.logging = options.logging;
 				module.logger.level = normalizeLogLevel(options.logging);
 			}
+
+			if (typeof options.environment === 'object') {
+				module._internCustomEnvironment = options.environment;
+			}
 		}
+
+		module._internLoadEnvironment(this.application, this.application.environmentManager!);
+		await this.invokeLifecycle(module, 'onModuleRegister');
 
 		for (const importable of module.options.imports ?? []) {
 			await this.register(importable, module);
@@ -254,7 +259,6 @@ export class ApplicationModuleManager {
 
 		if (!finished && !this.lifecycleCache.has(instance, 'beforeModuleBoot')) {
 			this.application.logger.trace('Starting module:', instance.constructor.name);
-			instance._internLoadEnvironment(this.application.environmentManager!);
 		}
 
 		return this.invokeModuleMethod(instance, finished, ['beforeModuleBoot', 'onModuleBoot']);

@@ -43,4 +43,9 @@ export interface ModuleOverrideOptions {
 	 */
 	logging?: LogLevel | boolean;
 
+	/**
+	 * Overrides or sets environment variables for this module.
+	 */
+	environment?: Record<string, any>;
+
 }

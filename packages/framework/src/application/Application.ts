@@ -171,9 +171,7 @@ export abstract class Application extends BaseModule {
 
 		this.startOptions = this.getStartOptions(options);
 		this.startPromiseSource = new PromiseCompletionSource();
-
 		this.environmentManager = this.getEnvironmentManager(this.startOptions);
-		this._internLoadEnvironment(this.environmentManager);
 
 		await this.bootstrap();
 		await this.events.init();
