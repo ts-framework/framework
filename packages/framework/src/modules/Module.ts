@@ -5,7 +5,7 @@ import { BaseModule } from './BaseModule';
 import { ImportableModuleWithOptions } from './Importable';
 import { ModuleOptions, ModuleOverrideOptions } from './ModuleOptions';
 
-export abstract class Module<T extends BaseModule = Application> extends BaseModule {
+export abstract class Module<T extends BaseModule = any> extends BaseModule {
 
 	/**
 	 * The dependency injection container used to create this module.
@@ -16,6 +16,11 @@ export abstract class Module<T extends BaseModule = Application> extends BaseMod
 	 * The application that this module is attached to.
 	 */
 	public readonly application = this.container.resolve(Application) as GetApplication<T>;
+
+	/**
+	 * The parent of this module. Relies on the correct type being supplied to `Module<T>`.
+	 */
+	public readonly parent = this.application.modules.getParentModule(this) as GetParent<T>;
 
 	/**
 	 * The logger for this module.
@@ -58,6 +63,7 @@ export abstract class Module<T extends BaseModule = Application> extends BaseMod
 }
 
 type GetApplication<T> = T extends Module<infer U> ? GetApplication<U> : (T extends Application ? T : Application);
+type GetParent<T> = T extends Module<any> ? T : any;
 type TypedModuleOverrideOptions<T> = ModuleOverrideOptions & {
 	environment?: EnvironmentType<T>;
 }

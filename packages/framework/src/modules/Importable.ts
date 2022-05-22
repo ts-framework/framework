@@ -5,7 +5,7 @@ import { ModuleOverrideOptions } from './ModuleOptions';
 /**
  * Describes an importable module as a class constructor or instance.
  */
-export type ImportableModule = Constructor<Module> | Module;
+export type ImportableModule = Constructor<Module<any>> | Module<any>;
 
 /**
  * Describes a function that returns or resolves to an importable module.
