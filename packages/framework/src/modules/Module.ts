@@ -36,7 +36,7 @@ export abstract class Module<T extends BaseModule = Application> extends BaseMod
 	 * @param environment
 	 * @returns
 	 */
-	public static withEnvironment(environment: Record<string, any>): ImportableModuleWithOptions {
+	public static withEnvironment<T extends typeof BaseModule>(this: T, environment: EnvironmentType<T>): ImportableModuleWithOptions {
 		return {
 			import: this as any,
 			environment
@@ -48,7 +48,7 @@ export abstract class Module<T extends BaseModule = Application> extends BaseMod
 	 * @param options
 	 * @returns
 	 */
-	public static withOptions(options: ModuleOverrideOptions): ImportableModuleWithOptions {
+	public static withOptions<T extends typeof BaseModule>(this: T, options: TypedModuleOverrideOptions<T>): ImportableModuleWithOptions {
 		return {
 			import: this as any,
 			...options
@@ -58,3 +58,13 @@ export abstract class Module<T extends BaseModule = Application> extends BaseMod
 }
 
 type GetApplication<T> = T extends Module<infer U> ? GetApplication<U> : (T extends Application ? T : Application);
+type TypedModuleOverrideOptions<T> = ModuleOverrideOptions & {
+	environment?: EnvironmentType<T>;
+}
+
+type InnerType<T> = T extends Function & { new (...args: any[]): infer U; } ? U : T;
+type ModuleEnvironmentType<T> = T extends BaseModule ? Partial<T['environment']> : {};
+type EnvironmentMap<T extends {}> = { [key in keyof T]: T[key] | string; };
+type MapWithExtras<T extends {}> = T & { [key: string]: any };
+
+type EnvironmentType<T> = MapWithExtras<EnvironmentMap<ModuleEnvironmentType<InnerType<T>>>>;
