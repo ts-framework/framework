@@ -69,11 +69,11 @@ importers:
     specifiers:
       '@baileyherbert/container': ^1.8.0
       '@baileyherbert/dependency-graph': ^1.0.0
-      '@baileyherbert/env': ^1.2.0
+      '@baileyherbert/env': ^1.3.0
       '@baileyherbert/logging': ^2.0.1
       '@baileyherbert/nested-collections': ^1.2.0
       '@baileyherbert/promises': ^1.0.0
-      '@baileyherbert/reflection': ^1.2.2
+      '@baileyherbert/reflection': ^1.2.3
       '@baileyherbert/types': ^1.0.1
       '@types/jest': ^27.4.1
       '@types/node': ^16.11.7
@@ -84,11 +84,11 @@ importers:
     dependencies:
       '@baileyherbert/container': 1.8.0
       '@baileyherbert/dependency-graph': 1.0.0
-      '@baileyherbert/env': 1.2.0
+      '@baileyherbert/env': 1.3.0
       '@baileyherbert/logging': 2.0.1
       '@baileyherbert/nested-collections': 1.2.0
       '@baileyherbert/promises': 1.0.0
-      '@baileyherbert/reflection': 1.2.2
+      '@baileyherbert/reflection': 1.2.3
       '@baileyherbert/types': 1.0.1
     devDependencies:
       '@types/jest': 27.5.1
@@ -488,7 +488,7 @@ packages:
   /@baileyherbert/container/1.8.0:
     resolution: {integrity: sha512-ftnDUyKse8j5QQwlHej90CKWnp7mP0SKqMlt4g+lpeTGFc9dQbw7FrhAAr22KN2F+RGXPsgF0ibhGUklcVG0dQ==}
     dependencies:
-      '@baileyherbert/reflection': 1.2.2
+      '@baileyherbert/reflection': 1.2.3
       '@baileyherbert/types': 1.0.1
     dev: false
 
@@ -496,8 +496,8 @@ packages:
     resolution: {integrity: sha512-98vGiu3Wo8Ca0Uxo6k/U6R7l9jw86BXZNeSsTg2ndHD0jxd1HPWjfnPpJ8E8MnPDa+bKpdVtSSvJixpk4vROfA==}
     dev: false
 
-  /@baileyherbert/env/1.2.0:
-    resolution: {integrity: sha512-++J51KBZp9c0tsZKtjt5LQ0SEAmmxOKG3Yg4z58N18tjHFb5kIoTl9t4GwEB2eiuJoKU4Lq4wNztFfLeI4iBMg==}
+  /@baileyherbert/env/1.3.0:
+    resolution: {integrity: sha512-RNHL759gR8Zmlce2Uwx60/PuemdDOQ4vqRx7qa+wqfO4b8F1WE4AgQykm9o1SMOWutKDcS4OiXH0L7c62E8CUw==}
     dev: false
 
   /@baileyherbert/events/1.0.1:
@@ -522,8 +522,8 @@ packages:
       '@baileyherbert/types': 1.0.1
     dev: false
 
-  /@baileyherbert/reflection/1.2.2:
-    resolution: {integrity: sha512-9nW9FD4yOCGv8QATeW+/AE79tWGhM7FS6DQupF90mE6Z5TeTDY5eDLscVE0upk7uXwn7lZJ0EPF/sorSH+PCbA==}
+  /@baileyherbert/reflection/1.2.3:
+    resolution: {integrity: sha512-ALgfXZFCXlHeSkUKmhDWnT34T5Dp/6NAnRS0thyp0laeBqMJMZDB1GT/51sVJfmowypz8pPDCuZbhRP30/5eKw==}
     dependencies:
       '@baileyherbert/events': 1.0.1
       '@baileyherbert/types': 1.0.1

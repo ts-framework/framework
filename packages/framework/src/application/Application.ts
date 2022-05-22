@@ -1,4 +1,5 @@
 import { resolver } from '@baileyherbert/container';
+import { EnvironmentManager, FileEnvironmentSource, ProcessEnvironmentSource } from '@baileyherbert/env';
 import { ConsoleTransport, Logger, LogLevel } from '@baileyherbert/logging';
 import { PromiseCompletionSource } from '@baileyherbert/promises';
 import { BaseModule } from '../modules/BaseModule';
@@ -64,8 +65,15 @@ export abstract class Application extends BaseModule {
 
 	/**
 	 * The options used to start the application.
+	 * @internal
 	 */
-	private startOptions?: Required<ApplicationStartOptions>;
+	public startOptions?: Required<ApplicationStartOptions>;
+
+	/**
+	 * The environment manager for the application, to be created when it is started.
+	 * @internal
+	 */
+	public environmentManager?: EnvironmentManager;
 
 	/**
 	 * A promise source created by the start method which must resolve or reject when the application exits.
@@ -163,6 +171,9 @@ export abstract class Application extends BaseModule {
 
 		this.startOptions = this.getStartOptions(options);
 		this.startPromiseSource = new PromiseCompletionSource();
+
+		this.environmentManager = this.getEnvironmentManager(this.startOptions);
+		this._internLoadEnvironment(this.environmentManager);
 
 		await this.bootstrap();
 		await this.events.init();
@@ -274,7 +285,10 @@ export abstract class Application extends BaseModule {
 	 */
 	public getStartOptions(options?: ApplicationStartOptions): Required<ApplicationStartOptions> {
 		options ??= {};
+
 		options.abortOnError ??= true;
+		options.envFilePath ??= '.env';
+		options.envPrefix ??= '';
 
 		return options as Required<ApplicationStartOptions>;
 	}
@@ -286,6 +300,21 @@ export abstract class Application extends BaseModule {
 	 */
 	public getDefaultLogLevel() {
 		return this.mode === 'production' ? LogLevel.Information : LogLevel.Debug;
+	}
+
+	/**
+	 * Creates the environment manager instance for the given configuration.
+	 * @param options
+	 * @returns
+	 */
+	public getEnvironmentManager(options: Required<ApplicationStartOptions>) {
+		const sources = [new ProcessEnvironmentSource()];
+
+		if (options.envFilePath !== false) {
+			sources.push(new FileEnvironmentSource(options.envFilePath));
+		}
+
+		return new EnvironmentManager(sources, options.envPrefix);
 	}
 
 }

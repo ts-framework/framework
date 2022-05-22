@@ -88,8 +88,8 @@ function add(hook: HookExitFunction) {
 	hooks.push(hook as HookFunction);
 
 	if (hooks.length === 1) {
-		add.hookEvent('exit');
-		add.hookEvent('beforeExit', 0);
+		// add.hookEvent('exit');
+		// add.hookEvent('beforeExit', 0);
 		add.hookEvent('SIGHUP', 128 + 1);
 		add.hookEvent('SIGINT', 128 + 2);
 		add.hookEvent('SIGTERM', 128 + 15);

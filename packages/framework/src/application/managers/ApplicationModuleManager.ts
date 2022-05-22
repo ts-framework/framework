@@ -254,6 +254,7 @@ export class ApplicationModuleManager {
 
 		if (!finished && !this.lifecycleCache.has(instance, 'beforeModuleBoot')) {
 			this.application.logger.trace('Starting module:', instance.constructor.name);
+			instance._internLoadEnvironment(this.application.environmentManager!);
 		}
 
 		return this.invokeModuleMethod(instance, finished, ['beforeModuleBoot', 'onModuleBoot']);
