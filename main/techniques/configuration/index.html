@@ -819,9 +819,61 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Configuration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Configuration
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#adding-configuration-to-a-module" class="md-nav__link">
+    Adding configuration to a module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-the-configuration" class="md-nav__link">
+    Accessing the configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-values-on-imports" class="md-nav__link">
+    Setting values on imports
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-values-on-the-application" class="md-nav__link">
+    Setting values on the application
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -972,6 +1024,42 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#adding-configuration-to-a-module" class="md-nav__link">
+    Adding configuration to a module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-the-configuration" class="md-nav__link">
+    Accessing the configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-values-on-imports" class="md-nav__link">
+    Setting values on imports
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-values-on-the-application" class="md-nav__link">
+    Setting values on the application
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -985,7 +1073,70 @@
 
 
 <h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h1>
-<p>TODO: How to implement configuration into an application with the <code>@ts-framework/configuration</code> package.</p>
+<p>The framework uses environment variables for its configuration. Each module in the application has an opportunity to
+define the environment variables it would like to use. These variables are then validated and guaranteed to exist.</p>
+<h2 id="adding-configuration-to-a-module">Adding configuration to a module<a class="headerlink" href="#adding-configuration-to-a-module" title="Permanent link">&para;</a></h2>
+<p>To declare a module's environment configuration, extend the protected <code>onEnvironment()</code> method. You will receive an
+instance of <code>EnvironmentManager</code> and are then expected to return the values of your variables using the <code>rules()</code>
+method on that instance.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="o">&lt;</span><span class="nx">App</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onEnvironment</span><span class="p">(</span><span class="nx">env</span><span class="o">:</span><span class="w"> </span><span class="kt">EnvironmentManager</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">env</span><span class="p">.</span><span class="nx">rules</span><span class="p">({</span><span class="w"></span>
+<span class="w">            </span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="kt">env.schema.string</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>With the above example, the application will not start unless the <code>TOKEN</code> is available either in the <code>.env</code> file or as
+part of the process environment. You can learn more about declaring and validating these variables at
+<a href="https://github.com/baileyherbert/env"><code>@baileyherbert/env</code></a>.</p>
+<h2 id="accessing-the-configuration">Accessing the configuration<a class="headerlink" href="#accessing-the-configuration" title="Permanent link">&para;</a></h2>
+<p>You can retrieve values from a module's configuration using its <code>environment</code> property if you have a reference to it.
+The below example shows how to do this from a service, assuming the <code>Service&lt;T&gt;</code> generic is configured properly.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.environment.TOKEN</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Note that these environment variables are available globally across the application and multiple modules can use the
+same names. This also means you can retrieve the value using an environment manager which is commonly exposed as an
+<code>env</code> property.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.env.get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="setting-values-on-imports">Setting values on imports<a class="headerlink" href="#setting-values-on-imports" title="Permanent link">&para;</a></h2>
+<p>It's possible to set or override the values of environment variables for specific modules (and their children) when
+importing them.</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">App</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Application</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
+<span class="w">            </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">                </span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withEnvironment</span><span class="p">({</span><span class="w"></span>
+<span class="w">                    </span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Sets or overrides the value&#39;</span><span class="w"></span>
+<span class="w">                </span><span class="p">})</span><span class="w"></span>
+<span class="w">            </span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>In these cases, the module's <code>environment</code> and <code>env</code> properties will see the overridden value, but the rest of the
+application will not. This makes it great for module-specific configuration, and the values can be any type!</p>
+<p>Note that these custom values remain subject to validation by the imported module or its children via their
+<code>onEnvironment()</code> methods.</p>
+<h2 id="setting-values-on-the-application">Setting values on the application<a class="headerlink" href="#setting-values-on-the-application" title="Permanent link">&para;</a></h2>
+<p>When starting or attaching the application, you have an opportunity to set or override its environment variables
+without affecting the rest of the application (or other instances of the framework).</p>
+<div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">({</span><span class="w"></span>
+<span class="w">    </span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Sets or overrides the value&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
+</code></pre></div>
 
               
             </article>
