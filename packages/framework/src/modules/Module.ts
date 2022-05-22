@@ -4,7 +4,7 @@ import { normalizeLogLevel } from '../utilities/normalizers';
 import { BaseModule } from './BaseModule';
 import { ModuleOptions } from './ModuleOptions';
 
-export abstract class Module extends BaseModule {
+export abstract class Module<T extends Application = Application> extends BaseModule {
 
 	/**
 	 * The dependency injection container used to create this module.
@@ -14,7 +14,7 @@ export abstract class Module extends BaseModule {
 	/**
 	 * The application that this module is attached to.
 	 */
-	public readonly application = this.container.resolve(Application);
+	public readonly application = this.container.resolve(Application) as T;
 
 	/**
 	 * The logger for this module.

@@ -1,6 +1,7 @@
 import { resolver } from '@baileyherbert/container';
 import { Application } from '../application/Application';
 import { BaseModule } from '../modules/BaseModule';
+import { Module } from '../modules/Module';
 
 export abstract class Controller<T extends BaseModule = BaseModule> {
 
@@ -12,7 +13,7 @@ export abstract class Controller<T extends BaseModule = BaseModule> {
 	/**
 	 * The application that this controller is attached to.
 	 */
-	public readonly application = this.container.resolve(Application);
+	public readonly application = this.container.resolve(Application) as ApplicationType<T>;
 
 	/**
 	 * The module that this controller belongs to.
@@ -25,3 +26,6 @@ export abstract class Controller<T extends BaseModule = BaseModule> {
 	public readonly logger = this.module.logger.createChild(this.constructor.name);
 
 }
+
+type ApplicationType<T> = T extends Module<infer U> ? U : Application;
+

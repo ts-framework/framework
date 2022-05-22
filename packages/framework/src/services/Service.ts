@@ -4,6 +4,7 @@ import { Application } from '../application/Application';
 import { Event } from './events/Event';
 import { BaseModule } from '../modules/BaseModule';
 import { isConstructor } from '../utilities/types';
+import { Module } from '../modules/Module';
 
 export abstract class Service<T extends BaseModule = BaseModule> {
 
@@ -15,7 +16,7 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	/**
 	 * The application that this service is attached to.
 	 */
-	public readonly application = this.container.resolve(Application);
+	public readonly application = this.container.resolve(Application) as ApplicationType<T>;
 
 	/**
 	 * The module that this service belongs to.
@@ -117,3 +118,5 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	}
 
 }
+
+type ApplicationType<T> = T extends Module<infer U> ? U : Application;
