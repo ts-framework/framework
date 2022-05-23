@@ -50,8 +50,6 @@ export class ApplicationControllerManager {
 	public register(controller: Constructor<Controller>, module: BaseModule) {
 		if (!this.controllers.has(controller)) {
 			this.controllers.add(controller);
-			this.application.container.register(controller);
-
 			this.modulesNestedCache = new Map();
 		}
 
@@ -104,10 +102,20 @@ export class ApplicationControllerManager {
 				this.instances.add(constructor, instance);
 				this.globalInstances.add(instance);
 				this.parents.set(instance, module);
+				this.modules.add(module, instance);
 
 				// Register the instance in the container with the module as its context
 				this.application.container.registerInstance(instance, module);
-				this.application.container.registerInstance(instance);
+
+				// Register as a singleton if there's only one
+				if (modules.length === 1) {
+					this.application.container.registerInstance(instance);
+				}
+
+				// Register the instance under the module's context
+				if (typeof module._internContext !== 'undefined') {
+					this.application.container.registerInstance(instance, module._internContext);
+				}
 			}
 
 		}

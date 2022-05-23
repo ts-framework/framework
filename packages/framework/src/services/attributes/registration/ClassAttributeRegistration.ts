@@ -12,9 +12,9 @@ export class ClassAttributeRegistration<T extends IAttribute<any>> implements At
 	public type: Constructor<Component>;
 
 	/**
-	 * The instance of the controller or service class.
+	 * The instances of the controller or service class.
 	 */
-	public target: Component;
+	public targets: Component[];
 
 	/**
 	 * A reflection instance for the target class.
@@ -29,12 +29,18 @@ export class ClassAttributeRegistration<T extends IAttribute<any>> implements At
 	/**
 	 * Constructs a new `ClassAttributeRegistration` instance for the given parameters.
 	 * @param application
+	 * @param targets
 	 * @param attributes
 	 * @param reflection
 	 */
-	public constructor(application: Application, attributes: IAttributeInstance<T>[], reflection: ReflectionClass<Component>) {
+	public constructor(
+		application: Application,
+		targets: Component[],
+		attributes: IAttributeInstance<T>[],
+		reflection: ReflectionClass<Component>
+	) {
 		this.type = reflection.prototype.constructor;
-		this.target = application.container.resolve(reflection.target);
+		this.targets = targets;
 		this.reflection = reflection;
 		this.attributes = attributes;
 	}

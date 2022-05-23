@@ -39,6 +39,12 @@ export abstract class BaseModule {
 	public _internContext?: ModuleContextToken;
 
 	/**
+	 * Whether or not this module has multiple instances.
+	 * @internal
+	 */
+	public _internMultipleInstances = false;
+
+	/**
 	 * Constructs a new `BaseModule` instance with the given options.
 	 * @param options
 	 */

@@ -65,6 +65,20 @@ export class ApplicationModuleManager {
 		for (const importable of module.options.imports ?? []) {
 			await this.register(importable, module);
 		}
+
+		if (module === this.application) {
+			for (const constructor of this.modules.keys()) {
+				const instances = [...this.modules.values(constructor)];
+
+				for (const instance of instances) {
+					instance._internMultipleInstances = instances.length > 1;
+
+					if (instances.length === 1) {
+						this.application.container.registerInstance(instance);
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -218,12 +232,21 @@ export class ApplicationModuleManager {
 	/**
 	 * Returns all modules registered directly under the specified parent module.
 	 * @param module
+	 * @param deep When true, recursively finds all children under the module.
 	 */
-	public getChildModules(module: ModuleToken): BaseModule[] {
+	public getChildModules(module: ModuleToken, deep = false): BaseModule[] {
 		const instance = this.resolve(module);
 
 		if (this.graph.hasNode(instance)) {
-			return this.graph.getDirectDependentsOf(instance);
+			const children = this.graph.getDirectDependentsOf(instance);
+
+			if (deep) {
+				for (const child of children) {
+					children.push(...this.getChildModules(child, true));
+				}
+			}
+
+			return children;
 		}
 
 		return [];

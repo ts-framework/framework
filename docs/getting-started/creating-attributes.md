@@ -81,7 +81,7 @@ export class HttpService extends Service<ExampleModule> {
 	protected override register() { // (1)
 		for (const registration of this.application.attributes.getMethods(Get)) {
 			this.app.get(registration.first().path, async (req, res) => {
-				const dispatcher = registration.dispatcher.clone(); // (2)
+				const dispatcher = registration.dispatchers[0].clone(); // (2)
 
 				dispatcher.setTokenParameter('express:request', req); // (3)
 				dispatcher.setTokenParameter('express:response', res);
@@ -116,6 +116,7 @@ export class HttpService extends Service<ExampleModule> {
    It won't run again, making it great for slow, one-time operations like applying attributes.
 2. The registration object for method-based attributes exposes a **dispatcher** that can be used to easily invoke the
    method with dependency injection. We're making a clone to avoid contaminating the original dispatcher object.
+   It's also an array in case there are multiple instances of the same controller available.
 3. Here, we're overriding the injection behavior for these specific tokens, which we set with the decorators in the
    previous section. The container will inject these values for the parameters instead.
 4. This will invoke the controller method that registered the route and then forward its return value. We'll await this

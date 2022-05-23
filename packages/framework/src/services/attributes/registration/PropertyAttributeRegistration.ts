@@ -6,9 +6,9 @@ import { AttributeRegistration } from './AttributeRegistration';
 export class PropertyAttributeRegistration<T extends IAttribute<any>> implements AttributeRegistration<T> {
 
 	/**
-	 * The instance of the controller or service where this property is defined.
+	 * The instances of the controller or service where this property is defined.
 	 */
-	public target: Component;
+	public targets: Component[];
 
 	/**
 	 * The name of the property.
@@ -28,11 +28,17 @@ export class PropertyAttributeRegistration<T extends IAttribute<any>> implements
 	/**
 	 * Constructs a new `PropertyAttributeRegistration` instance for the given parameters.
 	 * @param application
+	 * @param targets
 	 * @param attributes
 	 * @param reflection
 	 */
-	public constructor(application: Application, attributes: IAttributeInstance<T>[], reflection: ReflectionProperty<Component>) {
-		this.target = application.container.resolve(reflection.class.target);
+	public constructor(
+		application: Application,
+		targets: Component[],
+		attributes: IAttributeInstance<T>[],
+		reflection: ReflectionProperty<Component>
+	) {
+		this.targets = targets;
 		this.propertyName = reflection.name;
 		this.reflection = reflection;
 		this.attributes = attributes;
@@ -55,10 +61,10 @@ export class PropertyAttributeRegistration<T extends IAttribute<any>> implements
 	}
 
 	/**
-	 * The current value of the property.
+	 * The current value of the property in each instance.
 	 */
-	public get value(): any {
-		return (this.target as any)[this.propertyName];
+	public get values(): any[] {
+		return this.targets.map((target: any) => target[this.propertyName]);
 	}
 
 }

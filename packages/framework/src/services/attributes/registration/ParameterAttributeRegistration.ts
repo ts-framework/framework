@@ -6,9 +6,9 @@ import { AttributeRegistration } from './AttributeRegistration';
 export class ParameterAttributeRegistration<T extends IAttribute<any>> implements AttributeRegistration<T> {
 
 	/**
-	 * The instance of the controller or service where this method is defined.
+	 * The instances of the controller or service where this method is defined.
 	 */
-	public target: Component;
+	public targets: Component[];
 
 	/**
 	 * The name of the parent method.
@@ -38,11 +38,17 @@ export class ParameterAttributeRegistration<T extends IAttribute<any>> implement
 	/**
 	 * Constructs a new `ParameterAttributeRegistration` instance for the given parameters.
 	 * @param application
+	 * @param targets
 	 * @param attributes
 	 * @param reflection
 	 */
-	public constructor(application: Application, attributes: IAttributeInstance<T>[], reflection: ReflectionParameter<Component>) {
-		this.target = application.container.resolve(reflection.method.class.target);
+	public constructor(
+		application: Application,
+		targets: Component[],
+		attributes: IAttributeInstance<T>[],
+		reflection: ReflectionParameter<Component>
+	) {
+		this.targets = targets;
 		this.methodName = reflection.method.name;
 		this.parameterName = reflection.name;
 		this.parameterIndex = reflection.index;

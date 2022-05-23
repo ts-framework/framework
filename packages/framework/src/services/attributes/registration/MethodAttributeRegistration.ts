@@ -7,9 +7,9 @@ import { AttributeRegistration } from './AttributeRegistration';
 export class MethodAttributeRegistration<T extends IAttribute<any>> implements AttributeRegistration<T> {
 
 	/**
-	 * The instance of the controller or service where this method is defined.
+	 * The instances of the controller or service where this method is defined.
 	 */
-	public target: Component;
+	public targets: Component[];
 
 	/**
 	 * The name of the method.
@@ -27,22 +27,28 @@ export class MethodAttributeRegistration<T extends IAttribute<any>> implements A
 	public attributes: IAttributeInstance<T>[];
 
 	/**
-	 * A dispatcher that can be used to execute the method with dependency injection.
+	 * An array of dispatchers that can be used to execute the methods with dependency injection.
 	 */
-	public dispatcher: TiedContainerDispatcher;
+	public dispatchers: TiedContainerDispatcher[];
 
 	/**
 	 * Constructs a new `MethodAttributeRegistration` instance for the given parameters.
 	 * @param application
+	 * @param targets
 	 * @param attributes
 	 * @param reflection
 	 */
-	public constructor(application: Application, attributes: IAttributeInstance<T>[], reflection: ReflectionMethod<Component>) {
-		this.target = application.container.resolve(reflection.class.target);
+	public constructor(
+		application: Application,
+		targets: Component[],
+		attributes: IAttributeInstance<T>[],
+		reflection: ReflectionMethod<Component>
+	) {
+		this.targets = targets;
 		this.methodName = reflection.name;
 		this.reflection = reflection;
 		this.attributes = attributes;
-		this.dispatcher = application.container.createTiedDispatcher(this.target, this.methodName);
+		this.dispatchers = targets.map(o => application.container.createTiedDispatcher(o, this.methodName));
 	}
 
 	/**

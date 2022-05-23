@@ -1,13 +1,14 @@
 import { IAttribute, IAttributeInstance, ReflectionClass, ReflectionMethod, ReflectionParameter, ReflectionProperty } from '@baileyherbert/reflection';
 import { Controller } from '../../../controllers/Controller';
 import { Service } from '../../Service';
+import { Component } from '../Attribute';
 
 export interface AttributeRegistration<T extends IAttribute<any>> {
 
 	/**
-	 * The instance of the controller or service where this method is defined.
+	 * The instances of the controller or service where this method is defined.
 	 */
-	target: Service | Controller;
+	targets: Component[];
 
 	/**
 	 * The attribute instances that were applied to the target.

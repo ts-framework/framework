@@ -76,7 +76,6 @@ export class ApplicationServiceManager {
 	public register(service: Constructor<Service>, module: BaseModule) {
 		if (!this.services.has(service)) {
 			this.services.add(service);
-			this.application.container.register(service);
 
 			this.cachedPaths = undefined;
 			this.modulesNestedCache = new Map();
@@ -140,6 +139,7 @@ export class ApplicationServiceManager {
 					this.instances.add(constructor, instance);
 					this.globalInstances.add(instance);
 					this.parents.set(instance, module);
+					this.modules.add(module, instance);
 
 					// Register the instance in the container with the module as its context
 					this.application.container.registerInstance(instance, module);

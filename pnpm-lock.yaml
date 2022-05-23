@@ -48,11 +48,11 @@ importers:
 
   packages/framework:
     specifiers:
-      '@baileyherbert/container': ^2.0.0
+      '@baileyherbert/container': ^2.0.3
       '@baileyherbert/dependency-graph': ^1.0.0
       '@baileyherbert/env': ^1.3.0
       '@baileyherbert/logging': ^2.0.1
-      '@baileyherbert/nested-collections': ^1.2.0
+      '@baileyherbert/nested-collections': ^1.3.0
       '@baileyherbert/promises': ^1.0.0
       '@baileyherbert/reflection': ^1.2.3
       '@baileyherbert/types': ^1.0.1
@@ -63,11 +63,11 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
-      '@baileyherbert/container': 2.0.0
+      '@baileyherbert/container': 2.0.3
       '@baileyherbert/dependency-graph': 1.0.0
       '@baileyherbert/env': 1.3.0
       '@baileyherbert/logging': 2.0.1
-      '@baileyherbert/nested-collections': 1.2.0
+      '@baileyherbert/nested-collections': 1.3.0
       '@baileyherbert/promises': 1.0.0
       '@baileyherbert/reflection': 1.2.3
       '@baileyherbert/types': 1.0.1
@@ -466,8 +466,8 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@baileyherbert/container/2.0.0:
-    resolution: {integrity: sha512-lL04JnIqxlyzSDzWFOXzYW5Do4yvPXPXa2dfU+ZMQxZ1Gc+jBenVCTpy+PVDdYZcPlm5YC6r4p14D1xsBPTWeQ==}
+  /@baileyherbert/container/2.0.3:
+    resolution: {integrity: sha512-jwo9nclsQFAs5PwlHM3GeAj41XnX+siFLN3QtWHQWW+9PiwiLz7rcyJnn8doBLPgtZxOLNGjqtg0SRn37S6sPQ==}
     dependencies:
       '@baileyherbert/reflection': 1.2.3
       '@baileyherbert/types': 1.0.1
@@ -492,8 +492,8 @@ packages:
       chalk: 4.1.2
     dev: false
 
-  /@baileyherbert/nested-collections/1.2.0:
-    resolution: {integrity: sha512-gw0vmjUyooJK6kStYq3po7sGAX74jL7KY1Jhujtqn1a0GCO06qVVNS+BJSyEMw5lMKIi3jJp+wLbfH08h7dV5w==}
+  /@baileyherbert/nested-collections/1.3.0:
+    resolution: {integrity: sha512-apYKV8ScmM35tU8LF4FO7QEjtHqGSYH7ADm16Fj4PxQtBRZAaI8MIYIl4KtqafY47CvZxp55GPF7s/DlaZRWAg==}
     dev: false
 
   /@baileyherbert/promises/1.0.0:
