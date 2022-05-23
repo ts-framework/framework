@@ -1093,18 +1093,18 @@ method on that instance.</p>
 part of the process environment. You can learn more about declaring and validating these variables at
 <a href="https://github.com/baileyherbert/env"><code>@baileyherbert/env</code></a>.</p>
 <h2 id="accessing-the-configuration">Accessing the configuration<a class="headerlink" href="#accessing-the-configuration" title="Permanent link">&para;</a></h2>
-<p>You can retrieve values from a module's configuration using its <code>environment</code> property if you have a reference to it.
+<p>You can retrieve values from a module's configuration using its <code>env</code> property if you have a reference to it.
 The below example shows how to do this from a service, assuming the <code>Service&lt;T&gt;</code> generic is configured properly.</p>
 <div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.environment.TOKEN</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.env.TOKEN</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>Note that these environment variables are available globally across the application and multiple modules can use the
 same names. This also means you can retrieve the value using an environment manager which is commonly exposed as an
-<code>env</code> property.</p>
+<code>environment</code> property.</p>
 <div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.env.get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.environment.get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">environment</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h2 id="setting-values-on-imports">Setting values on imports<a class="headerlink" href="#setting-values-on-imports" title="Permanent link">&para;</a></h2>
