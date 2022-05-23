@@ -99,8 +99,7 @@ export abstract class BaseModule {
 	/**
 	 * The parsed environment configuration for this module.
 	 */
-	// @ts-ignore
-	public get environment(): ReturnType<this['onEnvironment']> {
+	public get env(): EnvironmentType<this> {
 		if (this._cachedEnvironment === undefined) {
 			throw new Error(`This module's environment is currently unavailable`);
 		}
@@ -111,7 +110,7 @@ export abstract class BaseModule {
 	/**
 	 * The environment manager for this module.
 	 */
-	public get env() {
+	public get environment() {
 		if (this._cachedEnvironmentManager === undefined) {
 			throw new Error(`This module's environment is currently unavailable`);
 		}
@@ -155,3 +154,6 @@ export abstract class BaseModule {
 	}
 
 }
+
+// @ts-ignore
+type EnvironmentType<T extends BaseModule> = ReturnType<T['onEnvironment']>;

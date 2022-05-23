@@ -27,23 +27,23 @@ part of the process environment. You can learn more about declaring and validati
 
 ## Accessing the configuration
 
-You can retrieve values from a module's configuration using its `environment` property if you have a reference to it.
+You can retrieve values from a module's configuration using its `env` property if you have a reference to it.
 The below example shows how to do this from a service, assuming the `Service<T>` generic is configured properly.
 
 ```ts
 public override async start() {
-	const token = this.module.environment.TOKEN;
+	const token = this.module.env.TOKEN;
 }
 ```
 
 Note that these environment variables are available globally across the application and multiple modules can use the
 same names. This also means you can retrieve the value using an environment manager which is commonly exposed as an
-`env` property.
+`environment` property.
 
 ```ts
 public override async start() {
-	const token = this.module.env.get('TOKEN');
-	const token = this.application.env.get('TOKEN');
+	const token = this.module.environment.get('TOKEN');
+	const token = this.application.environment.get('TOKEN');
 }
 ```
 

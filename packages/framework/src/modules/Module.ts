@@ -5,7 +5,7 @@ import { BaseModule } from './BaseModule';
 import { ImportableModuleWithOptions } from './Importable';
 import { ModuleOptions, ModuleOverrideOptions } from './ModuleOptions';
 
-export abstract class Module<T extends BaseModule = any> extends BaseModule {
+export abstract class Module<T extends BaseModule = BaseModule> extends BaseModule {
 
 	/**
 	 * The dependency injection container used to create this module.
@@ -15,12 +15,7 @@ export abstract class Module<T extends BaseModule = any> extends BaseModule {
 	/**
 	 * The application that this module is attached to.
 	 */
-	public readonly application = this.container.resolve(Application) as GetApplication<T>;
-
-	/**
-	 * The parent of this module. Relies on the correct type being supplied to `Module<T>`.
-	 */
-	public readonly parent = this.application.modules.getParentModule(this) as GetParent<T>;
+	public readonly application: GetApplication<T> = this.container.resolve(Application) as any;
 
 	/**
 	 * The logger for this module.
@@ -34,6 +29,16 @@ export abstract class Module<T extends BaseModule = any> extends BaseModule {
 	public constructor(options: ModuleOptions) {
 		super(options);
 		this.logger.level = normalizeLogLevel(options.logging);
+	}
+
+	/**
+	 * The parent of this module. Relies on the correct type being supplied to `Module<T>`.
+	 */
+	public get parent(): GetParent<T> {
+		return (
+			this.container.resolve(Application).modules.getParentModule(this) ??
+			this.container.resolve(Application)
+		) as any;
 	}
 
 	/**
@@ -60,17 +65,38 @@ export abstract class Module<T extends BaseModule = any> extends BaseModule {
 		};
 	}
 
+	/**
+	 * The parsed environment configuration for this module. Includes configuration from parent modules as well.
+	 */
+	public override get env(): InheritedEnvironmentType<this, T> {
+		return {
+			...this.parent.env,
+			...super.env
+		} as any;
+	}
+
 }
 
 type GetApplication<T> = T extends Module<infer U> ? GetApplication<U> : (T extends Application ? T : Application);
-type GetParent<T> = T extends Module<any> ? T : any;
+type GetParent<T> = T extends BaseModule ? T : any;
 type TypedModuleOverrideOptions<T> = ModuleOverrideOptions & {
 	environment?: EnvironmentType<T>;
 }
 
 type InnerType<T> = T extends Function & { new (...args: any[]): infer U; } ? U : T;
-type ModuleEnvironmentType<T> = T extends BaseModule ? Partial<T['environment']> : {};
+
+// @ts-ignore
+type ModuleEnvironmentType<T> = T extends BaseModule ? Partial<ReturnType<T['onEnvironment']>> : {};
 type EnvironmentMap<T extends {}> = { [key in keyof T]: T[key] | string; };
 type MapWithExtras<T extends {}> = T & { [key: string]: any };
 
 type EnvironmentType<T> = MapWithExtras<EnvironmentMap<ModuleEnvironmentType<InnerType<T>>>>;
+
+
+type InheritedEnvironmentType<T extends Module, P> = (
+	// @ts-ignore
+	ReturnType<T['onEnvironment']> &
+	ParentEnvironmentType<P>
+);
+
+type ParentEnvironmentType<T> = T extends BaseModule ? T['env'] : {};
