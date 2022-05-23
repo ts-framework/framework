@@ -18,7 +18,7 @@ export abstract class Controller<T extends BaseModule = BaseModule> {
 	/**
 	 * The module that this controller belongs to.
 	 */
-	public readonly module = this.application.controllers.getParentModule(this) as T;
+	public readonly module = this.container.getContext('_tsfw_parentModuleContext')(this) as T;
 
 	/**
 	 * The logger for this controller.

@@ -14,12 +14,7 @@ export class ApplicationModuleManager {
 	/**
 	 * A set containing all registered modules.
 	 */
-	protected modules = new Set<BaseModule>();
-
-	/**
-	 * A map of module constructors and their instances.
-	 */
-	protected constructors = new Map<Constructor<BaseModule>, BaseModule>();
+	protected modules = new NestedSet<Constructor<BaseModule>, BaseModule>();
 
 	/**
 	 * A dependency graph containing all registered modules to determine the import order.
@@ -44,13 +39,10 @@ export class ApplicationModuleManager {
 	 * @internal
 	 */
 	public async import(module: BaseModule, options?: ModuleOverrideOptions) {
-		this.modules.add(module);
-		this.constructors.set(module.constructor as Constructor<BaseModule>, module);
-		this.graph.addNode(module);
+		const constructor = module.constructor as Constructor<BaseModule>;
 
-		if (module instanceof Module) {
-			this.application.container.registerInstance(module);
-		}
+		this.modules.add(constructor, module);
+		this.graph.addNode(module);
 
 		if (options !== undefined && module instanceof Module) {
 			if (options.logging !== undefined) {
@@ -60,6 +52,10 @@ export class ApplicationModuleManager {
 
 			if (typeof options.environment === 'object') {
 				module._internCustomEnvironment = options.environment;
+			}
+
+			if (typeof options.context !== 'undefined') {
+				module._internContext = options.context;
 			}
 		}
 
@@ -81,14 +77,22 @@ export class ApplicationModuleManager {
 		const startTime = Date.now();
 		const resolved = await this.resolveModule(importable);
 		const millis = Date.now() - startTime;
+		const type = resolved.module.constructor as Constructor<BaseModule>;
 
-		if (!this.modules.has(resolved.module)) {
-			this.modules.add(resolved.module);
+		if (!this.modules.has(type, resolved.module)) {
+			this.modules.add(type, resolved.module);
 			this.graph.addNode(resolved.module, {
 				parentModule: parent,
 				resolveTimeMillis: millis,
 				options: resolved.options ?? {}
 			});
+
+			if (typeof resolved.module._internContext !== 'undefined') {
+				this.application.container.registerInstance(
+					resolved.module,
+					resolved.module._internContext
+				);
+			}
 
 			this.graph.addDependency(resolved.module, parent);
 			await this.import(resolved.module, resolved.options);
@@ -114,25 +118,8 @@ export class ApplicationModuleManager {
 			};
 		}
 		else if (typeof importable === 'function') {
-			const result = await importable();
-
-			if (result instanceof Module) {
-				return {
-					module: result
-				};
-			}
-
-			if (isConstructor(result)) {
-				const instance = this.application.container.resolve(result);
-
-				if (instance instanceof Module) {
-					return {
-						module: instance
-					};
-				}
-			}
-
-			throw new Error('Function did not resolve to a module');
+			const result = await importable(this.application);
+			return this.resolveModule(result);
 		}
 		else if (typeof importable === 'object') {
 			const resolved = await this.resolveModule(importable.import);
@@ -154,7 +141,8 @@ export class ApplicationModuleManager {
 	}
 
 	/**
-	 * Resolves the singleton instance of the given module.
+	 * Resolves the instance of the given module or resolves it from its constructor. Throws an error if a
+	 * constructor is provided and multiple instances are available.
 	 * @param module
 	 * @returns
 	 */
@@ -163,8 +151,14 @@ export class ApplicationModuleManager {
 			return module;
 		}
 
-		if (this.constructors.has(module)) {
-			return this.constructors.get(module)! as T;
+		if (this.modules.hasKey(module)) {
+			const available = this.modules.get(module)!;
+
+			if (available.size > 1) {
+				throw new Error(`Multiple instances of module ${module.name} are available`);
+			}
+
+			return [...available][0] as T;
 		}
 
 		throw new Error(`Could not resolve value of type ${typeof module} to a module instance`);
@@ -197,6 +191,28 @@ export class ApplicationModuleManager {
 		}
 
 		return;
+	}
+
+	/**
+	 * Returns an array of all modules that are above the given module. The first module in the array will be the
+	 * direct parent of the given module, and the last module will be the application.
+	 * @param module
+	 */
+	public getParentModules(module: ModuleToken): BaseModule[] {
+		const instance = this.resolve(module);
+
+		const parents = new Array<BaseModule>();
+		let parent: BaseModule | undefined = instance;
+
+		while (parent) {
+			parent = this.getParentModule(parent);
+
+			if (parent) {
+				parents.push(parent);
+			}
+		}
+
+		return parents;
 	}
 
 	/**

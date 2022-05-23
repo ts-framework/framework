@@ -2,7 +2,7 @@ import { EnvironmentError, EnvironmentManager } from '@baileyherbert/env';
 import { Logger } from '@baileyherbert/logging';
 import { Application } from '../application/Application';
 import { RecordEnvironmentSource } from '../utilities/env/RecordEnvironmentSource';
-import { ModuleOptions } from './ModuleOptions';
+import { ModuleContextToken, ModuleOptions } from './ModuleOptions';
 
 export abstract class BaseModule {
 
@@ -31,6 +31,12 @@ export abstract class BaseModule {
 	 * @internal
 	 */
 	public _internCustomEnvironment: Record<string, any> = {};
+
+	/**
+	 * The additional context to register this module and its children under.
+	 * @internal
+	 */
+	public _internContext?: ModuleContextToken;
 
 	/**
 	 * Constructs a new `BaseModule` instance with the given options.
@@ -116,6 +122,15 @@ export abstract class BaseModule {
 		}
 
 		return this._cachedEnvironmentManager;
+	}
+
+	/**
+	 * Resolves the environment for the given manager.
+	 * @param manager
+	 * @internal
+	 */
+	public _getEnvironmentFor(manager: EnvironmentManager) {
+		return this.onEnvironment(manager);
 	}
 
 	/**

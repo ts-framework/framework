@@ -48,4 +48,21 @@ export interface ModuleOverrideOptions {
 	 */
 	environment?: Record<string, any>;
 
+	/**
+	 * Instances of the module as well as its services and controllers will be registered into the dependency injection
+	 * container with the specified context. This can be used to discern between instances when a module is imported
+	 * multiple times. You can also pass an array of contexts to register multiple at once.
+	 *
+	 * When importing the module, services, or controllers from a class constructor, you will need to use the `@Context`
+	 * decorator with the same value applied here:
+	 *
+	 * ```ts
+	 * constructor(@Context('ctx') public readonly service: ExampleService) {}
+	 * ```
+	 */
+	context?: ModuleContextToken;
+
 }
+
+export type ModuleContextType = (string | symbol | number);
+export type ModuleContextToken = ModuleContextType | ModuleContextType[];

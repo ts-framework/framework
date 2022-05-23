@@ -46,28 +46,9 @@ importers:
       ts-jest: 27.1.4_ibhx3ehxrt2kgmkik4bkzmyeei
       typescript: 4.6.4
 
-  packages/configuration:
-    specifiers:
-      '@ts-framework/framework': workspace:^
-      '@types/jest': ^27.4.1
-      '@types/node': ^16.11.7
-      jest: ^27.5.1
-      rimraf: ^3.0.2
-      ts-jest: ^27.1.3
-      typescript: ^4.6.2
-    dependencies:
-      '@ts-framework/framework': link:../framework
-    devDependencies:
-      '@types/jest': 27.5.1
-      '@types/node': 16.11.36
-      jest: 27.5.1
-      rimraf: 3.0.2
-      ts-jest: 27.1.4_ibhx3ehxrt2kgmkik4bkzmyeei
-      typescript: 4.6.4
-
   packages/framework:
     specifiers:
-      '@baileyherbert/container': ^1.8.0
+      '@baileyherbert/container': ^2.0.0
       '@baileyherbert/dependency-graph': ^1.0.0
       '@baileyherbert/env': ^1.3.0
       '@baileyherbert/logging': ^2.0.1
@@ -82,7 +63,7 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
-      '@baileyherbert/container': 1.8.0
+      '@baileyherbert/container': 2.0.0
       '@baileyherbert/dependency-graph': 1.0.0
       '@baileyherbert/env': 1.3.0
       '@baileyherbert/logging': 2.0.1
@@ -485,8 +466,8 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
-  /@baileyherbert/container/1.8.0:
-    resolution: {integrity: sha512-ftnDUyKse8j5QQwlHej90CKWnp7mP0SKqMlt4g+lpeTGFc9dQbw7FrhAAr22KN2F+RGXPsgF0ibhGUklcVG0dQ==}
+  /@baileyherbert/container/2.0.0:
+    resolution: {integrity: sha512-lL04JnIqxlyzSDzWFOXzYW5Do4yvPXPXa2dfU+ZMQxZ1Gc+jBenVCTpy+PVDdYZcPlm5YC6r4p14D1xsBPTWeQ==}
     dependencies:
       '@baileyherbert/reflection': 1.2.3
       '@baileyherbert/types': 1.0.1

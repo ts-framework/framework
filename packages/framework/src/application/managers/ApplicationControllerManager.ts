@@ -9,13 +9,31 @@ import { ModuleToken } from './ApplicationModuleManager';
 export class ApplicationControllerManager {
 
 	protected controllers = new Set<Constructor<Controller>>();
-	protected instances = new Map<Constructor<Controller>, Controller>();
-	protected parents = new Map<Constructor<Controller>, BaseModule>();
+
+	/**
+	 * A nested set containing controller constructors and their instances.
+	 */
+	protected instances = new NestedSet<Constructor<Controller>, Controller>();
+
+	/**
+	 * All instances registered across the application.
+	 */
+	protected globalInstances = new Set<Controller>();
+
+	/**
+	 * A map linking controllers to their parent modules.
+	 */
+	protected parents = new Map<Controller, BaseModule>();
 
 	/**
 	 * A map linking modules to the controllers registered directly under them (not nested).
 	 */
-	protected modules = new NestedSet<BaseModule, Constructor<Controller>>();
+	protected modules = new NestedSet<BaseModule, Controller>();
+
+	/**
+	 * A map linking constructors of controllers to the modules that use them.
+	 */
+	protected controllerModules = new NestedSet<Constructor<Controller>, BaseModule>();
 
 	/**
 	 * A cache for deeply nested services inside each module.
@@ -32,11 +50,12 @@ export class ApplicationControllerManager {
 	public register(controller: Constructor<Controller>, module: BaseModule) {
 		if (!this.controllers.has(controller)) {
 			this.controllers.add(controller);
-			this.parents.set(controller, module);
-			this.application.container.registerSingleton(controller);
+			this.application.container.register(controller);
+
 			this.modulesNestedCache = new Map();
-			this.modules.add(module, controller);
 		}
+
+		this.controllerModules.add(controller, module);
 	}
 
 	/**
@@ -62,15 +81,38 @@ export class ApplicationControllerManager {
 	 */
 	public resolveAll() {
 		for (const constructor of this.controllers) {
-			if (!this.instances.has(constructor)) {
-				this.instances.set(
-					constructor,
-					this.application.container.resolve(constructor)
-				);
+			const modules = [...this.controllerModules.values(constructor)];
+
+			for (const module of modules) {
+				this.application.container.setContext('_tsfw_parentModuleContext', (target: any) => {
+					if (target instanceof constructor) {
+						return module;
+					}
+
+					throw new Error(
+						`Module initialization failed for ${target.constructor.name} because it was not of type ` +
+						`${constructor.name}`
+					);
+				});
+
+				const contexts = this.application.modules.getParentModules(module);
+
+				this.application.container.setContext('defaultResolutionContext', contexts);
+				const instance = this.application.container.resolve(constructor);
+				this.application.container.removeContext('defaultResolutionContext');
+
+				this.instances.add(constructor, instance);
+				this.globalInstances.add(instance);
+				this.parents.set(instance, module);
+
+				// Register the instance in the container with the module as its context
+				this.application.container.registerInstance(instance, module);
+				this.application.container.registerInstance(instance);
 			}
+
 		}
 
-		return [...this.instances.values()];
+		return [...this.globalInstances.values()];
 	}
 
 	/**
@@ -79,21 +121,35 @@ export class ApplicationControllerManager {
 	 * @param controller
 	 * @returns
 	 */
-	 public resolve<T extends Controller>(controller: ControllerToken<T>): T {
+	 public resolve<T extends Controller>(controller: ControllerToken<T>): T;
+	 public resolve<T extends Controller>(controller: ControllerToken<T>, all: true): T[];
+	 public resolve<T extends Controller>(controller: ControllerToken<T>, all = false): T | T[] {
 		if (isConstructor(controller)) {
 			if (!this.controllers.has(controller)) {
 				throw new Error(`Attempt to resolve unregistered controller "${controller.name}"`);
 			}
 
-			if (!this.instances.has(controller)) {
+			if (!this.instances.hasKey(controller)) {
 				this.resolveAll();
 
-				if (!this.instances.has(controller)) {
+				if (!this.instances.hasKey(controller)) {
 					throw new Error(`Failed to instantiate controller "${controller.name}"`);
 				}
 			}
 
-			return this.instances.get(controller) as T;
+			const available = this.instances.get(controller)!;
+
+			if (all) {
+				return [...available] as T[];
+			}
+
+			if (available.size > 1) {
+				if (available.size > 1) {
+					throw new Error(`Multiple instances of controller ${controller.name} are available`);
+				}
+			}
+
+			return [...available][0] as T;
 		}
 
 		if (controller instanceof Controller) {
@@ -108,17 +164,13 @@ export class ApplicationControllerManager {
 	 * @param controller
 	 * @returns
 	 */
-	public getParentModule(controller: ControllerToken) {
-		if (!isConstructor(controller)) {
-			controller = controller.constructor as Constructor<Controller>;
-		}
-
+	public getParentModule(controller: Controller<any>) {
 		const module = this.parents.get(controller);
 
 		if (module === undefined) {
 			throw new Error(
-				`Failed to retrieve the module for controller instance "${controller.name}" because no module ` +
-				`was registered in the controller manager`
+				`Failed to retrieve the module for controller instance "${controller.constructor.name}" because no ` +
+				`module was registered in the controller manager`
 			);
 		}
 
@@ -132,18 +184,14 @@ export class ApplicationControllerManager {
 	 * @param controller
 	 * @returns
 	 */
-	public getParentModules(controller: ControllerToken) {
-		if (!isConstructor(controller)) {
-			controller = controller.constructor as Constructor<Controller>;
-		}
-
+	public getParentModules(controller: Controller<any>) {
 		const parents = new Set<BaseModule>();
 		let parent = this.parents.get(controller);
 
 		if (parent === undefined) {
 			throw new Error(
-				`Failed to retrieve the module for controller instance "${controller.name}" because no module ` +
-				`was registered in the controller manager`
+				`Failed to retrieve the module for controller instance "${controller.constructor.name}" because no ` +
+				`module was registered in the controller manager`
 			);
 		}
 
@@ -169,7 +217,7 @@ export class ApplicationControllerManager {
 
 		if (!moduleInstances) {
 			if (module === this.application && deep) {
-				return [...this.instances.values()];
+				return [...this.globalInstances.values()];
 			}
 
 			return [];

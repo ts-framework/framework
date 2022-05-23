@@ -21,7 +21,7 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	/**
 	 * The module that this service belongs to.
 	 */
-	public readonly module = this.application.services.getParentModule(this) as T;
+	public readonly module = this.container.getContext('_tsfw_parentModuleContext')(this) as T;
 
 	/**
 	 * The logger for this service.

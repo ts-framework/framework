@@ -1,8 +1,9 @@
 import { resolver } from '@baileyherbert/container';
+import { EnvironmentManager } from '@baileyherbert/env';
 import { Application } from '../application/Application';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { BaseModule } from './BaseModule';
-import { ImportableModuleWithOptions } from './Importable';
+import { ImportableModuleWithOptions, ImportableResolverWithOptions } from './Importable';
 import { ModuleOptions, ModuleOverrideOptions } from './ModuleOptions';
 
 export abstract class Module<T extends BaseModule = BaseModule> extends BaseModule {
@@ -48,7 +49,9 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	 */
 	public static withEnvironment<T extends typeof BaseModule>(this: T, environment: EnvironmentType<T>): ImportableModuleWithOptions {
 		return {
-			import: this as any,
+			import: (application: Application) => {
+				return application.container.resolve(this) as Module<any>;
+			},
 			environment
 		};
 	}
@@ -58,9 +61,11 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	 * @param options
 	 * @returns
 	 */
-	public static withOptions<T extends typeof BaseModule>(this: T, options: TypedModuleOverrideOptions<T>): ImportableModuleWithOptions {
+	public static withOptions<T extends typeof BaseModule>(this: T, options: TypedModuleOverrideOptions<T>): ImportableResolverWithOptions {
 		return {
-			import: this as any,
+			import: (application: Application) => {
+				return application.container.resolve(this) as Module<any>;
+			},
 			...options
 		};
 	}
@@ -70,9 +75,22 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	 */
 	public override get env(): InheritedEnvironmentType<this, T> {
 		return {
-			...this.parent.env,
+			// @ts-ignore
+			...this.parent._getEnvironmentFor(this._cachedEnvironmentManager),
 			...super.env
 		} as any;
+	}
+
+	/**
+	 * Resolves the environment for the given manager.
+	 * @param manager
+	 * @internal
+	 */
+	public override _getEnvironmentFor(manager: EnvironmentManager) {
+		return {
+			...this.parent._getEnvironmentFor(manager),
+			...this.onEnvironment(manager),
+		}
 	}
 
 }

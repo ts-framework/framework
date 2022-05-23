@@ -18,19 +18,29 @@ export class ApplicationServiceManager {
 	protected services = new Set<Constructor<Service>>();
 
 	/**
-	 * A set containing service instances.
+	 * A nested set containing service constructors and their instances.
 	 */
-	protected instances = new Map<Constructor<Service>, Service>();
+	protected instances = new NestedSet<Constructor<Service>, Service>();
+
+	/**
+	 * All instances registered across the application.
+	 */
+	protected globalInstances = new Set<Service>();
 
 	/**
 	 * A map linking services to their parent modules.
 	 */
-	protected parents = new Map<Constructor<Service>, BaseModule>();
+	protected parents = new Map<Service, BaseModule>();
 
 	/**
 	 * A map linking modules to the services registered directly under them (not nested).
 	 */
-	protected modules = new NestedSet<BaseModule, Constructor<Service>>();
+	protected modules = new NestedSet<BaseModule, Service>();
+
+	/**
+	 * A map linking constructors of services to the modules that use them.
+	 */
+	protected serviceModules = new NestedSet<Constructor<Service>, BaseModule>();
 
 	/**
 	 * A cache for deeply nested services inside each module.
@@ -66,12 +76,13 @@ export class ApplicationServiceManager {
 	public register(service: Constructor<Service>, module: BaseModule) {
 		if (!this.services.has(service)) {
 			this.services.add(service);
-			this.parents.set(service, module);
-			this.application.container.registerSingleton(service);
+			this.application.container.register(service);
+
 			this.cachedPaths = undefined;
 			this.modulesNestedCache = new Map();
-			this.modules.add(module, service);
 		}
+
+		this.serviceModules.add(service, module);
 	}
 
 	/**
@@ -97,44 +108,94 @@ export class ApplicationServiceManager {
 	 */
 	public resolveAll() {
 		const paths = this.getResolutionOrder();
-		const instances = new Array<Service>();
 
 		for (const path of paths) {
-			for (const node of path) {
-				const instance = this.application.container.resolve(node);
+			for (const constructor of path) {
+				const modules = [...this.serviceModules.values(constructor)];
 
-				if (!this.instances.has(node)) {
-					this.instances.set(node, instance);
+				// Prevent duplication
+				if (this.instances.hasKey(constructor)) {
+					continue;
 				}
 
-				instances.push(instance);
+				// Create an instance of the service for each module that uses it
+				for (const module of modules) {
+					this.application.container.setContext('_tsfw_parentModuleContext', (target: any) => {
+						if (target instanceof constructor) {
+							return module;
+						}
+
+						throw new Error(
+							`Module initialization failed for ${target.constructor.name} because it was not of type ` +
+							`${constructor.name}`
+						);
+					});
+
+					const contexts = this.application.modules.getParentModules(module);
+
+					this.application.container.setContext('defaultResolutionContext', contexts);
+					const instance = this.application.container.resolve(constructor);
+					this.application.container.removeContext('defaultResolutionContext');
+
+					this.instances.add(constructor, instance);
+					this.globalInstances.add(instance);
+					this.parents.set(instance, module);
+
+					// Register the instance in the container with the module as its context
+					this.application.container.registerInstance(instance, module);
+
+					// Register as a singleton if there's only one
+					if (modules.length === 1) {
+						this.application.container.registerInstance(instance);
+					}
+
+					// Register the instance under the module's context
+					if (typeof module._internContext !== 'undefined') {
+						this.application.container.registerInstance(instance, module._internContext);
+					}
+				}
 			}
 		}
 
-		return instances;
+		return [...this.globalInstances.values()];
 	}
 
 	/**
-	 * Resolves the singleton instance of the given service.
+	 * Resolves an instance of the given service or resolves it from a constructor. If a constructor is provided and
+	 * multiple instances exist, an error will be thrown.
 	 *
 	 * @param service
 	 * @returns
 	 */
-	public resolve<T extends Service>(service: ServiceToken<T>): T {
+	public resolve<T extends Service>(service: ServiceToken<T>): T;
+	public resolve<T extends Service>(service: ServiceToken<T>, all: true): T[];
+	public resolve<T extends Service>(service: ServiceToken<T>, all = false): T | T[] {
 		if (isConstructor(service)) {
 			if (!this.services.has(service)) {
 				throw new Error(`Attempt to resolve unregistered service "${service.name}"`);
 			}
 
-			if (!this.instances.has(service)) {
+			if (!this.instances.hasKey(service)) {
 				this.resolveAll();
 
-				if (!this.instances.has(service)) {
+				if (!this.instances.hasKey(service)) {
 					throw new Error(`Failed to instantiate service "${service.name}"`);
 				}
 			}
 
-			return this.instances.get(service) as T;
+			const available = this.instances.get(service)!;
+
+			if (all) {
+				return [...available] as T[];
+			}
+
+			if (available.size > 1) {
+				if (available.size > 1) {
+					throw new Error(`Multiple instances of service ${service.name} are available`);
+				}
+			}
+
+			return [...available][0] as T;
 		}
 
 		if (service instanceof Service) {
@@ -240,32 +301,31 @@ export class ApplicationServiceManager {
 	 * @param service
 	 * @returns
 	 */
-	private async start(service: ServiceToken) {
-		const instance = this.resolve(service);
+	private async start(service: Service<any>) {
 		const parents = this.getParentModules(service);
 
 		for (const parent of [...parents].reverse()) {
 			await this.application.modules.startModule(parent, false);
 		}
 
-		if (this.active.has(instance)) {
-			this.application.logger.trace('Ignored request to start active service: %s', instance.constructor.name);
+		if (this.active.has(service)) {
+			this.application.logger.trace('Ignored request to start active service: %s', service.constructor.name);
 			return;
 		}
 
-		this.active.add(instance);
-		this.application.logger.trace('Starting service:', instance.constructor.name);
+		this.active.add(service);
+		this.application.logger.trace('Starting service:', service.constructor.name);
 
-		if (!this.registered.has(instance)) {
-			this.registered.add(instance);
+		if (!this.registered.has(service)) {
+			this.registered.add(service);
 
 			try {
-				await instance.__internRegister();
+				await service.__internRegister();
 			}
 			catch (error) {
 				this.application.logger.error(
 					'Error when registering the %s service:',
-					instance.constructor.name,
+					service.constructor.name,
 					error
 				);
 
@@ -274,12 +334,12 @@ export class ApplicationServiceManager {
 		}
 
 		try {
-			await instance.__internStart();
+			await service.__internStart();
 		}
 		catch (startError) {
 			this.application.logger.error(
 				'Error when starting the %s service:',
-				instance.constructor.name,
+				service.constructor.name,
 				startError
 			);
 
@@ -302,29 +362,28 @@ export class ApplicationServiceManager {
 	 * @param service
 	 * @returns
 	 */
-	private async stop(service: ServiceToken) {
-		const instance = this.resolve(service);
+	private async stop(service: Service<any>) {
 		const parents = this.getParentModules(service);
 
 		for (const parent of [...parents].reverse()) {
 			await this.application.modules.stopModule(parent, false);
 		}
 
-		if (!this.active.has(instance)) {
-			this.application.logger.trace('Ignored request to stop inactive service: %s', instance.constructor.name);
+		if (!this.active.has(service)) {
+			this.application.logger.trace('Ignored request to stop inactive service: %s', service.constructor.name);
 			return;
 		}
 
-		this.active.delete(instance);
-		this.application.logger.trace('Stopping service:', instance.constructor.name);
+		this.active.delete(service);
+		this.application.logger.trace('Stopping service:', service.constructor.name);
 
 		try {
-			await instance.__internStop();
+			await service.__internStop();
 		}
 		catch (stopError) {
 			this.application.logger.error(
 				'Error when stopping the %s service:',
-				instance.constructor.name,
+				service.constructor.name,
 				stopError
 			);
 
@@ -394,8 +453,9 @@ export class ApplicationServiceManager {
 	 */
 	private async onPath(path: Constructor<Service>[], callback: (service: Service) => Promise<void>) {
 		for (const node of path) {
-			const instance = this.resolve(node);
-			await callback(instance);
+			for (const instance of this.resolve(node, true)) {
+				await callback(instance);
+			}
 		}
 	}
 
@@ -404,16 +464,12 @@ export class ApplicationServiceManager {
 	 * @param service
 	 * @returns
 	 */
-	public getParentModule(service: ServiceToken) {
-		if (!isConstructor(service)) {
-			service = service.constructor as Constructor<Service>;
-		}
-
+	public getParentModule(service: Service<any>) {
 		const module = this.parents.get(service);
 
 		if (module === undefined) {
 			throw new Error(
-				`Failed to retrieve the module for service instance "${service.name}" because no module ` +
+				`Failed to retrieve the module for service instance "${service.constructor.name}" because no module ` +
 				`was registered in the service manager`
 			);
 		}
@@ -424,21 +480,16 @@ export class ApplicationServiceManager {
 	/**
 	 * Returns an array of all modules that are above the given service. The first module in the array will be the
 	 * direct parent of the service, and the last module will be the application.
-	 *
 	 * @param service
 	 * @returns
 	 */
-	public getParentModules(service: ServiceToken) {
-		if (!isConstructor(service)) {
-			service = service.constructor as Constructor<Service>;
-		}
-
+	public getParentModules(service: Service<any>) {
 		const parents = new Set<BaseModule>();
 		let parent = this.parents.get(service);
 
 		if (parent === undefined) {
 			throw new Error(
-				`Failed to retrieve the module for service instance "${service.name}" because no module ` +
+				`Failed to retrieve the module for service instance "${service.constructor.name}" because no module ` +
 				`was registered in the service manager`
 			);
 		}
@@ -465,7 +516,7 @@ export class ApplicationServiceManager {
 
 		if (!moduleInstances) {
 			if (module === this.application && deep) {
-				return [...this.instances.values()];
+				return [...this.globalInstances.values()];
 			}
 
 			return [];
