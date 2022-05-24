@@ -1,9 +1,10 @@
 import { resolver } from '@baileyherbert/container';
 import { EnvironmentManager } from '@baileyherbert/env';
+import { Promisable } from '@baileyherbert/types';
 import { Application } from '../application/Application';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { BaseModule } from './BaseModule';
-import { ImportableModuleWithOptions, ImportableResolverWithOptions } from './Importable';
+import { ImportableModuleResolver, ImportableModuleWithOptions, ImportableResolverWithOptions } from './Importable';
 import { ModuleOptions, ModuleOverrideOptions } from './ModuleOptions';
 
 export abstract class Module<T extends BaseModule = BaseModule> extends BaseModule {
@@ -63,6 +64,24 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	}
 
 	/**
+	 * Returns an importable version of the module that invokes the given callback and asynchronously waits for it to
+	 * return environment variables.
+	 * @param this
+	 * @param callback
+	 * @returns
+	 */
+	public static withEnvironmentAsync<T extends typeof BaseModule>(this: T, callback: () => Promisable<EnvironmentType<T>>): ImportableModuleResolver {
+		return async () => {
+			return {
+				import: (application: Application) => {
+					return application.container.resolve(this) as Module<any>;
+				},
+				environment: await callback()
+			};
+		};
+	}
+
+	/**
 	 * Returns an importable version of the module with the given override options.
 	 * @param options
 	 * @returns
@@ -73,6 +92,24 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 				return application.container.resolve(this) as Module<any>;
 			},
 			...options
+		};
+	}
+
+	/**
+	 * Returns an importable version of the module that invokes the given callback and asynchronously waits for it to
+	 * return override options.
+	 * @param this
+	 * @param callback
+	 * @returns
+	 */
+	public static withOptionsAsync<T extends typeof BaseModule>(this: T, callback: () => Promisable<TypedModuleOverrideOptions<T>>): ImportableModuleResolver {
+		return async () => {
+			return {
+				import: (application: Application) => {
+					return application.container.resolve(this) as Module<any>;
+				},
+				...(await callback())
+			};
 		};
 	}
 
