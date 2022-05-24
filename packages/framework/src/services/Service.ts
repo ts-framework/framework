@@ -29,6 +29,12 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	public readonly logger = this.module.logger.createChild(this.constructor.name);
 
 	/**
+	 * The extensions that have been loaded into this service.
+	 * @internal
+	 */
+	public _internExtensions = this.application.extensions._invokeServiceComposer(this);
+
+	/**
 	 * Invoked immediately before the service is started for the first time to register attributes and perform any
 	 * other one-time operations. This method will not be called again for the duration of the process.
 	 */
@@ -43,7 +49,6 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	 * Stops the service.
 	 */
 	protected stop(): Promisable<void> {}
-
 	/**
 	 * Registers the service externally.
 	 * @internal

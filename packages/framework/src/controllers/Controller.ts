@@ -25,6 +25,12 @@ export abstract class Controller<T extends BaseModule = BaseModule> {
 	 */
 	public readonly logger = this.module.logger.createChild(this.constructor.name);
 
+	/**
+	 * The extensions that have been loaded into this controller.
+	 * @internal
+	 */
+	public _internExtensions = this.application.extensions._invokeControllerComposer(this);
+
 }
 
 type GetApplication<T> = T extends Module<infer P> ? GetApplication<P> : (T extends Application ? T : Application);

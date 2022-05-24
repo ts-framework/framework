@@ -12,6 +12,7 @@ import { ApplicationStartOptions } from './ApplicationStartOptions';
 import { ApplicationAttributeManager } from './managers/ApplicationAttributeManager';
 import { ApplicationControllerManager } from './managers/ApplicationControllerManager';
 import { ApplicationEventManager } from './managers/ApplicationEventManager';
+import { ApplicationExtensionManager } from './managers/ApplicationExtensionManager';
 import { ApplicationModuleManager } from './managers/ApplicationModuleManager';
 import { ApplicationRequestManager } from './managers/ApplicationRequestManager';
 import { ApplicationServiceManager } from './managers/ApplicationServiceManager';
@@ -64,6 +65,11 @@ export abstract class Application extends BaseModule {
 	public readonly attributes: ApplicationAttributeManager;
 
 	/**
+	 * The manager for this application's extensions.
+	 */
+	public readonly extensions: ApplicationExtensionManager;
+
+	/**
 	 * The options used to start the application.
 	 * @internal
 	 */
@@ -101,6 +107,7 @@ export abstract class Application extends BaseModule {
 		this.events = new ApplicationEventManager(this);
 		this.requests = new ApplicationRequestManager(this);
 		this.attributes = new ApplicationAttributeManager(this);
+		this.extensions = new ApplicationExtensionManager(this);
 	}
 
 	/**
@@ -109,6 +116,15 @@ export abstract class Application extends BaseModule {
 	private async bootstrap() {
 		if (!this.isBootstrapped) {
 			this.isBootstrapped = true;
+
+			// Register extensions
+			for (const extension of this.options.extensions ?? []) {
+				this.logger.trace('Registering extension:', extension.constructor.name);
+				await this.extensions.register(extension);
+			}
+
+			// Invoke extension composers
+			this.extensions._invokeApplicationComposer(this);
 
 			// Register modules
 			this.logger.trace('Registering module imports');
@@ -180,11 +196,14 @@ export abstract class Application extends BaseModule {
 		await this.requests.init();
 
 		try {
+			this.extensions._invokeComposerEvent(this, 'beforeStart');
 			await this.services.startAll();
 		}
 		catch (error) {
 			try {
+				this.extensions._invokeComposerEvent(this, 'beforeStop');
 				await this.services.stopAll();
+				this.extensions._invokeComposerEvent(this, 'afterStop');
 			}
 			catch (_) {}
 
@@ -195,6 +214,7 @@ export abstract class Application extends BaseModule {
 		await this.modules.startModule(this, false);
 		await this.modules.startModule(this, true);
 
+		this.extensions._invokeComposerEvent(this, 'afterStart');
 		this.logger.info('Started the application successfully');
 
 		return this.startPromiseSource.promise;
@@ -210,9 +230,8 @@ export abstract class Application extends BaseModule {
 
 		this.logger.info('Stopping the application');
 
-		await this.bootstrap();
-
 		try {
+			this.extensions._invokeComposerEvent(this, 'beforeStop');
 			await this.services.stopAll();
 		}
 		catch (error) {
@@ -224,6 +243,7 @@ export abstract class Application extends BaseModule {
 
 		this.modules.clearLifecycleCache();
 
+		this.extensions._invokeComposerEvent(this, 'afterStop');
 		this.logger.info('Stopped the application successfully');
 
 		this.startPromiseSource?.resolve();

@@ -1,6 +1,6 @@
 import { NestedSet } from '@baileyherbert/nested-collections';
 import { DependencyGraph } from '@baileyherbert/dependency-graph';
-import { Constructor } from '@baileyherbert/types';
+import { Constructor, Key } from '@baileyherbert/types';
 import { BaseModule } from '../../modules/BaseModule';
 import { Importable } from '../../modules/Importable';
 import { Module } from '../../modules/Module';
@@ -8,6 +8,7 @@ import { ModuleOverrideOptions } from '../../modules/ModuleOptions';
 import { normalizeLogLevel } from '../../utilities/normalizers';
 import { isConstructor } from '../../utilities/types';
 import { Application } from '../Application';
+import { ComposerEvents } from '../../extensions/Composer';
 
 export class ApplicationModuleManager {
 
@@ -25,6 +26,9 @@ export class ApplicationModuleManager {
 	 * A cache of module lifecycle invocations.
 	 */
 	protected lifecycleCache = new NestedSet<BaseModule, Lifecycle>();
+
+	protected startedModules = new Set<BaseModule>();
+	protected activeModules = new Set<BaseModule>();
 
 	/**
 	 * Constructs a new `ApplicationModuleManager` instance for the given root application object.
@@ -57,6 +61,13 @@ export class ApplicationModuleManager {
 			if (typeof options.context !== 'undefined') {
 				module._internContext = options.context;
 			}
+		}
+
+		if (module instanceof Module) {
+			this.application.extensions._invokeComposerEvent(module, 'afterResolution');
+		}
+		else if (module instanceof Application) {
+			this.application.extensions._invokeComposerEvent(module, 'afterResolution');
 		}
 
 		module._internLoadEnvironment(this.application, this.application.environmentManager!);
@@ -296,11 +307,19 @@ export class ApplicationModuleManager {
 	public async startModule(module: ModuleToken, finished: boolean) {
 		const instance = this.resolve(module);
 
-		if (!finished && !this.lifecycleCache.has(instance, 'beforeModuleBoot')) {
+		if (!finished && !this.startedModules.has(instance)) {
 			this.application.logger.trace('Starting module:', instance.constructor.name);
+			this.startedModules.add(instance);
+
+			this._invokeExtensionEvent(instance, 'beforeStart');
+			await this.invokeLifecycle(instance, 'beforeModuleBoot');
 		}
 
-		return this.invokeModuleMethod(instance, finished, ['beforeModuleBoot', 'onModuleBoot']);
+		else if (finished && !this.activeModules.has(instance)) {
+			this.activeModules.add(instance);
+			this._invokeExtensionEvent(instance, 'afterStart');
+			await this.invokeLifecycle(instance, 'onModuleBoot');
+		}
 	}
 
 	/**
@@ -313,41 +332,34 @@ export class ApplicationModuleManager {
 	public async stopModule(module: ModuleToken, finished: boolean) {
 		const instance = this.resolve(module);
 
-		if (!finished && !this.lifecycleCache.has(instance, 'beforeModuleShutdown')) {
+		if (!finished && this.activeModules.has(instance)) {
 			this.application.logger.trace('Stopping module:', instance.constructor.name);
+			this.activeModules.delete(instance);
+
+			this._invokeExtensionEvent(instance, 'beforeStop');
+			await this.invokeLifecycle(instance, 'beforeModuleShutdown');
 		}
 
-		return this.invokeModuleMethod(module, finished, ['beforeModuleShutdown', 'onModuleShutdown']);
+		else if (finished && this.startedModules.has(instance)) {
+			this.startedModules.delete(instance);
+
+			this._invokeExtensionEvent(instance, 'afterStop');
+			await this.invokeLifecycle(instance, 'onModuleShutdown');
+		}
 	}
 
 	/**
-	 * Invokes a lifecycle method on the given module, choosing between the given types[0] when not finished and the
-	 * given types[1] when finished. In addition, the module's children will be recursively iterated and the same
-	 * lifecycle method will be applied on child modules with no services.
+	 * Invokes the specified event on the module, first checking if it should be emitted on the `Module` type or the
+	 * `Application` type instead.
 	 * @param module
-	 * @param finished
-	 * @param types
+	 * @param event
 	 */
-	private async invokeModuleMethod(module: ModuleToken, finished: boolean, types: [Lifecycle, Lifecycle]) {
-		const event: Lifecycle = types[finished ? 1 : 0];
-		const nest = async () => {
-			for (const childModule of this.getChildModules(module)) {
-				const children = this.application.services.getFromModule(childModule, true);
-
-				if (children.length === 0) {
-					await this.invokeModuleMethod(childModule, finished, types);
-				}
-			}
-		};
-
-		if (finished) {
-			await nest();
+	private _invokeExtensionEvent(module: BaseModule, event: Key<ComposerEvents>) {
+		if (module instanceof Module) {
+			this.application.extensions._invokeComposerEvent(module, event);
 		}
-
-		await this.invokeLifecycle(module, event);
-
-		if (!finished) {
-			await nest();
+		else if (module instanceof Application) {
+			this.application.extensions._invokeComposerEvent(module, event);
 		}
 	}
 

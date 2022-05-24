@@ -116,6 +116,8 @@ export class ApplicationControllerManager {
 				if (typeof module._internContext !== 'undefined') {
 					this.application.container.registerInstance(instance, module._internContext);
 				}
+
+				this.application.extensions._invokeComposerEvent(instance, 'afterResolution');
 			}
 
 		}

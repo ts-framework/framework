@@ -84,6 +84,9 @@ nav:
     - Using attributes: controllers/using-attributes.md
     - Handling events: controllers/handling-events.md
     - Handling requests: controllers/handling-requests.md
+  - Working with extensions:
+    - Using extensions: extensions/using-extensions.md
+    - Developing extensions: extensions/developing-extensions.md
   - Techniques:
     - Configuration: techniques/configuration.md
     - Storage: techniques/storage.md

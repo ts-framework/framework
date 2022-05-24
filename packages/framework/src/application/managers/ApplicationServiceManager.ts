@@ -153,6 +153,8 @@ export class ApplicationServiceManager {
 					if (typeof module._internContext !== 'undefined') {
 						this.application.container.registerInstance(instance, module._internContext);
 					}
+
+					this.application.extensions._invokeComposerEvent(instance, 'afterResolution');
 				}
 			}
 		}
@@ -334,7 +336,9 @@ export class ApplicationServiceManager {
 		}
 
 		try {
+			this.application.extensions._invokeComposerEvent(service, 'beforeStart');
 			await service.__internStart();
+			this.application.extensions._invokeComposerEvent(service, 'afterStart');
 		}
 		catch (startError) {
 			this.application.logger.error(
@@ -378,7 +382,9 @@ export class ApplicationServiceManager {
 		this.application.logger.trace('Stopping service:', service.constructor.name);
 
 		try {
+			this.application.extensions._invokeComposerEvent(service, 'beforeStop');
 			await service.__internStop();
+			this.application.extensions._invokeComposerEvent(service, 'afterStop');
 		}
 		catch (stopError) {
 			this.application.logger.error(

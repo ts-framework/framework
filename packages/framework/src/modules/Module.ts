@@ -24,6 +24,12 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	public override readonly logger = this.container.resolve(Application).logger.createChild(this.constructor.name);
 
 	/**
+	 * The extensions that have been loaded into this module.
+	 * @internal
+	 */
+	public _internExtensions = this.application.extensions._invokeModuleComposer(this);
+
+	/**
 	 * Constructs a new `Module` instance with the given options.
 	 * @param options
 	 */

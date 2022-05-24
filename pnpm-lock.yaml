@@ -51,6 +51,7 @@ importers:
       '@baileyherbert/container': ^2.0.3
       '@baileyherbert/dependency-graph': ^1.0.0
       '@baileyherbert/env': ^1.3.0
+      '@baileyherbert/events': ^1.0.1
       '@baileyherbert/logging': ^2.0.1
       '@baileyherbert/nested-collections': ^1.3.0
       '@baileyherbert/promises': ^1.0.0
@@ -66,6 +67,7 @@ importers:
       '@baileyherbert/container': 2.0.3
       '@baileyherbert/dependency-graph': 1.0.0
       '@baileyherbert/env': 1.3.0
+      '@baileyherbert/events': 1.0.1
       '@baileyherbert/logging': 2.0.1
       '@baileyherbert/nested-collections': 1.3.0
       '@baileyherbert/promises': 1.0.0
@@ -126,9 +128,8 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^27.1.3
       typescript: ^4.6.2
-    dependencies:
-      '@ts-framework/framework': link:../framework
     devDependencies:
+      '@ts-framework/framework': link:../framework
       '@types/jest': 27.5.1
       '@types/node': 16.11.36
       jest: 27.5.1
