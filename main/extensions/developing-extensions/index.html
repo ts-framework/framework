@@ -10,14 +10,14 @@
         <meta name="author" content="Bailey Herbert">
       
       
-        <link rel="canonical" href="https://docs.bailey.sh/ts-framework/main/applications/sending-requests/">
+        <link rel="canonical" href="https://docs.bailey.sh/ts-framework/main/extensions/developing-extensions/">
       
       <link rel="icon" href="../../assets/logo.png">
       <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
     
     
       
-        <title>Sending requests - ts-framework</title>
+        <title>Developing extensions - ts-framework</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#sending-requests" class="md-skip">
+        <a href="#developing-extensions" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Sending requests
+              Developing extensions
             
           </span>
         </div>
@@ -406,14 +406,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
       
       
       
@@ -436,7 +434,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configuring-applications/" class="md-nav__link">
+      <a href="../../applications/configuring-applications/" class="md-nav__link">
         Configuring applications
       </a>
     </li>
@@ -450,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../managing-applications/" class="md-nav__link">
+      <a href="../../applications/managing-applications/" class="md-nav__link">
         Managing applications
       </a>
     </li>
@@ -464,7 +462,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../managing-modules/" class="md-nav__link">
+      <a href="../../applications/managing-modules/" class="md-nav__link">
         Managing modules
       </a>
     </li>
@@ -478,7 +476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sending-events/" class="md-nav__link">
+      <a href="../../applications/sending-events/" class="md-nav__link">
         Sending events
       </a>
     </li>
@@ -490,21 +488,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../applications/sending-requests/" class="md-nav__link">
         Sending requests
       </a>
-      
     </li>
   
 
@@ -792,12 +780,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
       
       
       
@@ -820,7 +810,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../extensions/using-extensions/" class="md-nav__link">
+      <a href="../using-extensions/" class="md-nav__link">
         Using extensions
       </a>
     </li>
@@ -832,11 +822,148 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../extensions/developing-extensions/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Developing extensions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Developing extensions
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-the-framework" class="md-nav__link">
+    Install the framework
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-extension" class="md-nav__link">
+    Create the extension
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-methods-and-properties" class="md-nav__link">
+    Add methods and properties
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registering-the-types" class="md-nav__link">
+    Registering the types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#onregister" class="md-nav__link">
+    onRegister
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onapplicationcomposer" class="md-nav__link">
+    onApplicationComposer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onmodulecomposer" class="md-nav__link">
+    onModuleComposer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onservicecomposer" class="md-nav__link">
+    onServiceComposer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oncontrollercomposer" class="md-nav__link">
+    onControllerComposer
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#techniques" class="md-nav__link">
+    Techniques
+  </a>
+  
+    <nav class="md-nav" aria-label="Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    Logging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#events" class="md-nav__link">
+    Events
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1034,6 +1161,117 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-the-framework" class="md-nav__link">
+    Install the framework
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-the-extension" class="md-nav__link">
+    Create the extension
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-methods-and-properties" class="md-nav__link">
+    Add methods and properties
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registering-the-types" class="md-nav__link">
+    Registering the types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#onregister" class="md-nav__link">
+    onRegister
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onapplicationcomposer" class="md-nav__link">
+    onApplicationComposer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onmodulecomposer" class="md-nav__link">
+    onModuleComposer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onservicecomposer" class="md-nav__link">
+    onServiceComposer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oncontrollercomposer" class="md-nav__link">
+    onControllerComposer
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#techniques" class="md-nav__link">
+    Techniques
+  </a>
+  
+    <nav class="md-nav" aria-label="Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#logging" class="md-nav__link">
+    Logging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#events" class="md-nav__link">
+    Events
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1046,8 +1284,146 @@
                 
 
 
-<h1 id="sending-requests">Sending requests<a class="headerlink" href="#sending-requests" title="Permanent link">&para;</a></h1>
-<p>TODO: How to send requests into an application and handle the response, both internally and externally.</p>
+<h1 id="developing-extensions">Developing extensions<a class="headerlink" href="#developing-extensions" title="Permanent link">&para;</a></h1>
+<p>Extensions allow you to add additional methods and properties to the framework's core classes, and to run code when
+they are constructed, started, and stopped.</p>
+<p>The following guide will demonstrate how to successfully add a property and method to services, controllers, and
+modules.</p>
+<h2 id="install-the-framework">Install the framework<a class="headerlink" href="#install-the-framework" title="Permanent link">&para;</a></h2>
+<p>You will need to use classes and types from the framework as part of your extension. Add the framework as both a
+<code>dev</code> and <code>peer</code> dependency in your <code>package.json</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;@ts-framework/framework&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="w"></span>
+<span class="p">},</span><span class="w"></span>
+<span class="nt">&quot;peerDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;@ts-framework/framework&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Then run <code>npm install</code> to download the new packages.</p>
+<h2 id="create-the-extension">Create the extension<a class="headerlink" href="#create-the-extension" title="Permanent link">&para;</a></h2>
+<p>First create a class that extends <code>FrameworkExtension</code>. This class has some public methods that are invoked by the
+framework and must be overridden to implement your features.</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">FrameworkExtension</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleExtension</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">FrameworkExtension</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="add-methods-and-properties">Add methods and properties<a class="headerlink" href="#add-methods-and-properties" title="Permanent link">&para;</a></h2>
+<p>Let's start with adding our new property to all instances of the <code>Service</code> class.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onServiceComposer</span><span class="p">(</span><span class="nx">composer</span><span class="o">:</span><span class="w"> </span><span class="kt">Composer</span><span class="o">&lt;</span><span class="nx">Service</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">createProperty</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;This was set from an extension&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>We'll also add a method to retrieve a similar message.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onServiceComposer</span><span class="p">(</span><span class="nx">composer</span><span class="o">:</span><span class="w"> </span><span class="kt">Composer</span><span class="o">&lt;</span><span class="nx">Service</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">createProperty</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;This was set from an extension&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">createMethod</span><span class="p">(</span><span class="s1">&#39;getExampleMessage&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;This was returned by an extension&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">});</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Now let's repeat this for the <code>Controller</code> and <code>Module</code> classes.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onControllerComposer</span><span class="p">(</span><span class="nx">composer</span><span class="o">:</span><span class="w"> </span><span class="kt">Composer</span><span class="o">&lt;</span><span class="nx">Controller</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">createProperty</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;This was set from an extension&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">createMethod</span><span class="p">(</span><span class="s1">&#39;getExampleMessage&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;This was returned by an extension&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">});</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onModuleComposer</span><span class="p">(</span><span class="nx">composer</span><span class="o">:</span><span class="w"> </span><span class="kt">Composer</span><span class="o">&lt;</span><span class="nx">Module</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">createProperty</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;This was set from an extension&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">createMethod</span><span class="p">(</span><span class="s1">&#39;getExampleMessage&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;This was returned by an extension&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">});</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="registering-the-types">Registering the types<a class="headerlink" href="#registering-the-types" title="Permanent link">&para;</a></h2>
+<p>With the above code, our properties and methods are now applied and can already be used across your application.
+However, our editors will complain that no such property or method exists as they are not part of the official types.</p>
+<p>To address this, we'll augment the framework's types by adding the following module declarations below our extension
+class.</p>
+<div class="highlight"><pre><span></span><code><span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework/dist/services/Service&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Service</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">getExampleMessage</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework/dist/controllers/Controller&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Controller</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">getExampleMessage</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework/dist/modules/Module&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="nx">getExampleMessage</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>You can then confirm the types have been added successfully by messing around with the <code>composer.instance</code> property in
+your extension methods.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onModuleComposer</span><span class="p">(</span><span class="nx">composer</span><span class="o">:</span><span class="w"> </span><span class="kt">Composer</span><span class="o">&lt;</span><span class="nx">Module</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">createProperty</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;This was set from an extension&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">createMethod</span><span class="p">(</span><span class="s1">&#39;getExampleMessage&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;This was returned by an extension&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">});</span><span class="w"></span>
+
+<span class="hll"><span class="w">    </span><span class="c1">// Your editor should detect this as a (() =&gt; string) type</span><span class="w"></span>
+</span><span class="hll"><span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">instance</span><span class="p">.</span><span class="nx">getExampleMessage</span><span class="p">();</span><span class="w"></span>
+</span><span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h2>
+<h3 id="onregister"><code>onRegister</code><a class="headerlink" href="#onregister" title="Permanent link">&para;</a></h3>
+<p>You can override this method to run code when the extension is registered into the application. This happens quite
+early, before modules have even been imported.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onRegister</span><span class="p">(</span><span class="nx">application</span><span class="o">:</span><span class="w"> </span><span class="kt">Application</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="onapplicationcomposer"><code>onApplicationComposer</code><a class="headerlink" href="#onapplicationcomposer" title="Permanent link">&para;</a></h3>
+<p>You can override this method to augment the root <code>Application</code> module.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onApplicationComposer</span><span class="p">(</span><span class="nx">composer</span><span class="o">:</span><span class="w"> </span><span class="kt">Composer</span><span class="o">&lt;</span><span class="nx">Application</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="onmodulecomposer"><code>onModuleComposer</code><a class="headerlink" href="#onmodulecomposer" title="Permanent link">&para;</a></h3>
+<p>You can override this method to augment the <code>Module</code> instances.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onModuleComposer</span><span class="p">(</span><span class="nx">composer</span><span class="o">:</span><span class="w"> </span><span class="kt">Composer</span><span class="o">&lt;</span><span class="nx">Module</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="onservicecomposer"><code>onServiceComposer</code><a class="headerlink" href="#onservicecomposer" title="Permanent link">&para;</a></h3>
+<p>You can override this method to augment the <code>Service</code> instances.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onServiceComposer</span><span class="p">(</span><span class="nx">composer</span><span class="o">:</span><span class="w"> </span><span class="kt">Composer</span><span class="o">&lt;</span><span class="nx">Service</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="oncontrollercomposer"><code>onControllerComposer</code><a class="headerlink" href="#oncontrollercomposer" title="Permanent link">&para;</a></h3>
+<p>You can override this method to augment the <code>Controller</code> instances.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onControllerComposer</span><span class="p">(</span><span class="nx">composer</span><span class="o">:</span><span class="w"> </span><span class="kt">Composer</span><span class="o">&lt;</span><span class="nx">Controller</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="techniques">Techniques<a class="headerlink" href="#techniques" title="Permanent link">&para;</a></h2>
+<h3 id="logging">Logging<a class="headerlink" href="#logging" title="Permanent link">&para;</a></h3>
+<p>Extensions have an internal logger as well. When the extension is registered into an application, this logger is
+automatically attached to the application's root logger. This happens before the extension is invoked in any way.</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Hello application!&#39;</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<h3 id="events">Events<a class="headerlink" href="#events" title="Permanent link">&para;</a></h3>
+<p>Most of the methods listed above receive <code>Composer&lt;T&gt;</code> instances that can be used to augment the target object.
+However, these instances also have events that you can subscribe to within those methods.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onServiceComposer</span><span class="p">(</span><span class="nx">composer</span><span class="o">:</span><span class="w"> </span><span class="kt">Composer</span><span class="o">&lt;</span><span class="nx">Service</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">composer</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;beforeStart&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">composer</span><span class="p">.</span><span class="nx">reflection</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;is starting&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">});</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>These are the events you can subscribe to:</p>
+<ul>
+<li><code>afterResolution</code> – After the framework has resolved and registered the instance</li>
+<li><code>beforeStart</code> – Immediately before the target is started</li>
+<li><code>beforeStop</code> – Immediately before the target is stopped</li>
+<li><code>afterStart</code> – Immediately after the target was started</li>
+<li><code>afterStop</code> – Immediately after the target was stopped</li>
+</ul>
+<p>Note that some of these events don't apply to certain objects.</p>
+<p>For example, the <code>Application</code> class will never trigger the <code>afterResolution</code> event because it was resolved before
+extensions were loaded. In addition, controllers will never trigger the start/stop events, as they are not stateful.</p>
 
               
             </article>
@@ -1066,7 +1442,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../sending-events/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Sending events" rel="prev">
+        <a href="../using-extensions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Using extensions" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1075,20 +1451,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Sending events
+              Using extensions
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../modules/configuring-modules/" class="md-footer__link md-footer__link--next" aria-label="Next: Configuring modules" rel="next">
+        <a href="../../techniques/configuration/" class="md-footer__link md-footer__link--next" aria-label="Next: Configuration" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Configuring modules
+              Configuration
             </div>
           </div>
           <div class="md-footer__button md-icon">
