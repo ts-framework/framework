@@ -22,7 +22,12 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	/**
 	 * The logger for this module.
 	 */
-	public override readonly logger = this.container.resolve(Application).logger.createChild(this.constructor.name);
+	public override readonly logger = this.parent.logger.createChild(this.constructor.name);
+
+	/**
+	 * The error manager for this module.
+	 */
+	public override readonly errors = this.parent.errors.createManager(this);
 
 	/**
 	 * The extensions that have been loaded into this module.

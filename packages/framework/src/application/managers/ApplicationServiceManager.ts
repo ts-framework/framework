@@ -4,6 +4,9 @@ import { NestedSet } from '@baileyherbert/nested-collections';
 import { ReflectionClass, ReflectionParameter } from '@baileyherbert/reflection';
 import { Constructor } from '@baileyherbert/types';
 import { NotImplementedError } from '../../errors/development/NotImplementedError';
+import { AbortError } from '../../errors/lifecycles/AbortError';
+import { BootError } from '../../errors/lifecycles/BootError';
+import { StopError } from '../../errors/lifecycles/StopError';
 import { BaseModule } from '../../modules/BaseModule';
 import { Service } from '../../services/Service';
 import { isConstructor } from '../../utilities/types';
@@ -325,13 +328,8 @@ export class ApplicationServiceManager {
 				await service.__internRegister();
 			}
 			catch (error) {
-				this.application.logger.error(
-					'Error when registering the %s service:',
-					service.constructor.name,
-					error
-				);
-
-				throw error;
+				service.errors.emitCriticalError(new BootError('Failed to register service'), error);
+				throw new AbortError();
 			}
 		}
 
@@ -340,14 +338,9 @@ export class ApplicationServiceManager {
 			await service.__internStart();
 			this.application.extensions._invokeComposerEvent(service, 'afterStart');
 		}
-		catch (startError) {
-			this.application.logger.error(
-				'Error when starting the %s service:',
-				service.constructor.name,
-				startError
-			);
-
-			throw startError;
+		catch (error) {
+			service.errors.emitCriticalError(new BootError('Failed to start service'), error);
+			throw new AbortError();
 		}
 
 		for (const parent of parents) {
@@ -386,14 +379,9 @@ export class ApplicationServiceManager {
 			await service.__internStop();
 			this.application.extensions._invokeComposerEvent(service, 'afterStop');
 		}
-		catch (stopError) {
-			this.application.logger.error(
-				'Error when stopping the %s service:',
-				service.constructor.name,
-				stopError
-			);
-
-			throw stopError;
+		catch (error) {
+			service.errors.emitCriticalError(new StopError('Failed to stop service'), error);
+			throw new AbortError();
 		}
 
 		for (const parent of parents) {

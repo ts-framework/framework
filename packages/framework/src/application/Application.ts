@@ -2,6 +2,10 @@ import { resolver } from '@baileyherbert/container';
 import { EnvironmentManager, FileEnvironmentSource, ProcessEnvironmentSource } from '@baileyherbert/env';
 import { ConsoleTransport, Logger, LogLevel } from '@baileyherbert/logging';
 import { PromiseCompletionSource } from '@baileyherbert/promises';
+import { ErrorEvent } from '../errors/ErrorEvent';
+import { ErrorManager } from '../errors/ErrorManager';
+import { AbortError } from '../errors/lifecycles/AbortError';
+import { FrameworkError } from '../errors/lifecycles/FrameworkError';
 import { BaseModule } from '../modules/BaseModule';
 import { onExit } from '../utilities/async-exit-hook';
 import { normalizeLogLevel } from '../utilities/normalizers';
@@ -33,6 +37,11 @@ export abstract class Application extends BaseModule {
 	 * The options for the application.
 	 */
 	public override readonly options: ApplicationOptions;
+
+	/**
+	 * The root error manager for the application.
+	 */
+	public override readonly errors = new ErrorManager(this);
 
 	/**
 	 * The manager for this application's modules.
@@ -87,9 +96,19 @@ export abstract class Application extends BaseModule {
 	private startPromiseSource?: PromiseCompletionSource<void>;
 
 	/**
+	 * A promise source created to intercept aborts from errors.
+	 */
+	private abortPromiseSource?: PromiseCompletionSource<void>;
+
+	/**
 	 * Whether or not the application has been bootstrapped yet.
 	 */
 	private isBootstrapped: boolean = false;
+
+	/**
+	 * The current phase of the application.
+	 */
+	private phase = ApplicationPhase.None;
 
 	/**
 	 * Constructs a new `Application` instance with the given options.
@@ -122,6 +141,10 @@ export abstract class Application extends BaseModule {
 				this.logger.trace('Registering extension:', extension.constructor.name);
 				await this.extensions.register(extension);
 			}
+
+			// Attach error handling
+			this.errors.on('passive', event => this.handleError(LogLevel.Error, event));
+			this.errors.on('critical', event => this.handleError(LogLevel.Critical, event));
 
 			// Invoke extension composers
 			this.extensions._invokeApplicationComposer(this);
@@ -184,12 +207,16 @@ export abstract class Application extends BaseModule {
 
 		this.logger.info('Starting the application');
 		this.logger.trace('Starting in %s mode', this.mode);
+		this.phase = ApplicationPhase.Starting;
 
 		this.startOptions = this.getStartOptions(options);
 		this.startPromiseSource = new PromiseCompletionSource();
 		this.environmentManager = this.getEnvironmentManager(this.startOptions);
 
 		this._internCustomEnvironment = this.startOptions.environment ?? {};
+
+		const source = this.abortPromiseSource = new PromiseCompletionSource<void>();
+		const promise = this.abortPromiseSource.promise;
 
 		await this.bootstrap();
 		await this.events.init();
@@ -198,18 +225,14 @@ export abstract class Application extends BaseModule {
 		try {
 			this.extensions._invokeComposerEvent(this, 'beforeStart');
 			await this.services.startAll();
+			source.resolve();
 		}
 		catch (error) {
-			try {
-				this.extensions._invokeComposerEvent(this, 'beforeStop');
-				await this.services.stopAll();
-				this.extensions._invokeComposerEvent(this, 'afterStop');
-			}
-			catch (_) {}
-
-			this.startPromiseSource = undefined;
-			this.abort(error);
+			this.logger.info('Start cycle cancelled for shutdown');
+			return await this.stopForError(error);
 		}
+
+		await promise;
 
 		await this.modules.startModule(this, false);
 		await this.modules.startModule(this, true);
@@ -217,6 +240,7 @@ export abstract class Application extends BaseModule {
 		this.extensions._invokeComposerEvent(this, 'afterStart');
 		this.logger.info('Started the application successfully');
 
+		this.phase = ApplicationPhase.Running;
 		return this.startPromiseSource.promise;
 	}
 
@@ -229,15 +253,21 @@ export abstract class Application extends BaseModule {
 		}
 
 		this.logger.info('Stopping the application');
+		this.phase = ApplicationPhase.Stopping;
+
+		const source = this.abortPromiseSource = new PromiseCompletionSource<void>();
+		const promise = source.promise;
 
 		try {
 			this.extensions._invokeComposerEvent(this, 'beforeStop');
 			await this.services.stopAll();
+			source.resolve();
 		}
 		catch (error) {
-			this.abort(error);
+			return this.abort(error);
 		}
 
+		await promise;
 		await this.modules.stopModule(this, false);
 		await this.modules.stopModule(this, true);
 
@@ -248,16 +278,64 @@ export abstract class Application extends BaseModule {
 
 		this.startPromiseSource?.resolve();
 		this.startPromiseSource = undefined;
+		this.phase = ApplicationPhase.None;
+	}
+
+	/**
+	 * Stops the application for the given error.
+	 * @param error
+	 */
+	private async stopForError(error?: any) {
+		if (error instanceof Error) {
+			if (!(error instanceof AbortError)) {
+				this.logger.critical(FrameworkError.from(error));
+			}
+		}
+
+		if (this.abortPromiseSource) {
+			this.abortPromiseSource.reject(new AbortError());
+		}
+
+		if (this.phase === ApplicationPhase.Stopping) {
+			return this.abort(error);
+		}
+
+		await this.stop();
+		this.abort();
 	}
 
 	/**
 	 * Aborts with the given error. If aborting is disabled, throws the error instead.
 	 * @param error
 	 */
-	private abort(error?: any): never {
-		if (this.startOptions?.abortOnError) {
-			this.logger.error('Aborting application due to a fatal error');
+	private abort(error?: any): Promise<void> | never {
+		if (error instanceof Error) {
+			if (!(error instanceof AbortError)) {
+				this.logger.critical(FrameworkError.from(error));
+			}
+		}
+
+		if (this.phase === ApplicationPhase.None) {
+			this.logger.critical('Application emitted a critical error after it stopped.');
+			this.logger.critical('Please ensure all asynchronous logic is waited for when shutting down.');
+			this.logger.critical('The process will now be terminated for safety reasons.');
 			process.exit(1);
+		}
+
+		if (this.startOptions?.abortOnError) {
+			this.logger.critical('Application aborted due to a critical error');
+			process.exit(1);
+		}
+
+		this.phase = ApplicationPhase.None;
+
+		if (this.startPromiseSource) {
+			const promise = this.startPromiseSource.promise;
+
+			this.startPromiseSource.reject(error);
+			this.startPromiseSource = undefined;
+
+			return promise;
 		}
 
 		throw error;
@@ -337,6 +415,55 @@ export abstract class Application extends BaseModule {
 		return new EnvironmentManager(sources, options.envPrefix);
 	}
 
+	/**
+	 * Handles errors from the root manager and sends them to their respective loggers.
+	 * @param level
+	 * @param event
+	 */
+	private handleError(level: LogLevel, event: ErrorEvent) {
+		if (ErrorEvent.canOutput(event)) {
+			if (this.hasLogger(event.sender)) {
+				event.sender.logger.write(level, event.toString());
+			}
+			else {
+				this.logger.write(level, event.toString());
+			}
+		}
+
+		if (level === LogLevel.Critical) {
+			this.stopForError(level);
+		}
+		else if (this.phase === ApplicationPhase.None) {
+			this.logger.warning('Application emitted a passive error after it stopped.');
+			this.logger.warning('Please ensure all asynchronous logic is waited for when shutting down.');
+		}
+	}
+
+	/**
+	 * Returns true if the given object has a `logger` property.
+	 * @param sender
+	 * @returns
+	 */
+	private hasLogger(sender: any): sender is IHasLogger {
+		if ('logger' in sender) {
+			if (sender.logger instanceof Logger) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 }
 
 type ApplicationMode = 'production' | 'staging' | 'testing' | 'development';
+type IHasLogger = {
+	logger: Logger;
+}
+
+enum ApplicationPhase {
+	None,
+	Starting,
+	Stopping,
+	Running
+}

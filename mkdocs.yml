@@ -88,6 +88,7 @@ nav:
     - Using extensions: extensions/using-extensions.md
     - Developing extensions: extensions/developing-extensions.md
   - Techniques:
+    - Error handling: techniques/error-handling.md
     - Configuration: techniques/configuration.md
     - Storage: techniques/storage.md
     - Logging: techniques/logging.md

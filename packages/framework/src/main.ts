@@ -42,6 +42,12 @@ export * from './services/requests/RequestRegistry';
 export * from './services/requests/RequestType';
 
 export * from './errors/development/NotImplementedError';
+export * from './errors/ErrorEvent';
+export * from './errors/ErrorManager';
+export * from './errors/lifecycles/AbortError';
+export * from './errors/lifecycles/BootError';
+export * from './errors/lifecycles/StopError';
+export * from './errors/lifecycles/FrameworkError';
 
 export * from './extensions/Composer';
 export * from './extensions/FrameworkExtension';

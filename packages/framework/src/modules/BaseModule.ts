@@ -1,6 +1,7 @@
 import { EnvironmentError, EnvironmentManager } from '@baileyherbert/env';
 import { Logger } from '@baileyherbert/logging';
 import { Application } from '../application/Application';
+import { ErrorManager } from '../errors/ErrorManager';
 import { RecordEnvironmentSource } from '../utilities/env/RecordEnvironmentSource';
 import { ModuleContextToken, ModuleOptions } from './ModuleOptions';
 
@@ -15,6 +16,11 @@ export abstract class BaseModule {
 	 * The logger for this module.
 	 */
 	public readonly logger: Logger;
+
+	/**
+	 * The error manager for this module.
+	 */
+	public readonly errors: ErrorManager;
 
 	/**
 	 * The cached return value from the `getEnvironment()` method.
@@ -51,6 +57,7 @@ export abstract class BaseModule {
 	public constructor(options: ModuleOptions) {
 		this.options = options;
 		this.logger = new Logger();
+		this.errors = new ErrorManager(this);
 	}
 
 	private _getCustomEnvironmentSources(application: Application) {

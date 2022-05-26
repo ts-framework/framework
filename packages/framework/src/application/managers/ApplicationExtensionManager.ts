@@ -29,8 +29,9 @@ export class ApplicationExtensionManager {
 			this.types.set(type, extension);
 			this.extensions.add(extension);
 
-			// Connect its logger to the application
+			// Propagate the extension's utilities into the application
 			this.application.logger.attach(extension.logger);
+			this.application.errors.attach(extension.errors);
 
 			// Invoke the onRegistered() method
 			await extension.onRegister(this.application);

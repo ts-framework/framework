@@ -26,6 +26,11 @@ export abstract class Controller<T extends BaseModule = BaseModule> {
 	public readonly logger = this.module.logger.createChild(this.constructor.name);
 
 	/**
+	 * The error manager for this controller.
+	 */
+	public readonly errors = this.module.errors.createManager(this);
+
+	/**
 	 * The extensions that have been loaded into this controller.
 	 * @internal
 	 */

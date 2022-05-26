@@ -29,6 +29,11 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	public readonly logger = this.module.logger.createChild(this.constructor.name);
 
 	/**
+	 * The error manager for this service.
+	 */
+	public readonly errors = this.module.errors.createManager(this);
+
+	/**
 	 * The extensions that have been loaded into this service.
 	 * @internal
 	 */

@@ -1,6 +1,7 @@
 import { Logger } from '@baileyherbert/logging';
 import { Application } from '../application/Application';
 import { Controller } from '../controllers/Controller';
+import { ErrorManager } from '../errors/ErrorManager';
 import { Module } from '../modules/Module';
 import { Service } from '../services/Service';
 import { Composer } from './Composer';
@@ -14,7 +15,12 @@ export abstract class FrameworkExtension {
 	/**
 	 * The logger for this extension.
 	 */
-	public logger = new Logger(this.constructor.name);
+	public readonly logger = new Logger(this.constructor.name);
+
+	/**
+	 * The error manager for this extension.
+	 */
+	public readonly errors = new ErrorManager(this);
 
 	/**
 	 * Invoked from the constructor of new services.
