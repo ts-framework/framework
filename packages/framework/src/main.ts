@@ -43,6 +43,10 @@ export * from './services/requests/RequestType';
 
 export * from './services/promises/PromiseManager';
 
+export * from './services/scheduler/ScheduleError';
+export * from './services/scheduler/ScheduleHandle';
+export * from './services/scheduler/ScheduleManager';
+
 export * from './errors/development/NotImplementedError';
 export * from './errors/ErrorEvent';
 export * from './errors/ErrorManager';

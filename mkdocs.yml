@@ -80,6 +80,7 @@ nav:
     - Adding requests: services/adding-requests.md
     - Adding attributes: services/adding-attributes.md
     - Tracking promises: services/tracking-promises.md
+    - Timeouts & intervals: services/timeouts-intervals.md
   - Working with controllers:
     - Implementing controllers: controllers/implementing-controllers.md
     - Using attributes: controllers/using-attributes.md

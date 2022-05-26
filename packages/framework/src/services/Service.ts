@@ -6,6 +6,7 @@ import { BaseModule } from '../modules/BaseModule';
 import { isConstructor } from '../utilities/types';
 import { Module } from '../modules/Module';
 import { PromiseManager } from './promises/PromiseManager';
+import { ScheduleManager } from './scheduler/ScheduleManager';
 
 export abstract class Service<T extends BaseModule = BaseModule> {
 
@@ -38,6 +39,11 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	 * The promise manager for this service.
 	 */
 	protected readonly promises = new PromiseManager();
+
+	/**
+	 * The schedule manager for this service.
+	 */
+	protected readonly scheduler: ScheduleManager = new ScheduleManager(this);
 
 	/**
 	 * The extensions that have been loaded into this service.
@@ -81,6 +87,7 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	 * @internal
 	 */
 	public async __internStop() {
+		await this.scheduler.clearAll();
 		await this.stop();
 
 		if (this.promises.size > 0) {
