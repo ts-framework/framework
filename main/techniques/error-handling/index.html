@@ -10,14 +10,14 @@
         <meta name="author" content="Bailey Herbert">
       
       
-        <link rel="canonical" href="https://docs.bailey.sh/ts-framework/main/techniques/configuration/">
+        <link rel="canonical" href="https://docs.bailey.sh/ts-framework/main/techniques/error-handling/">
       
       <link rel="icon" href="../../assets/logo.png">
       <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
     
     
       
-        <title>Configuration - ts-framework</title>
+        <title>Error handling - ts-framework</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuration" class="md-skip">
+        <a href="#error-handling" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configuration
+              Error handling
             
           </span>
         </div>
@@ -870,20 +870,6 @@
               
   
   
-  
-    <li class="md-nav__item">
-      <a href="../error-handling/" class="md-nav__link">
-        Error handling
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -896,12 +882,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Configuration
+          Error handling
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Configuration
+        Error handling
       </a>
       
         
@@ -920,29 +906,90 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#adding-configuration-to-a-module" class="md-nav__link">
-    Adding configuration to a module
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-managers" class="md-nav__link">
+    Error managers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-types" class="md-nav__link">
+    Error types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reporting-errors" class="md-nav__link">
+    Reporting errors
+  </a>
+  
+    <nav class="md-nav" aria-label="Reporting errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manual-reporting" class="md-nav__link">
+    Manual reporting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-event-emitters" class="md-nav__link">
+    From event emitters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-promises" class="md-nav__link">
+    From promises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detaching-objects" class="md-nav__link">
+    Detaching objects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-errors" class="md-nav__link">
+    Handling errors
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#accessing-the-configuration" class="md-nav__link">
-    Accessing the configuration
+  <a href="#transforming-errors" class="md-nav__link">
+    Transforming errors
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#setting-values-on-imports" class="md-nav__link">
-    Setting values on imports
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-values-on-the-application" class="md-nav__link">
-    Setting values on the application
+  <a href="#creating-managers" class="md-nav__link">
+    Creating managers
   </a>
   
 </li>
@@ -951,6 +998,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        Configuration
+      </a>
     </li>
   
 
@@ -1107,29 +1168,90 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#adding-configuration-to-a-module" class="md-nav__link">
-    Adding configuration to a module
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+    <nav class="md-nav" aria-label="Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-managers" class="md-nav__link">
+    Error managers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-types" class="md-nav__link">
+    Error types
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reporting-errors" class="md-nav__link">
+    Reporting errors
+  </a>
+  
+    <nav class="md-nav" aria-label="Reporting errors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manual-reporting" class="md-nav__link">
+    Manual reporting
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-event-emitters" class="md-nav__link">
+    From event emitters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-promises" class="md-nav__link">
+    From promises
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#detaching-objects" class="md-nav__link">
+    Detaching objects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-errors" class="md-nav__link">
+    Handling errors
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#accessing-the-configuration" class="md-nav__link">
-    Accessing the configuration
+  <a href="#transforming-errors" class="md-nav__link">
+    Transforming errors
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#setting-values-on-imports" class="md-nav__link">
-    Setting values on imports
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setting-values-on-the-application" class="md-nav__link">
-    Setting values on the application
+  <a href="#creating-managers" class="md-nav__link">
+    Creating managers
   </a>
   
 </li>
@@ -1148,70 +1270,130 @@
                 
 
 
-<h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h1>
-<p>The framework uses environment variables for its configuration. Each module in the application has an opportunity to
-define the environment variables it would like to use. These variables are then validated and guaranteed to exist.</p>
-<h2 id="adding-configuration-to-a-module">Adding configuration to a module<a class="headerlink" href="#adding-configuration-to-a-module" title="Permanent link">&para;</a></h2>
-<p>To declare a module's environment configuration, extend the protected <code>onEnvironment()</code> method. You will receive an
-instance of <code>EnvironmentManager</code> and are then expected to return the values of your variables using the <code>rules()</code>
-method on that instance.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="o">&lt;</span><span class="nx">App</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onEnvironment</span><span class="p">(</span><span class="nx">env</span><span class="o">:</span><span class="w"> </span><span class="kt">EnvironmentManager</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">env</span><span class="p">.</span><span class="nx">rules</span><span class="p">({</span><span class="w"></span>
-<span class="w">            </span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="kt">env.schema.string</span><span class="p">()</span><span class="w"></span>
-<span class="w">        </span><span class="p">});</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-
+<h1 id="error-handling">Error handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Due to the extensible nature of this framework, it includes tools that make it easier to both throw and handle errors
+across the application, as well as within individual modules and services.</p>
+<h3 id="error-managers">Error managers<a class="headerlink" href="#error-managers" title="Permanent link">&para;</a></h3>
+<p>All major components in the framework – from the application itself to the individual modules, services, and
+controllers which power them – expose a public <code>errors</code> property that has a dedicated <strong>error manager</strong> assigned
+specifically to that instance.</p>
+<p>These managers are standing by to accept any errors that your code needs to report. When an error is reported to a
+manager, it will be propagated up through its ancestors – the managers of parent modules – until it reaches the root
+manager for the application.</p>
+<p>It's possible to listen for errors as they pass through specific managers. This makes it easy, for example, to listen
+for errors across the application (from the root manager) and report them to a remote service such as
+<a href="https://sentry.io">sentry.io</a>.</p>
+<h3 id="error-types">Error types<a class="headerlink" href="#error-types" title="Permanent link">&para;</a></h3>
+<p>There are two types of errors that can be sent into managers.</p>
+<ul>
+<li><strong>Passive errors</strong> are errors that indicate a failure has occurred but is safe to ignore or has been recovered from.
+  The application will continue operating normally.</li>
+<li><strong>Critical errors</strong> are errors that indicate a significant failure has occurred and cannot be recovered from.
+  The application will shut down immediately.</li>
+</ul>
+<p>From a logging perspective, passive errors are emitted under the <code>Error</code> logging level while critical errors are
+emitted under the <code>Critical</code> logging level.</p>
+<h2 id="reporting-errors">Reporting errors<a class="headerlink" href="#reporting-errors" title="Permanent link">&para;</a></h2>
+<h3 id="manual-reporting">Manual reporting<a class="headerlink" href="#manual-reporting" title="Permanent link">&para;</a></h3>
+<p>To report a <strong>passive error</strong> from a service, controller, or module, use the <code>emitPassiveError()</code> method on the nearest
+available error manager object.</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">emitPassiveError</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Just a scratch!&#39;</span><span class="p">));</span><span class="w"></span>
+</code></pre></div>
+<p>To report a <strong>critical error</strong>, use the <code>emitCriticalError()</code> method instead.</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">emitCriticalError</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;I need a restart!&#39;</span><span class="p">));</span><span class="w"></span>
+</code></pre></div>
+<p>In both cases, you can chain errors by supplying the original error in the second argument of the emit method,
+preserving the original message and stack as well.</p>
+<div class="highlight"><pre><span></span><code><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">passive</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Task failed&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
-<p>With the above example, the application will not start unless the <code>TOKEN</code> is available either in the <code>.env</code> file or as
-part of the process environment. You can learn more about declaring and validating these variables at
-<a href="https://github.com/baileyherbert/env"><code>@baileyherbert/env</code></a>.</p>
-<h2 id="accessing-the-configuration">Accessing the configuration<a class="headerlink" href="#accessing-the-configuration" title="Permanent link">&para;</a></h2>
-<p>You can retrieve values from a module's configuration using its <code>env</code> property if you have a reference to it.
-The below example shows how to do this from a service, assuming the <code>Service&lt;T&gt;</code> generic is configured properly.</p>
-<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.env.TOKEN</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<p>The full stack for each error in the chain will still be available when handling the error. However, the resulting
+error will be logged by the framework as the following:</p>
+<div class="highlight"><pre><span></span><code>Error: Task failed: This is the original error message
+    at &lt;original stack&gt;
+    from Error at &lt;outer stack throw statement&gt;
 </code></pre></div>
-<p>Note that these environment variables are available globally across the application and multiple modules can use the
-same names. This also means you can retrieve the value using an environment manager which is commonly exposed as an
-<code>environment</code> property.</p>
-<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.environment.get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">environment</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</code></pre></div>
-<h2 id="setting-values-on-imports">Setting values on imports<a class="headerlink" href="#setting-values-on-imports" title="Permanent link">&para;</a></h2>
-<p>It's possible to set or override the values of environment variables for specific modules (and their children) when
-importing them.</p>
-<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">App</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Application</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<h3 id="from-event-emitters">From event emitters<a class="headerlink" href="#from-event-emitters" title="Permanent link">&para;</a></h3>
+<p>In cases where you have an event emitter with an <code>error</code> event, you can easily attach it to the nearest manager and it
+will listen to this event for you.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">emitter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">EventEmitter</span><span class="p">();</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
-<span class="w">            </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">                </span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withEnvironment</span><span class="p">({</span><span class="w"></span>
-<span class="w">                    </span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Sets or overrides the value&#39;</span><span class="w"></span>
-<span class="w">                </span><span class="p">})</span><span class="w"></span>
-<span class="w">            </span><span class="p">]</span><span class="w"></span>
-<span class="w">        </span><span class="p">});</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="c1">// Attach the emitter (listens to the &#39;error&#39; event)</span><span class="w"></span>
+<span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">emitter</span><span class="p">);</span><span class="w"></span>
 
-<span class="p">}</span><span class="w"></span>
+<span class="c1">// The manager will emit and propagate the error</span><span class="w"></span>
+<span class="nx">emitter</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">());</span><span class="w"></span>
 </code></pre></div>
-<p>In these cases, the module's <code>environment</code> and <code>env</code> properties will see the overridden value, but the rest of the
-application will not. This makes it great for module-specific configuration, and the values can be any type!</p>
-<p>Note that these custom values remain subject to validation by the imported module or its children via their
-<code>onEnvironment()</code> methods.</p>
-<h2 id="setting-values-on-the-application">Setting values on the application<a class="headerlink" href="#setting-values-on-the-application" title="Permanent link">&para;</a></h2>
-<p>When starting or attaching the application, you have an opportunity to set or override its environment variables
-without affecting the rest of the application (or other instances of the framework).</p>
-<div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">({</span><span class="w"></span>
-<span class="w">    </span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Sets or overrides the value&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<p>These errors will be passive by default, however you can indicate to the manager that they are critical by passing
+<code>true</code> as the second parameter:</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">emitter</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please note that emitters are never detached from the manager automatically, so you could end up with a memory
+leak unless you detach them using <code>detach()</code>.</p>
+</div>
+<h3 id="from-promises">From promises<a class="headerlink" href="#from-promises" title="Permanent link">&para;</a></h3>
+<p>You can also use the above <code>attach()</code> method on promises to easily catch any errors they reject with. The manager will
+listen for those rejections in the background.</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nb">Promise</span><span class="p">.</span><span class="nx">reject</span><span class="p">());</span><span class="w"></span>
+</code></pre></div>
+<h3 id="detaching-objects">Detaching objects<a class="headerlink" href="#detaching-objects" title="Permanent link">&para;</a></h3>
+<p>To detach a promise or emitter from the manager, use the <code>detach()</code> method.</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">detach</span><span class="p">(</span><span class="nx">emitter</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>This is typically not necessary for promises, as they will automatically be detached after they resolve or reject.
+However, emitters can emit more than one error, so they will never detach on their own and must be managed properly to
+avoid memory leaks.</p>
+<h2 id="handling-errors">Handling errors<a class="headerlink" href="#handling-errors" title="Permanent link">&para;</a></h2>
+<p>As mentioned in the introduction above, errors propagate up the error manager chain until they reach the root manager.
+You can use the <code>on()</code> and <code>once()</code> methods to listen for errors as they travel through those managers.</p>
+<p>When listening for errors, you will receive an <code>ErrorEvent</code> instance containing information about them, as well as
+a method to stop them from propagating further if you desire.</p>
+<p>To handle errors, first identify on which error manager you would like to listen. For example, the root application's
+manager will receive all errors across the entire application, while a module's manager will only receive errors
+originating from it or its children.</p>
+<p>Then listen for the <code>passive</code> or <code>critical</code> events to intercept those error types.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;passive&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Intercepted:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Emitted by:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">sender</span><span class="p">);</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
+</code></pre></div>
+<p>You can stop the error from propagating further using the <code>stopPropagation()</code> method.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">event</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<p>You can also prevent the error from being logged without preventing it from propagating further up the chain using
+the <code>stopOutput()</code> method.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">event</span><span class="p">.</span><span class="nx">stopOutput</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<h2 id="transforming-errors">Transforming errors<a class="headerlink" href="#transforming-errors" title="Permanent link">&para;</a></h2>
+<p>You can transform errors as they pass through managers using the <code>ErrorEvent</code> instances provided in the events
+demonstrated above.</p>
+<p>In the following example, we'll use the <code>transform()</code> method to chain errors coming from a specific module such that
+the topmost error is an <code>InternalServerErrorException</code> instance.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">httpModule</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;passive&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">event</span><span class="p">.</span><span class="nx">transform</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nx">InternalServerErrorException</span><span class="p">());</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
+</code></pre></div>
+<p>If you don't silence or stop the error from propagating, it will appear in the application's output under the <code>Error</code>
+logging level looking something like this:</p>
+<div class="highlight"><pre><span></span><code>InternalServerErrorException: This is the original error message
+    at &lt;original stack&gt;
+    from Error at &lt;transform call&gt;
+</code></pre></div>
+<h2 id="creating-managers">Creating managers<a class="headerlink" href="#creating-managers" title="Permanent link">&para;</a></h2>
+<p>In some circumstances you may wish to create your own managers. You have two options – you can spawn a child manager
+from an instance somewhere in the application, or construct a manager manually and then attach it to the application.</p>
+<p>To spawn a child manager, invoke the <code>createManager()</code> instance and pass a reference to the object you wish to deem
+the "sender" of its errors. Those errors will automatically be propgated up to the parent manager.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">manager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">createManager</span><span class="p">(</span><span class="k">this</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>To construct a new manager on your own, pass the same arguments. You may then attach it to a parent manager who will
+receive your errors using the parent manager's <code>attach()</code> method.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">manager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ErrorManager</span><span class="p">(</span><span class="k">this</span><span class="p">);</span><span class="w"></span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">manager</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 
               
@@ -1231,7 +1413,7 @@ without affecting the rest of the application (or other instances of the framewo
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../error-handling/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Error handling" rel="prev">
+        <a href="../../extensions/developing-extensions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Developing extensions" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1240,20 +1422,20 @@ without affecting the rest of the application (or other instances of the framewo
               <span class="md-footer__direction">
                 Previous
               </span>
-              Error handling
+              Developing extensions
             </div>
           </div>
         </a>
       
       
         
-        <a href="../storage/" class="md-footer__link md-footer__link--next" aria-label="Next: Storage" rel="next">
+        <a href="../configuration/" class="md-footer__link md-footer__link--next" aria-label="Next: Configuration" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Storage
+              Configuration
             </div>
           </div>
           <div class="md-footer__button md-icon">

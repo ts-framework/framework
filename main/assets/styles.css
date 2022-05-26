@@ -119,12 +119,8 @@ table thead tr th {
 	display: none;
 }
 
-ul.md-nav__list li:first-of-type a.md-nav__link {
+.md-sidebar__inner > nav > ul.md-nav__list > li:first-of-type > a.md-nav__link {
 	margin-top: 0;
-}
-
-ul.md-nav__list ul.md-nav__list li:first-of-type a.md-nav__link {
-	margin-top: 0.625em;
 }
 
 @media screen and (max-width: 76.25em) {

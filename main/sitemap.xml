@@ -2,172 +2,177 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/applications/configuring-applications/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/applications/managing-applications/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/applications/managing-modules/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/applications/sending-events/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/applications/sending-requests/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/controllers/handling-events/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/controllers/handling-requests/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/controllers/implementing-controllers/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/controllers/using-attributes/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/extensions/developing-extensions/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/extensions/using-extensions/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/getting-started/creating-applications/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/getting-started/creating-attributes/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/getting-started/creating-controllers/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/getting-started/creating-events/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/getting-started/creating-modules/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/getting-started/creating-services/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/getting-started/installation/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/integrations/discord/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/integrations/express/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/modules/configuring-modules/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/modules/importing-modules/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/modules/lifecycle-methods/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/modules/publishing-modules/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/services/adding-attributes/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/services/adding-events/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/services/adding-requests/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/services/implementing-services/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/techniques/configuration/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://docs.bailey.sh/ts-framework/main/techniques/error-handling/</loc>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/techniques/logging/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/techniques/queues/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/techniques/scheduling/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.bailey.sh/ts-framework/main/techniques/storage/</loc>
-         <lastmod>2022-05-25</lastmod>
+         <lastmod>2022-05-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
