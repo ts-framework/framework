@@ -121,7 +121,7 @@ export class ErrorEvent {
 			}
 
 			return message;
-		}).reverse().join(': ');
+		}).reverse().filter(message => message.trim().length > 0).join(': ');
 	}
 
 	/**

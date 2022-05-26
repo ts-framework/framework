@@ -48,6 +48,7 @@ export * from './errors/lifecycles/AbortError';
 export * from './errors/lifecycles/BootError';
 export * from './errors/lifecycles/StopError';
 export * from './errors/lifecycles/FrameworkError';
+export * from './errors/lifecycles/LifecycleError';
 
 export * from './extensions/Composer';
 export * from './extensions/FrameworkExtension';

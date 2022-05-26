@@ -218,9 +218,15 @@ export abstract class Application extends BaseModule {
 		const source = this.abortPromiseSource = new PromiseCompletionSource<void>();
 		const promise = this.abortPromiseSource.promise;
 
-		await this.bootstrap();
-		await this.events.init();
-		await this.requests.init();
+		try {
+			await this.bootstrap();
+			await this.events.init();
+			await this.requests.init();
+		}
+		catch (error) {
+			this.logger.info('Bootstrap cycle cancelled for shutdown');
+			return await this.abort(error, true);
+		}
 
 		try {
 			this.extensions._invokeComposerEvent(this, 'beforeStart');
@@ -264,7 +270,7 @@ export abstract class Application extends BaseModule {
 			source.resolve();
 		}
 		catch (error) {
-			return this.abort(error);
+			return await this.abort(error);
 		}
 
 		await promise;
@@ -297,25 +303,26 @@ export abstract class Application extends BaseModule {
 		}
 
 		if (this.phase === ApplicationPhase.Stopping) {
-			return this.abort(error);
+			return this.abort(error, true);
 		}
 
 		await this.stop();
-		this.abort();
+		this.abort(undefined, true);
 	}
 
 	/**
 	 * Aborts with the given error. If aborting is disabled, throws the error instead.
 	 * @param error
+	 * @param wasStopped
 	 */
-	private abort(error?: any): Promise<void> | never {
+	private abort(error?: any, wasStopped = false): Promise<void> | never {
 		if (error instanceof Error) {
 			if (!(error instanceof AbortError)) {
 				this.logger.critical(FrameworkError.from(error));
 			}
 		}
 
-		if (this.phase === ApplicationPhase.None) {
+		if (this.phase === ApplicationPhase.None && !wasStopped) {
 			this.logger.critical('Application emitted a critical error after it stopped.');
 			this.logger.critical('Please ensure all asynchronous logic is waited for when shutting down.');
 			this.logger.critical('The process will now be terminated for safety reasons.');
@@ -431,7 +438,9 @@ export abstract class Application extends BaseModule {
 		}
 
 		if (level === LogLevel.Critical) {
-			this.stopForError(level);
+			if (this.phase === ApplicationPhase.Running) {
+				this.stopForError(level);
+			}
 		}
 		else if (this.phase === ApplicationPhase.None) {
 			this.logger.warning('Application emitted a passive error after it stopped.');

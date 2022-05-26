@@ -9,6 +9,8 @@ import { normalizeLogLevel } from '../../utilities/normalizers';
 import { isConstructor } from '../../utilities/types';
 import { Application } from '../Application';
 import { ComposerEvents } from '../../extensions/Composer';
+import { LifecycleError } from '../../errors/lifecycles/LifecycleError';
+import { AbortError } from '../../errors/lifecycles/AbortError';
 
 export class ApplicationModuleManager {
 
@@ -276,17 +278,23 @@ export class ApplicationModuleManager {
 		if (this.lifecycleCache.has(instance, lifecycle)) return;
 		this.lifecycleCache.add(instance, lifecycle);
 
-		if (lifecycle in module) {
-			promises.push((module as any)[lifecycle]());
-		}
-
-		for (const service of this.application.services.getFromModule(module, false)) {
-			if (lifecycle in service) {
-				promises.push((service as any)[lifecycle]());
+		try {
+			if (lifecycle in module) {
+				promises.push((module as any)[lifecycle]());
 			}
-		}
 
-		return Promise.all(promises);
+			for (const service of this.application.services.getFromModule(module, false)) {
+				if (lifecycle in service) {
+					promises.push((service as any)[lifecycle]());
+				}
+			}
+
+			await Promise.all(promises);
+		}
+		catch (error) {
+			instance.errors.emitCriticalError(new LifecycleError(), error);
+			throw new AbortError();
+		}
 	}
 
 	/**
