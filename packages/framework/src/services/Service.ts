@@ -5,6 +5,7 @@ import { Event } from './events/Event';
 import { BaseModule } from '../modules/BaseModule';
 import { isConstructor } from '../utilities/types';
 import { Module } from '../modules/Module';
+import { PromiseManager } from './promises/PromiseManager';
 
 export abstract class Service<T extends BaseModule = BaseModule> {
 
@@ -32,6 +33,11 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	 * The error manager for this service.
 	 */
 	public readonly errors = this.module.errors.createManager(this);
+
+	/**
+	 * The promise manager for this service.
+	 */
+	protected readonly promises = new PromiseManager();
 
 	/**
 	 * The extensions that have been loaded into this service.
@@ -76,6 +82,23 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	 */
 	public async __internStop() {
 		await this.stop();
+
+		if (this.promises.size > 0) {
+			this.logger.info(
+				'Waiting for %d promise%s to finish before stopping',
+				this.promises.size,
+				this.promises.size === 1 ? '' : 's'
+			);
+
+			if (!await this.promises.waitAll()) {
+				this.logger.warning(
+					'Timed out: There %s still %d promise%s outstanding',
+					this.promises.size === 1 ? 'was' : 'were',
+					this.promises.size,
+					this.promises.size === 1 ? '' : 's'
+				);
+			}
+		}
 	}
 
 	/**

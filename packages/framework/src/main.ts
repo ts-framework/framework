@@ -41,6 +41,8 @@ export * from './services/requests/Request';
 export * from './services/requests/RequestRegistry';
 export * from './services/requests/RequestType';
 
+export * from './services/promises/PromiseManager';
+
 export * from './errors/development/NotImplementedError';
 export * from './errors/ErrorEvent';
 export * from './errors/ErrorManager';

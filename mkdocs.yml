@@ -79,6 +79,7 @@ nav:
     - Adding events: services/adding-events.md
     - Adding requests: services/adding-requests.md
     - Adding attributes: services/adding-attributes.md
+    - Tracking promises: services/tracking-promises.md
   - Working with controllers:
     - Implementing controllers: controllers/implementing-controllers.md
     - Using attributes: controllers/using-attributes.md
