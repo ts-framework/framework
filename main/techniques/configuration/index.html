@@ -989,6 +989,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#environment-prefixes" class="md-nav__link">
+    Environment prefixes
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1176,6 +1183,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#environment-prefixes" class="md-nav__link">
+    Environment prefixes
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1255,6 +1269,48 @@ without affecting the rest of the application (or other instances of the framewo
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
+<h2 id="environment-prefixes">Environment prefixes<a class="headerlink" href="#environment-prefixes" title="Permanent link">&para;</a></h2>
+<p>There are certain situations where you might want to apply a prefix to all environment variables within a particular
+module and its children, or in some cases, the entire application:</p>
+<ul>
+<li>When multiple application are running in one process</li>
+<li>When multiple instances of the same module are imported</li>
+</ul>
+<p>You can pass the <code>envPrefix</code> option when starting the application or when importing a module. All environment variables
+within the module will then start with that prefix.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="nx">HttpModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
+<span class="w">        </span><span class="nx">envPrefix</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;HTTP_&#39;</span><span class="w"></span>
+<span class="w">    </span><span class="p">})</span><span class="w"></span>
+<span class="p">]</span><span class="w"></span>
+</code></pre></div>
+<p>You can also use the static <code>withEnvironmentPrefix()</code> shortcut method on the module.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="nx">HttpModule</span><span class="p">.</span><span class="nx">withEnvironmentPrefix</span><span class="p">(</span><span class="s1">&#39;HTTP_&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="p">]</span><span class="w"></span>
+</code></pre></div>
+<p>Now, let's assume the above <code>HttpModule</code> utilizes an environment variable named <code>PORT</code>. It's important to note that
+this prefix does not apply everywhere. From within your source code, you will continue to refer to it as <code>PORT</code>. For
+example, the following is valid:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="nx">HttpModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
+<span class="w">        </span><span class="nx">envPrefix</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;HTTP_&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nx">env</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nx">PORT</span><span class="o">:</span><span class="w"> </span><span class="kt">8080</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">})</span><span class="w"></span>
+<span class="p">]</span><span class="w"></span>
+</code></pre></div>
+<p>Inside the module and its children, the environment variable will also continue to be exposed with the name <code>PORT</code>,
+notably lacking the custom prefix we configured.</p>
+<p>Instead, the prefix applies to the <em>outside sources</em> for our environment variables – that is our process environment
+and our <code>.env</code> file.</p>
+<div class="highlight"><pre><span></span><code>HTTP_PORT=8080   # Correct -- will be used by the module
+PORT=8080        # Incorrect -- will not be used
+</code></pre></div>
+<p>This is an important concept, allowing you to build your modules to operate independently of others without worrying
+about environment conflictions, and allowing the user to partition the environment as they desire without affecting
+your usage of that environment.</p>
 
               
             </article>
