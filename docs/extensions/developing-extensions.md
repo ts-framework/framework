@@ -124,8 +124,8 @@ public override onModuleComposer(composer: Composer<Module>) {
 
 ### `onRegister`
 
-You can override this method to run code when the extension is registered into the application. This happens quite
-early, before modules have even been imported.
+You can override this method to run code when the extension is registered into the application. This can happen before
+or during the module import cycle depending on how it's imported.
 
 ```ts
 public override onRegister(application: Application) {}

@@ -14,6 +14,7 @@ export * from './application/managers/ApplicationServiceManager';
 
 export * from './controllers/Controller';
 
+export * from './decorators/ExtensionModule';
 export * from './decorators/EventHandler';
 export * from './decorators/RequestHandler';
 
@@ -59,6 +60,7 @@ export * from './errors/lifecycles/FrameworkError';
 export * from './errors/lifecycles/LifecycleError';
 
 export * from './extensions/Composer';
+export * from './extensions/ExtensionRegistry';
 export * from './extensions/FrameworkExtension';
 
 export * from './utilities/env/RecordEnvironmentSource';

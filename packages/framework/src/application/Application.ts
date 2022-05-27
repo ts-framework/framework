@@ -136,10 +136,26 @@ export abstract class Application extends BaseModule {
 		if (!this.isBootstrapped) {
 			this.isBootstrapped = true;
 
-			// Register extensions
+			// Initialize environment variables (we'll do it again shortly)
+			this._internLoadEnvironment(this, this.environmentManager!);
+
+			// Register extensions from options
 			for (const extension of this.options.extensions ?? []) {
 				this.logger.trace('Registering extension:', extension.constructor.name);
 				await this.extensions.register(extension);
+			}
+
+			// Register extensions from modules
+			for (const registration of await this.modules._getExtensions()) {
+				if (!this.extensions.has(registration.extension)) {
+					this.logger.trace(
+						'Registering extension:',
+						registration.extension.name,
+						`(from module ${registration.module.name})`
+					);
+
+					await this.extensions.register(new registration.extension(...registration.args));
+				}
 			}
 
 			// Attach error handling

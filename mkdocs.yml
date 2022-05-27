@@ -90,6 +90,7 @@ nav:
   - Working with extensions:
     - Using extensions: extensions/using-extensions.md
     - Developing extensions: extensions/developing-extensions.md
+    - Extension modules: extensions/extension-modules.md
   - Techniques:
     - Error handling: techniques/error-handling.md
     - Configuration: techniques/configuration.md

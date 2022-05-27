@@ -11,6 +11,7 @@ import { Application } from '../Application';
 import { ComposerEvents } from '../../extensions/Composer';
 import { LifecycleError } from '../../errors/lifecycles/LifecycleError';
 import { AbortError } from '../../errors/lifecycles/AbortError';
+import { ExtensionRegistration, ExtensionRegistry } from '../../extensions/ExtensionRegistry';
 
 export class ApplicationModuleManager {
 
@@ -99,6 +100,26 @@ export class ApplicationModuleManager {
 	}
 
 	/**
+	 * Returns all extensions registered from top-level modules.
+	 * @returns
+	 * @internal
+	 */
+	public async _getExtensions() {
+		const extensions = new Array<ExtensionRegistration>();
+
+		// Look in children
+		for (const importable of this.application.options.imports ?? []) {
+			const constructor = await this.resolveModuleConstructor(importable);
+			const registrations = ExtensionRegistry.getRegistrations(constructor);
+
+			extensions.push(...registrations);
+		}
+
+		return extensions;
+	}
+
+
+	/**
 	 * Manually registers a module in the application.
 	 * @param importable The module to import.
 	 * @param parent The parent module to import under.
@@ -166,6 +187,29 @@ export class ApplicationModuleManager {
 				module: resolved.module,
 				options
 			};
+		}
+
+		throw new Error('The given value is not an importable type');
+	}
+
+	/**
+	 * Resolves an importable into a constructor.
+	 * @param importable
+	 * @returns
+	 */
+	private async resolveModuleConstructor(importable: Importable | Module): Promise<Constructor<Module>> {
+		if (importable instanceof Module) {
+			return importable.constructor as Constructor<Module>;
+		}
+		else if (isConstructor(importable)) {
+			return importable;
+		}
+		else if (typeof importable === 'function') {
+			const result = await importable(this.application);
+			return this.resolveModuleConstructor(result);
+		}
+		else if (typeof importable === 'object') {
+			return await this.resolveModuleConstructor(importable.import);
 		}
 
 		throw new Error('The given value is not an importable type');

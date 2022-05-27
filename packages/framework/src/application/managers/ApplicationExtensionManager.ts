@@ -39,6 +39,24 @@ export class ApplicationExtensionManager {
 	}
 
 	/**
+	 * Returns a boolean indicating whether the given extension type is registered in the application.
+	 * @param constructor
+	 * @returns
+	 */
+	public has(constructor: Constructor<FrameworkExtension>) {
+		return this.types.has(constructor);
+	}
+
+	/**
+	 * Returns an instance of the given extension type if it's registered in the application.
+	 * @param constructor
+	 * @returns
+	 */
+	public resolve(constructor: Constructor<FrameworkExtension>) {
+		return this.types.get(constructor);
+	}
+
+	/**
 	 * Invokes the `onServiceComposer()` method for all extensions.
 	 * @param instance
 	 * @internal
