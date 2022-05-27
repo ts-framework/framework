@@ -47,6 +47,8 @@ export * from './services/scheduler/ScheduleError';
 export * from './services/scheduler/ScheduleHandle';
 export * from './services/scheduler/ScheduleManager';
 
+export * from './services/state/StateManager';
+
 export * from './errors/development/NotImplementedError';
 export * from './errors/ErrorEvent';
 export * from './errors/ErrorManager';

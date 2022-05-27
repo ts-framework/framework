@@ -76,6 +76,7 @@ nav:
     - Publishing modules: modules/publishing-modules.md
   - Working with services:
     - Implementing services: services/implementing-services.md
+    - Implementing state: services/implementing-state.md
     - Adding events: services/adding-events.md
     - Adding requests: services/adding-requests.md
     - Adding attributes: services/adding-attributes.md

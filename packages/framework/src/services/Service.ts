@@ -7,6 +7,7 @@ import { isConstructor } from '../utilities/types';
 import { Module } from '../modules/Module';
 import { PromiseManager } from './promises/PromiseManager';
 import { ScheduleManager } from './scheduler/ScheduleManager';
+import { StateManager } from './state/StateManager';
 
 export abstract class Service<T extends BaseModule = BaseModule> {
 
@@ -46,10 +47,21 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	protected readonly scheduler: ScheduleManager = new ScheduleManager(this);
 
 	/**
+	 * The state manager for this service.
+	 */
+	protected readonly state: StateManager = new StateManager(this);
+
+	/**
 	 * The extensions that have been loaded into this service.
 	 * @internal
 	 */
 	public _internExtensions = this.application.extensions._invokeServiceComposer(this);
+
+	/**
+	 * An array of property names on this instance that represent managed state.
+	 * @internal
+	 */
+	public _internManagedProperties?: string[];
 
 	/**
 	 * Invoked immediately before the service is started for the first time to register attributes and perform any
@@ -66,11 +78,16 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	 * Stops the service.
 	 */
 	protected stop(): Promisable<void> {}
+
 	/**
 	 * Registers the service externally.
 	 * @internal
 	 */
 	public async __internRegister() {
+		if (!this._internManagedProperties) {
+			this.state._initialize();
+		}
+
 		await this.register();
 	}
 
@@ -106,6 +123,8 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 				);
 			}
 		}
+
+		this.state.clear();
 	}
 
 	/**
