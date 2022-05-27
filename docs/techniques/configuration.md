@@ -86,3 +86,60 @@ app.start({
 	}
 });
 ```
+
+## Environment prefixes
+
+There are certain situations where you might want to apply a prefix to all environment variables within a particular
+module and its children, or in some cases, the entire application:
+
+- When multiple application are running in one process
+- When multiple instances of the same module are imported
+
+You can pass the `envPrefix` option when starting the application or when importing a module. All environment variables
+within the module will then start with that prefix.
+
+```ts
+imports: [
+	HttpModule.withOptions({
+		envPrefix: 'HTTP_'
+	})
+]
+```
+
+You can also use the static `withEnvironmentPrefix()` shortcut method on the module.
+
+```ts
+imports: [
+	HttpModule.withEnvironmentPrefix('HTTP_')
+]
+```
+
+Now, let's assume the above `HttpModule` utilizes an environment variable named `PORT`. It's important to note that
+this prefix does not apply everywhere. From within your source code, you will continue to refer to it as `PORT`. For
+example, the following is valid:
+
+```ts
+imports: [
+	HttpModule.withOptions({
+		envPrefix: 'HTTP_',
+		env: {
+			PORT: 8080
+		}
+	})
+]
+```
+
+Inside the module and its children, the environment variable will also continue to be exposed with the name `PORT`,
+notably lacking the custom prefix we configured.
+
+Instead, the prefix applies to the *outside sources* for our environment variables – that is our process environment
+and our `.env` file.
+
+```env
+HTTP_PORT=8080   # Correct -- will be used by the module
+PORT=8080        # Incorrect -- will not be used
+```
+
+This is an important concept, allowing you to build your modules to operate independently of others without worrying
+about environment conflictions, and allowing the user to partition the environment as they desire without affecting
+your usage of that environment.

@@ -31,6 +31,14 @@ export interface ModuleOptions extends ModuleOverrideOptions {
 	 */
 	controllers?: Constructor<Controller>[];
 
+	/**
+	 * Sets the prefix to use for environment variables in this module. If the parent application or parent modules
+	 * specify their own prefix, this prefix will be appended to the end of the parent prefixes.
+	 *
+	 * @default ""
+	 */
+	envPrefix?: string;
+
 }
 
 /**
@@ -47,6 +55,14 @@ export interface ModuleOverrideOptions {
 	 * Overrides or sets environment variables for this module.
 	 */
 	environment?: Record<string, any>;
+
+	/**
+	 * Sets or overrides the environment prefix for this module. If the parent module or application has its own
+	 * prefixes, they will be prepended.
+	 *
+	 * @default ""
+	 */
+	envPrefix?: string;
 
 	/**
 	 * Instances of the module as well as its services and controllers will be registered into the dependency injection

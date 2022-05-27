@@ -63,6 +63,10 @@ export class ApplicationModuleManager {
 			if (typeof options.context !== 'undefined') {
 				module._internContext = options.context;
 			}
+
+			if (typeof options.envPrefix !== 'undefined') {
+				module.options.envPrefix = options.envPrefix;
+			}
 		}
 
 		if (module instanceof Module) {

@@ -60,9 +60,15 @@ export abstract class BaseModule {
 		this.errors = new ErrorManager(this);
 	}
 
+	/**
+	 * Builds the array of sources to use for this module's environment, including the localized
+	 * `RecordEnvironmentSource` instance at the top.
+	 * @param application
+	 * @returns
+	 */
 	private _getCustomEnvironmentSources(application: Application) {
 		const sources = [
-			new RecordEnvironmentSource(this._internCustomEnvironment)
+			new RecordEnvironmentSource(this._internCustomEnvironment, this._internGetEnvironmentPrefix())
 		];
 
 		const parent = application.modules.getParentModule(this);
@@ -85,7 +91,7 @@ export abstract class BaseModule {
 			const internalEnv = new EnvironmentManager([
 				...internalSources,
 				...env.sources
-			]);
+			], this._internGetEnvironmentPrefix());
 
 			this._cachedEnvironmentManager = internalEnv;
 			this._cachedEnvironment = this.onEnvironment(internalEnv);
@@ -104,6 +110,13 @@ export abstract class BaseModule {
 
 			throw error;
 		}
+	}
+
+	/**
+	 * @internal
+	 */
+	public _internGetEnvironmentPrefix() {
+		return '';
 	}
 
 	/**
@@ -138,12 +151,11 @@ export abstract class BaseModule {
 	}
 
 	/**
-	 * Resolves the environment for the given manager.
-	 * @param manager
+	 * Resolves the environment.
 	 * @internal
 	 */
-	public _getEnvironmentFor(manager: EnvironmentManager) {
-		return this.onEnvironment(manager);
+	public _getEnvironmentWithParents() {
+		return this.onEnvironment(this._cachedEnvironmentManager!);
 	}
 
 	/**

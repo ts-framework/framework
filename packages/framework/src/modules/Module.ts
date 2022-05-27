@@ -55,6 +55,20 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	}
 
 	/**
+	 * Returns an importable version of the module with the given environment prefix.
+	 * @param prefix
+	 * @returns
+	 */
+	public static withEnvironmentPrefix<T extends typeof BaseModule>(this: T, prefix?: string): ImportableModuleWithOptions {
+		return {
+			import: (application: Application) => {
+				return application.container.resolve(this) as Module<any>;
+			},
+			envPrefix: prefix
+		};
+	}
+
+	/**
 	 * Returns an importable version of the module with the given environment variables.
 	 * @param environment
 	 * @returns
@@ -123,22 +137,31 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	 */
 	public override get env(): InheritedEnvironmentType<this, T> {
 		return {
-			// @ts-ignore
-			...this.parent._getEnvironmentFor(this._cachedEnvironmentManager),
+			...this.parent._getEnvironmentWithParents(),
 			...super.env
 		} as any;
 	}
 
 	/**
-	 * Resolves the environment for the given manager.
-	 * @param manager
+	 * Resolves the environment with that of its parents prepended.
 	 * @internal
 	 */
-	public override _getEnvironmentFor(manager: EnvironmentManager) {
+	public override _getEnvironmentWithParents() {
 		return {
-			...this.parent._getEnvironmentFor(manager),
-			...this.onEnvironment(manager),
+			...this.parent._getEnvironmentWithParents(),
+			...this.env
 		}
+	}
+
+	/**
+	 * @internal
+	 */
+	public override _internGetEnvironmentPrefix() {
+		if (this.parent) {
+			return this.parent._internGetEnvironmentPrefix() + (this.options.envPrefix ?? '');
+		}
+
+		return this.options.envPrefix ?? '';
 	}
 
 }

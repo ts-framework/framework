@@ -463,6 +463,13 @@ export abstract class Application extends BaseModule {
 		return false;
 	}
 
+	/**
+	 * @internal
+	 */
+	public override _internGetEnvironmentPrefix() {
+		return this.startOptions?.envPrefix ?? '';
+	}
+
 }
 
 type ApplicationMode = 'production' | 'staging' | 'testing' | 'development';
