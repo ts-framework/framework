@@ -10,14 +10,14 @@
         <meta name="author" content="Bailey Herbert">
       
       
-        <link rel="canonical" href="https://docs.bailey.sh/ts-framework/main/techniques/storage/">
+        <link rel="canonical" href="https://docs.bailey.sh/ts-framework/main/services/implementing-state/">
       
       <link rel="icon" href="../../assets/logo.png">
       <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
     
     
       
-        <title>Storage - ts-framework</title>
+        <title>Implementing state - ts-framework</title>
       
     
     
@@ -69,7 +69,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#storage" class="md-skip">
+        <a href="#implementing-state" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Storage
+              Implementing state
             
           </span>
         </div>
@@ -600,12 +600,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
       
       
       
@@ -628,7 +630,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../services/implementing-services/" class="md-nav__link">
+      <a href="../implementing-services/" class="md-nav__link">
         Implementing services
       </a>
     </li>
@@ -640,11 +642,93 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../services/implementing-state/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Implementing state
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Implementing state
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-state" class="md-nav__link">
+    Creating state
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resetting-state" class="md-nav__link">
+    Resetting state
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-types" class="md-nav__link">
+    Supported types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internals" class="md-nav__link">
+    Internals
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -656,7 +740,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../services/adding-events/" class="md-nav__link">
+      <a href="../adding-events/" class="md-nav__link">
         Adding events
       </a>
     </li>
@@ -670,7 +754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../services/adding-requests/" class="md-nav__link">
+      <a href="../adding-requests/" class="md-nav__link">
         Adding requests
       </a>
     </li>
@@ -684,7 +768,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../services/adding-attributes/" class="md-nav__link">
+      <a href="../adding-attributes/" class="md-nav__link">
         Adding attributes
       </a>
     </li>
@@ -698,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../services/tracking-promises/" class="md-nav__link">
+      <a href="../tracking-promises/" class="md-nav__link">
         Tracking promises
       </a>
     </li>
@@ -712,7 +796,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../services/timeouts-intervals/" class="md-nav__link">
+      <a href="../timeouts-intervals/" class="md-nav__link">
         Timeouts & intervals
       </a>
     </li>
@@ -884,14 +968,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
       
       
       
@@ -914,7 +996,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../error-handling/" class="md-nav__link">
+      <a href="../../techniques/error-handling/" class="md-nav__link">
         Error handling
       </a>
     </li>
@@ -928,7 +1010,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../configuration/" class="md-nav__link">
+      <a href="../../techniques/configuration/" class="md-nav__link">
         Configuration
       </a>
     </li>
@@ -940,21 +1022,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../techniques/storage/" class="md-nav__link">
         Storage
       </a>
-      
     </li>
   
 
@@ -966,7 +1038,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../logging/" class="md-nav__link">
+      <a href="../../techniques/logging/" class="md-nav__link">
         Logging
       </a>
     </li>
@@ -980,7 +1052,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../scheduling/" class="md-nav__link">
+      <a href="../../techniques/scheduling/" class="md-nav__link">
         Scheduling
       </a>
     </li>
@@ -994,7 +1066,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../queues/" class="md-nav__link">
+      <a href="../../techniques/queues/" class="md-nav__link">
         Queues
       </a>
     </li>
@@ -1090,6 +1162,62 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-state" class="md-nav__link">
+    Creating state
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resetting-state" class="md-nav__link">
+    Resetting state
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supported-types" class="md-nav__link">
+    Supported types
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#internals" class="md-nav__link">
+    Internals
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1102,8 +1230,60 @@
                 
 
 
-<h1 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">&para;</a></h1>
-<p>TODO: How to implement state and file storage into an application with the <code>@ts-framework/storage</code> package.</p>
+<h1 id="implementing-state">Implementing state<a class="headerlink" href="#implementing-state" title="Permanent link">&para;</a></h1>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>As part of their operation, services often keep track of their state using properties on their classes. When services
+shut down, it is their responsibility to completely clean up and reset all state back to their initial values.</p>
+<p>However, this can be annoying to implement each time you develop a service. For this reason, the framework exposes a
+protected object on services called <code>state</code> which helps implement this behavior automatically.</p>
+<p>In the following example, we create a property called <code class="highlight"><span class="nx">startCounter</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w"></span></code> which is incremented each time the
+service starts.</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleService</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Service</span><span class="o">&lt;</span><span class="nx">ExampleModule</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="nx">startCounter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">startCounter</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Without using managed state, this number would indeed increment each time, but with our managed state it can never
+exceed <code>1</code> because it is reset back to the initial value (<code>0</code>) when the service stops.</p>
+<h2 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h2>
+<h3 id="creating-state">Creating state<a class="headerlink" href="#creating-state" title="Permanent link">&para;</a></h3>
+<p>Invoke the <code class="highlight"><span class="nx">create</span><span class="o">&lt;</span><span class="nx">T</span><span class="o">&gt;</span><span class="p">()</span><span class="w"></span></code> method to create a new managed state property with the given default value. You can pass
+the type in <code>&lt;T&gt;</code> or infer it from the default value. If a default value is not supplied, <code>undefined</code> will
+automatically be appended to the possible types.</p>
+<div class="highlight"><pre><span></span><code><span class="k">protected</span><span class="w"> </span><span class="nx">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span><span class="w"></span>
+<span class="k">protected</span><span class="w"> </span><span class="nx">numArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">create</span><span class="o">&lt;</span><span class="kt">number</span><span class="p">[]</span><span class="o">&gt;</span><span class="p">([]);</span><span class="w"></span>
+</code></pre></div>
+<h3 id="resetting-state">Resetting state<a class="headerlink" href="#resetting-state" title="Permanent link">&para;</a></h3>
+<p>Invoke the <code>clear()</code> method to clear all managed state in the parent service and reset them back to their default
+values. This is done automatically by the framework when the service stops.</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<h2 id="supported-types">Supported types<a class="headerlink" href="#supported-types" title="Permanent link">&para;</a></h2>
+<p>When the service is restarted, all managed state properties are reverted to <em>new copies</em> of their initial values.
+This means it needs to be able to create copies of your initial value. At this time, the types of values it can make
+copies of include:</p>
+<ul>
+<li>Primitives</li>
+<li>Arrays</li>
+<li>Objects</li>
+<li>Maps</li>
+<li>Sets</li>
+<li>Arrow functions</li>
+</ul>
+<h2 id="internals">Internals<a class="headerlink" href="#internals" title="Permanent link">&para;</a></h2>
+<p>It might be important to understand how this functionality works.</p>
+<p>The <code>create()</code> method actually returns a unique symbol that identifies that individual state property. Then, when the
+service is registered, the state manager looks over its properties for those symbols, thus associating property names
+to their values.</p>
+<p>Once the properties have been identified, they are set to copies of the default values. The <code>clear()</code> method then
+sets them back to new copies of those default values.</p>
+<p>For these reasons, the <code>create()</code> method can only be used at construction time. Attempting to create managed state
+properties at any other point during runtime will raise an error.</p>
 
               
             </article>
@@ -1122,7 +1302,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../configuration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Configuration" rel="prev">
+        <a href="../implementing-services/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Implementing services" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1131,20 +1311,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Configuration
+              Implementing services
             </div>
           </div>
         </a>
       
       
         
-        <a href="../logging/" class="md-footer__link md-footer__link--next" aria-label="Next: Logging" rel="next">
+        <a href="../adding-events/" class="md-footer__link md-footer__link--next" aria-label="Next: Adding events" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Logging
+              Adding events
             </div>
           </div>
           <div class="md-footer__button md-icon">
