@@ -133,7 +133,7 @@ export class ApplicationServiceManager {
 						);
 					});
 
-					const contexts = this.application.modules.getParentModules(module);
+					const contexts = [module, ...this.application.modules.getParentModules(module)];
 
 					this.application.container.setContext('defaultResolutionContext', contexts);
 					const instance = this.application.container.resolve(constructor);
