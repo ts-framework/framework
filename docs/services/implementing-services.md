@@ -6,6 +6,7 @@ stopped upon request, and can even extend the functionality of the framework thr
 ## Implementation
 
 ```ts
+@Injectable()
 export class ExampleService extends Service<ExampleModule> {
 
 	/**
@@ -33,6 +34,21 @@ export class ExampleService extends Service<ExampleModule> {
 
 }
 ```
+
+## Dependencies
+
+You can utilize dependency injection to obtain instances of other classes, including other services, in the
+application. When importing other services, the framework will automatically load the service's dependencies first,
+before it constructs the dependent service.
+
+```ts
+public constructor(protected readonly other: OtherService) {
+	super();
+}
+```
+
+Make sure that you've applied the `#!ts @Injectable()` decorator to the class, otherwise the framework won't be able
+to see the types of your parameters.
 
 ## Registering services
 
