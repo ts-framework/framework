@@ -1,4 +1,3 @@
-import { NestedSet } from '@baileyherbert/nested-collections';
 import { PromiseCompletionSource } from '@baileyherbert/promises';
 
 export class PromiseManager {

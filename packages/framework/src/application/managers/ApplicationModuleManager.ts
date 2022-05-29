@@ -12,6 +12,8 @@ import { ComposerEvents } from '../../extensions/Composer';
 import { LifecycleError } from '../../errors/lifecycles/LifecycleError';
 import { AbortError } from '../../errors/lifecycles/AbortError';
 import { ExtensionRegistration, ExtensionRegistry } from '../../extensions/ExtensionRegistry';
+import { ErrorManager } from '../../errors/ErrorManager';
+import { ModuleImportError } from '../../errors/kinds/ModuleImportError';
 
 export class ApplicationModuleManager {
 
@@ -34,10 +36,20 @@ export class ApplicationModuleManager {
 	protected activeModules = new Set<BaseModule>();
 
 	/**
+	 * The error manager for this instance.
+	 */
+	protected errors: ErrorManager;
+
+	/**
 	 * Constructs a new `ApplicationModuleManager` instance for the given root application object.
 	 * @param application
 	 */
-	public constructor(protected application: Application) {}
+	public constructor(protected application: Application) {
+		this.errors = application.errors.createManager(this);
+		this.errors.on('critical', event => {
+			event.transform(new ModuleImportError());
+		});
+	}
 
 	/**
 	 * Imports the given module into the application, and recursively imports its children.
@@ -177,7 +189,7 @@ export class ApplicationModuleManager {
 			const resolved = await this.resolveModule(importable.import);
 
 			if (!(resolved.module instanceof Module)) {
-				throw new Error('The options object could not resolve to a module instance');
+				return this.errors.abort(new Error(`The given object could not be resolved to an importable module`));
 			}
 
 			const options: any = Object.assign({}, importable);
@@ -189,7 +201,7 @@ export class ApplicationModuleManager {
 			};
 		}
 
-		throw new Error('The given value is not an importable type');
+		return this.errors.abort(new Error(`The given value of type ${typeof importable} is not importable`));
 	}
 
 	/**
@@ -212,7 +224,7 @@ export class ApplicationModuleManager {
 			return await this.resolveModuleConstructor(importable.import);
 		}
 
-		throw new Error('The given value is not an importable type');
+		return this.errors.abort(Error(`The given value of type ${typeof importable} is not importable`));
 	}
 
 	/**

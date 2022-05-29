@@ -1,5 +1,6 @@
 import { NestedSet } from '@baileyherbert/nested-collections';
 import { ErrorEvent } from './ErrorEvent';
+import { AbortError } from './lifecycles/AbortError';
 
 export class ErrorManager {
 
@@ -46,6 +47,17 @@ export class ErrorManager {
 	 */
 	public emitCriticalError(error: any, innerError?: any) {
 		this._propagateEvent(this.createEvent(error, innerError), true);
+	}
+
+	/**
+	 * Emits a critical error into the application and then throws an `AbortError`.
+	 * @param error
+	 * @param innerError
+	 * @internal
+	 */
+	public abort(error: any, innerError?: any): never {
+		this._propagateEvent(this.createEvent(error, innerError), true);
+		throw new AbortError();
 	}
 
 	/**
@@ -252,7 +264,7 @@ export class ErrorManager {
 	 * @param innerError An error object, string, array of errors, or `ErrorEvent` to use as the error chain.
 	 * @returns
 	 */
-	private createEvent(error: any, innerError?: any): ErrorEvent {
+	public createEvent(error: any, innerError?: any): ErrorEvent {
 		const outerError = this.createError(error);
 		const chain = this.createErrorChain(outerError, innerError);
 

@@ -1,5 +1,4 @@
 import { resolver } from '@baileyherbert/container';
-import { EnvironmentManager } from '@baileyherbert/env';
 import { Promisable } from '@baileyherbert/types';
 import { Application } from '../application/Application';
 import { normalizeLogLevel } from '../utilities/normalizers';

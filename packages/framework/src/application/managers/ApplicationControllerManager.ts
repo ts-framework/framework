@@ -1,6 +1,7 @@
 import { NestedSet } from '@baileyherbert/nested-collections';
 import { Constructor } from '@baileyherbert/types';
 import { Controller } from '../../controllers/Controller';
+import { ErrorManager } from '../../errors/ErrorManager';
 import { BaseModule } from '../../modules/BaseModule';
 import { isConstructor } from '../../utilities/types';
 import { Application } from '../Application';
@@ -40,7 +41,14 @@ export class ApplicationControllerManager {
 	 */
 	protected modulesNestedCache?: Map<BaseModule, Controller[]>;
 
-	public constructor(protected application: Application) {}
+	/**
+	 * The error manager for this instance.
+	 */
+	protected errors: ErrorManager;
+
+	public constructor(protected application: Application) {
+		this.errors = application.errors.createManager(this);
+	}
 
 	/**
 	 * Manually registers a controller in the application.
@@ -87,9 +95,8 @@ export class ApplicationControllerManager {
 						return module;
 					}
 
-					throw new Error(
-						`Module initialization failed for ${target.constructor.name} because it was not of type ` +
-						`${constructor.name}`
+					this.errors.abort(
+						new Error(`Constructor import ${target.constructor.name} could not be resolved`)
 					);
 				});
 

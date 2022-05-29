@@ -4,9 +4,8 @@ import { NestedSet } from '@baileyherbert/nested-collections';
 import { ReflectionClass, ReflectionParameter } from '@baileyherbert/reflection';
 import { Constructor } from '@baileyherbert/types';
 import { NotImplementedError } from '../../errors/development/NotImplementedError';
-import { AbortError } from '../../errors/lifecycles/AbortError';
-import { BootError } from '../../errors/lifecycles/BootError';
-import { StopError } from '../../errors/lifecycles/StopError';
+import { ErrorManager } from '../../errors/ErrorManager';
+import { ServiceOperationError } from '../../errors/kinds/ServiceOperationError';
 import { BaseModule } from '../../modules/BaseModule';
 import { Service } from '../../services/Service';
 import { isConstructor } from '../../utilities/types';
@@ -66,10 +65,17 @@ export class ApplicationServiceManager {
 	protected registered = new Set<Service>();
 
 	/**
+	 * The error manager for this instance.
+	 */
+	protected errors: ErrorManager;
+
+	/**
 	 * Constructs a new `ApplicationServiceManager` instance for the given root application object.
 	 * @param application
 	 */
-	public constructor(protected application: Application) {}
+	public constructor(protected application: Application) {
+		this.errors = application.errors.createManager(this);
+	}
 
 	/**
 	 * Manually registers a service in the application.
@@ -127,9 +133,8 @@ export class ApplicationServiceManager {
 							return module;
 						}
 
-						throw new Error(
-							`Module initialization failed for ${target.constructor.name} because it was not of type ` +
-							`${constructor.name}`
+						this.errors.abort(
+							new Error(`Constructor import ${target.constructor.name} could not be resolved`)
 						);
 					});
 
@@ -328,8 +333,7 @@ export class ApplicationServiceManager {
 				await service.__internRegister();
 			}
 			catch (error) {
-				service.errors.emitCriticalError(new BootError('Failed to register service'), error);
-				throw new AbortError();
+				this.errors.abort(new ServiceOperationError('register'), error);
 			}
 		}
 
@@ -339,8 +343,7 @@ export class ApplicationServiceManager {
 			this.application.extensions._invokeComposerEvent(service, 'afterStart');
 		}
 		catch (error) {
-			service.errors.emitCriticalError(new BootError('Failed to start service'), error);
-			throw new AbortError();
+			this.errors.abort(new ServiceOperationError('start'), error);
 		}
 
 		for (const parent of parents) {
@@ -380,8 +383,7 @@ export class ApplicationServiceManager {
 			this.application.extensions._invokeComposerEvent(service, 'afterStop');
 		}
 		catch (error) {
-			service.errors.emitCriticalError(new StopError('Failed to stop service'), error);
-			throw new AbortError();
+			this.errors.abort(new ServiceOperationError('stop'), error);
 		}
 
 		for (const parent of parents) {
