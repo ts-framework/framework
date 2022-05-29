@@ -535,9 +535,95 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Configuring modules
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Configuring modules
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#property:name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:description" class="md-nav__link">
+    description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:imports" class="md-nav__link">
+    imports
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:services" class="md-nav__link">
+    services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:controllers" class="md-nav__link">
+    controllers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:envPrefix" class="md-nav__link">
+    envPrefix
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -566,20 +652,6 @@
     <li class="md-nav__item">
       <a href="../importing-modules/" class="md-nav__link">
         Importing modules
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../publishing-modules/" class="md-nav__link">
-        Publishing modules
       </a>
     </li>
   
@@ -1090,6 +1162,76 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#property:name" class="md-nav__link">
+    name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:description" class="md-nav__link">
+    description
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:imports" class="md-nav__link">
+    imports
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:services" class="md-nav__link">
+    services
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:controllers" class="md-nav__link">
+    controllers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:envPrefix" class="md-nav__link">
+    envPrefix
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1103,7 +1245,45 @@
 
 
 <h1 id="configuring-modules">Configuring modules<a class="headerlink" href="#configuring-modules" title="Permanent link">&para;</a></h1>
-<p>TODO: How to configure modules and an overview of all available options.</p>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Modules are bundles of services, controllers, and additional nested child modules which are all related to one another.
+They allow you to organize and break up your code into different sections, without preventing them from working
+together.</p>
+<p>Modules are simple classes. The <code>constructor()</code> must be overridden and the <code>super()</code> constructor must be subsequently
+invoked to configure the module and its imports.</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="o">&lt;</span><span class="nx">App</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// Options go here</span><span class="w"></span>
+<span class="w">        </span><span class="p">});</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
+<h3 _="," id="property:name"><code class="highlight"><span class="nx">name?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"></span></code><a class="headerlink" href="#property:name" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>The optional name of the module.</p>
+</blockquote>
+<h3 _="," id="property:description"><code class="highlight"><span class="nx">description?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"></span></code><a class="headerlink" href="#property:description" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>The optional description of the module.</p>
+</blockquote>
+<h3 _="," id="property:imports"><code class="highlight"><span class="nx">imports?</span><span class="o">:</span><span class="w"> </span><span class="kt">Importable</span><span class="p">[]</span><span class="w"></span></code><a class="headerlink" href="#property:imports" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>An array of modules to import into the module.</p>
+</blockquote>
+<h3 _="," id="property:services"><code class="highlight"><span class="nx">services?</span><span class="o">:</span><span class="w"> </span><span class="kt">Constructor</span><span class="o">&lt;</span><span class="nx">Service</span><span class="o">&gt;</span><span class="p">[]</span><span class="w"></span></code><a class="headerlink" href="#property:services" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>An array of services to register into the module.</p>
+</blockquote>
+<h3 _="," id="property:controllers"><code class="highlight"><span class="nx">controllers?</span><span class="o">:</span><span class="w"> </span><span class="kt">Constructor</span><span class="o">&lt;</span><span class="nx">Controller</span><span class="o">&gt;</span><span class="p">[]</span><span class="w"></span></code><a class="headerlink" href="#property:controllers" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>An array of controllers to register into the module.</p>
+</blockquote>
+<h3 _="," id="property:envPrefix"><code class="highlight"><span class="nx">envPrefix?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"></span></code><a class="headerlink" href="#property:envPrefix" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>The prefix to prepend to all environment variables under the module.</p>
+</blockquote>
 
               
             </article>

@@ -549,9 +549,88 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Lifecycle methods
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Lifecycle methods
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-methods" class="md-nav__link">
+    Available methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Available methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#onModuleRegister" class="md-nav__link">
+    onModuleRegister
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beforeModuleBoot" class="md-nav__link">
+    beforeModuleBoot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onModuleBoot" class="md-nav__link">
+    onModuleBoot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beforeModuleShutdown" class="md-nav__link">
+    beforeModuleShutdown
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onModuleShutdown" class="md-nav__link">
+    onModuleShutdown
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -566,20 +645,6 @@
     <li class="md-nav__item">
       <a href="../importing-modules/" class="md-nav__link">
         Importing modules
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../publishing-modules/" class="md-nav__link">
-        Publishing modules
       </a>
     </li>
   
@@ -1090,6 +1155,69 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-methods" class="md-nav__link">
+    Available methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Available methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#onModuleRegister" class="md-nav__link">
+    onModuleRegister
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beforeModuleBoot" class="md-nav__link">
+    beforeModuleBoot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onModuleBoot" class="md-nav__link">
+    onModuleBoot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beforeModuleShutdown" class="md-nav__link">
+    beforeModuleShutdown
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#onModuleShutdown" class="md-nav__link">
+    onModuleShutdown
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1103,7 +1231,31 @@
 
 
 <h1 id="lifecycle-methods">Lifecycle methods<a class="headerlink" href="#lifecycle-methods" title="Permanent link">&para;</a></h1>
-<p>TODO: How to implement lifecycle methods into modules and an overview of all available methods.</p>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Modules and services have a variety of <strong>lifecycle methods</strong> which are invoked at different points in the application's
+execution. You can use these methods to run code at ideal times, and to dynamically set a module's imports.</p>
+<h2 id="available-methods">Available methods<a class="headerlink" href="#available-methods" title="Permanent link">&para;</a></h2>
+<h3 _="," id="onModuleRegister"><code class="highlight"><span class="nx">onModuleRegister</span><span class="p">()</span><span class="w"></span></code><a class="headerlink" href="#onModuleRegister" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Invoked on modules when they are first registered into the application, immediately before nested modules are
+resolved. You can use this method to dynamically configure a module's imports if you'd like.</p>
+</blockquote>
+<h3 _="," id="beforeModuleBoot"><code class="highlight"><span class="nx">beforeModuleBoot</span><span class="p">()</span><span class="w"></span></code><a class="headerlink" href="#beforeModuleBoot" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Invoked on modules and services immediately before the first service in the module is started.</p>
+</blockquote>
+<h3 _="," id="onModuleBoot"><code class="highlight"><span class="nx">onModuleBoot</span><span class="p">()</span><span class="w"></span></code><a class="headerlink" href="#onModuleBoot" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Invoked on modules and services after the last service in the module has finished starting.</p>
+</blockquote>
+<h3 _="," id="beforeModuleShutdown"><code class="highlight"><span class="nx">beforeModuleShutdown</span><span class="p">()</span><span class="w"></span></code><a class="headerlink" href="#beforeModuleShutdown" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Invoked on modules and services immediately before the first service in the module is stopped.</p>
+</blockquote>
+<h3 _="," id="onModuleShutdown"><code class="highlight"><span class="nx">onModuleShutdown</span><span class="p">()</span><span class="w"></span></code><a class="headerlink" href="#onModuleShutdown" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Invoked on modules and services after the last service in the module has finished shutting down.</p>
+</blockquote>
 
               
             </article>

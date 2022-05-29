@@ -121,11 +121,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.bailey.sh/ts-framework/main/modules/publishing-modules/</loc>
-         <lastmod>2022-05-29</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://docs.bailey.sh/ts-framework/main/services/adding-attributes/</loc>
          <lastmod>2022-05-29</lastmod>
          <changefreq>daily</changefreq>
