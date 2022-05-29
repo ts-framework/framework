@@ -657,6 +657,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#registering-services" class="md-nav__link">
     Registering services
   </a>
@@ -1163,6 +1170,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#registering-services" class="md-nav__link">
     Registering services
   </a>
@@ -1208,7 +1222,8 @@
 <p>Services are special classes that host some kind of background activity or process. They can be started and gracefully
 stopped upon request, and can even extend the functionality of the framework through the attributes system.</p>
 <h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleService</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Service</span><span class="o">&lt;</span><span class="nx">ExampleModule</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kd">@Injectable</span><span class="p">()</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleService</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Service</span><span class="o">&lt;</span><span class="nx">ExampleModule</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
 <span class="w">    </span><span class="cm">/**</span>
 <span class="cm">     * Invoked immediately before the service is started for the first</span>
@@ -1235,6 +1250,16 @@ stopped upon request, and can even extend the functionality of the framework thr
 
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<p>You can utilize dependency injection to obtain instances of other classes, including other services, in the
+application. When importing other services, the framework will automatically load the service's dependencies first,
+before it constructs the dependent service.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">(</span><span class="k">protected</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="nx">other</span><span class="o">:</span><span class="w"> </span><span class="kt">OtherService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">super</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Make sure that you've applied the <code class="highlight"><span class="kd">@Injectable</span><span class="p">()</span><span class="w"></span></code> decorator to the class, otherwise the framework won't be able
+to see the types of your parameters.</p>
 <h2 id="registering-services">Registering services<a class="headerlink" href="#registering-services" title="Permanent link">&para;</a></h2>
 <p>The <code>register()</code> method is invoked once when the service is started for the first time in an application. This makes it
 the ideal place to implement service attributes and other one-time logic.</p>

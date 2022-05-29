@@ -771,9 +771,47 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Using attributes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Using attributes
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-attributes" class="md-nav__link">
+    Creating attributes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-attributes_1" class="md-nav__link">
+    Using attributes
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1090,6 +1128,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-attributes" class="md-nav__link">
+    Creating attributes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-attributes_1" class="md-nav__link">
+    Using attributes
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1103,7 +1163,25 @@
 
 
 <h1 id="using-attributes">Using attributes<a class="headerlink" href="#using-attributes" title="Permanent link">&para;</a></h1>
-<p>TODO: How to use attributes to implement functionality in a controller class.</p>
+<h2 id="creating-attributes">Creating attributes<a class="headerlink" href="#creating-attributes" title="Permanent link">&para;</a></h2>
+<p>Make sure to read the services guide on <a href="../../services/adding-attributes/">adding attributes</a> to the application. It
+also talks about what attributes are and how they're useful.</p>
+<h2 id="using-attributes_1">Using attributes<a class="headerlink" href="#using-attributes_1" title="Permanent link">&para;</a></h2>
+<p>Attributes are decorators and can be applied to classes, methods, properties, and parameters. Each attribute can
+define which of those four target types it's applicable to, so you won't be able to use every attribute for every type.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">@AttributeName</span><span class="p">()</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleController</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Controller</span><span class="o">&lt;</span><span class="nx">ExampleModule</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">@AttributeName</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">method</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Attributes do not extend functionality on their own. In order for them to do anything, they'll need an associated
+service to power them. If you're using third party attributes, make sure you've also imported its module into your
+application.</p>
 
               
             </article>

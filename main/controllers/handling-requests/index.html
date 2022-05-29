@@ -799,9 +799,54 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Handling requests
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Handling requests
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#handling-with-decorations" class="md-nav__link">
+    Handling with decorations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-manually" class="md-nav__link">
+    Handling manually
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    Error handling
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1090,6 +1135,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#handling-with-decorations" class="md-nav__link">
+    Handling with decorations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-manually" class="md-nav__link">
+    Handling manually
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    Error handling
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1103,7 +1177,32 @@
 
 
 <h1 id="handling-requests">Handling requests<a class="headerlink" href="#handling-requests" title="Permanent link">&para;</a></h1>
-<p>TODO: How to handle service requests from a controller class.</p>
+<h2 id="handling-with-decorations">Handling with decorations<a class="headerlink" href="#handling-with-decorations" title="Permanent link">&para;</a></h2>
+<p>You can turn controller methods into request handlers with the <code class="highlight"><span class="kd">@RequestHandler</span><span class="w"></span></code> decorator. For this to work,
+you'll also need to specify the request class as its sole parameter.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">@RequestHandler</span><span class="w"></span>
+<span class="k">protected</span><span class="w"> </span><span class="nx">onAdd</span><span class="p">(</span><span class="nx">request</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleRequest.Add</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">request</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">sum</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>The framework will attach these methods to the root request manager at startup. It will use runtime reflection to
+identify the target request type from the parameters.</p>
+<h2 id="handling-manually">Handling manually<a class="headerlink" href="#handling-manually" title="Permanent link">&para;</a></h2>
+<p>You can utilize the application's root request manager to manually register handlers.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">requests</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="nx">ExampleRequest</span><span class="p">.</span><span class="nx">Add</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">request</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="mf">6</span><span class="p">);</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
+</code></pre></div>
+<p>At this time, these handlers are permanent once attached.</p>
+<h2 id="error-handling">Error handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<p>When an error is thrown from a request handler, the error will be propagated to the caller, and it will be up to the
+caller to handle it. Errors can also be thrown for the caller if no handlers are available to handle the request.</p>
 
               
             </article>

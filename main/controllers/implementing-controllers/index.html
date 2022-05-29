@@ -757,9 +757,54 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Implementing controllers
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Implementing controllers
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-controllers" class="md-nav__link">
+    Using controllers
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1090,6 +1135,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-controllers" class="md-nav__link">
+    Using controllers
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1103,7 +1177,32 @@
 
 
 <h1 id="implementing-controllers">Implementing controllers<a class="headerlink" href="#implementing-controllers" title="Permanent link">&para;</a></h1>
-<p>TODO: How to implement controller classes and an overview of all available utilities.</p>
+<p>Controllers are special classes that are intended solely for handling events and requests. For complex applications,
+you will primarily use attributes in your controllers as well, as they can be considered special types of event
+handlers.</p>
+<h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kd">@Injectable</span><span class="p">()</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleController</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Controller</span><span class="o">&lt;</span><span class="nx">ExampleModule</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<p>If you're developing with separation of concerns, you'll likely want to import one or more services into your
+controller by specifying them as constructor parameters.</p>
+<div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">(</span><span class="k">protected</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="nx">service</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">super</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Make sure that you've applied the <code class="highlight"><span class="kd">@Injectable</span><span class="p">()</span><span class="w"></span></code> decorator to the class, otherwise the framework won't be able
+to see the types of your parameters.</p>
+<h2 id="using-controllers">Using controllers<a class="headerlink" href="#using-controllers" title="Permanent link">&para;</a></h2>
+<p>That's all there is to controllers! They are useless on their own, so the next few sections will show the various ways
+you can utilize controllers.</p>
+<ul>
+<li><a href="../using-attributes/">Using attributes</a></li>
+<li><a href="../handling-events/">Handling events</a></li>
+<li><a href="../handling-requests/">Handling requests</a></li>
+</ul>
 
               
             </article>
