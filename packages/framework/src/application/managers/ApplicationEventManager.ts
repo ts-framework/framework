@@ -1,6 +1,7 @@
 import { NestedSet } from '@baileyherbert/nested-collections';
 import { Constructor, Type } from '@baileyherbert/types';
 import { Controller } from '../../controllers/Controller';
+import { HandlerError } from '../../errors/kinds/HandlerError';
 import { Event } from '../../services/events/Event';
 import { EventListenerHandle } from '../../services/events/EventListenerHandle';
 import { EventRegistry } from '../../services/events/EventRegistry';
@@ -130,7 +131,24 @@ export class ApplicationEventManager {
 					const instance = this.application.container.resolve(target);
 					const method = (instance as any)[methodName] as EventHandler;
 
-					method.call(instance, e);
+					try {
+						const response = method.call(instance, e);
+
+						if (typeof response === 'object' && typeof response.then === 'function') {
+							response.catch((error: any) => {
+								instance.errors.emitPassiveError(
+									new HandlerError('Error in event handler'),
+									error
+								);
+							});
+						}
+					}
+					catch (error) {
+						instance.errors.emitPassiveError(
+							new HandlerError('Error in event handler'),
+							error
+						);
+					}
 				});
 
 				this.ephemeral.add(handle);

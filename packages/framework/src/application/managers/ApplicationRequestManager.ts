@@ -2,6 +2,7 @@ import { NestedSet } from '@baileyherbert/nested-collections';
 import { PromiseCompletionSource } from '@baileyherbert/promises';
 import { Constructor, Type } from '@baileyherbert/types';
 import { Controller } from '../../controllers/Controller';
+import { HandlerError } from '../../errors/kinds/HandlerError';
 import { Request } from '../../services/requests/Request';
 import { RequestRegistry } from '../../services/requests/RequestRegistry';
 import { Service } from '../../services/Service';
@@ -153,7 +154,24 @@ export class ApplicationRequestManager {
 					const instance = this.application.container.resolve(target);
 					const method = (instance as any)[methodName] as RequestHandler;
 
-					return method.call(instance, e);
+					try {
+						const response = method.call(instance, e);
+
+						if (typeof response === 'object' && typeof response.then === 'function') {
+							response.catch((error: any) => {
+								instance.errors.emitPassiveError(
+									new HandlerError('Error in request handler'),
+									error
+								);
+							});
+						}
+					}
+					catch (error) {
+						instance.errors.emitPassiveError(
+							new HandlerError('Error in request handler'),
+							error
+						);
+					}
 				}
 
 				this.register(eventType, handler);

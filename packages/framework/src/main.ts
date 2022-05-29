@@ -61,6 +61,7 @@ export * from './errors/lifecycles/LifecycleError';
 export * from './errors/kinds/ModuleImportError';
 export * from './errors/kinds/ServiceOperationError';
 export * from './errors/kinds/UncaughtError';
+export * from './errors/kinds/HandlerError';
 
 export * from './extensions/Composer';
 export * from './extensions/ComposerBuilder';
