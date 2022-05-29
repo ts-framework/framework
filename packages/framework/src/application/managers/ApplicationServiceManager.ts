@@ -3,7 +3,6 @@ import { DependencyGraph } from '@baileyherbert/dependency-graph';
 import { NestedSet } from '@baileyherbert/nested-collections';
 import { ReflectionClass, ReflectionParameter } from '@baileyherbert/reflection';
 import { Constructor } from '@baileyherbert/types';
-import { NotImplementedError } from '../../errors/development/NotImplementedError';
 import { ErrorManager } from '../../errors/ErrorManager';
 import { ServiceOperationError } from '../../errors/kinds/ServiceOperationError';
 import { BaseModule } from '../../modules/BaseModule';
@@ -251,7 +250,9 @@ export class ApplicationServiceManager {
 					const override = registry.getParameterToken(service, 'constructor', param.index);
 
 					if (override !== undefined) {
-						throw new NotImplementedError('Token overrides are not yet supported');
+						if (this.services.has(override)) {
+							graph.addDependency(service, override);
+						}
 					}
 
 					if (param.isClassType) {
