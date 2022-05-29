@@ -462,20 +462,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../applications/managing-modules/" class="md-nav__link">
-        Managing modules
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../applications/sending-events/" class="md-nav__link">
         Sending events
       </a>
@@ -681,9 +667,61 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Adding requests
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Adding requests
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-requests" class="md-nav__link">
+    Creating requests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sending-requests" class="md-nav__link">
+    Sending requests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-requests" class="md-nav__link">
+    Handling requests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-handlers" class="md-nav__link">
+    Multiple handlers
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1104,6 +1142,42 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-requests" class="md-nav__link">
+    Creating requests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sending-requests" class="md-nav__link">
+    Sending requests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-requests" class="md-nav__link">
+    Handling requests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-handlers" class="md-nav__link">
+    Multiple handlers
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1117,7 +1191,49 @@
 
 
 <h1 id="adding-requests">Adding requests<a class="headerlink" href="#adding-requests" title="Permanent link">&para;</a></h1>
-<p>TODO: How to create and invoke service requests.</p>
+<p>Requests are similar to <a href="../adding-events/">events</a> except they can return a response. It's quite similar to remote
+functions, except they are local. <img alt="🤔" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/1f914.svg" title=":thinking:" /></p>
+<p>This is useful when running your application alongside another instance or framework. It allows the applications to
+query information from one another.</p>
+<h2 id="creating-requests">Creating requests<a class="headerlink" href="#creating-requests" title="Permanent link">&para;</a></h2>
+<p>The standard convention for this framework is to create namespaces with request classes inside, thus creating a
+structure similar to an enum.</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="nx">namespace</span><span class="w"> </span><span class="nx">ExampleRequest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Adds two or more numbers together and returns the sum.</span>
+<span class="cm">     */</span><span class="w"></span>
+<span class="w">    </span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Add</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Request</span><span class="o">&lt;</span><span class="kt">number</span><span class="p">[],</span><span class="w"> </span><span class="kt">number</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="sending-requests">Sending requests<a class="headerlink" href="#sending-requests" title="Permanent link">&para;</a></h2>
+<p>You can then send requests from the application's request manager.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">requests</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleRequest</span><span class="p">.</span><span class="nx">Add</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="mf">3</span><span class="p">]);</span><span class="w"></span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sum</span><span class="p">);</span><span class="w"> </span><span class="c1">// 6</span><span class="w"></span>
+</code></pre></div>
+<h2 id="handling-requests">Handling requests<a class="headerlink" href="#handling-requests" title="Permanent link">&para;</a></h2>
+<p>You can handle requests from both services and controllers by using the <code class="highlight"><span class="kd">@RequestHandler</span><span class="w"></span></code> decorator along with the
+request class as the parameter type.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">@RequestHandler</span><span class="w"></span>
+<span class="k">protected</span><span class="w"> </span><span class="nx">onAdd</span><span class="p">(</span><span class="nx">request</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleRequest.Add</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nx">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="nx">request</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">sum</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>You must use the <code>resolve()</code> method to respond with a value, and the <code>reject()</code> method to respond with an error.</p>
+<h2 id="multiple-handlers">Multiple handlers<a class="headerlink" href="#multiple-handlers" title="Permanent link">&para;</a></h2>
+<p>If a request has multiple handlers available, the first handler that was registered will be invoked, and the others
+will be ignored.</p>
+<p>If a handler does not wish to handle a request, it can use the <code>propagate()</code> method to pass it onto the next available
+handler instead.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">request</span><span class="p">.</span><span class="nx">propagate</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
 
               
             </article>

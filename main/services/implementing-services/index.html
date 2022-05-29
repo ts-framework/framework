@@ -462,20 +462,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../applications/managing-modules/" class="md-nav__link">
-        Managing modules
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../applications/sending-events/" class="md-nav__link">
         Sending events
       </a>
@@ -639,9 +625,68 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Implementing services
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Implementing services
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registering-services" class="md-nav__link">
+    Registering services
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-services" class="md-nav__link">
+    Starting services
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stopping-services" class="md-nav__link">
+    Stopping services
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    Error handling
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1104,6 +1149,49 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    Implementation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#registering-services" class="md-nav__link">
+    Registering services
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-services" class="md-nav__link">
+    Starting services
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stopping-services" class="md-nav__link">
+    Stopping services
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    Error handling
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1117,7 +1205,62 @@
 
 
 <h1 id="implementing-services">Implementing services<a class="headerlink" href="#implementing-services" title="Permanent link">&para;</a></h1>
-<p>TODO: How to implement service classes and an overview of all available methods and utilities.</p>
+<p>Services are special classes that host some kind of background activity or process. They can be started and gracefully
+stopped upon request, and can even extend the functionality of the framework through the attributes system.</p>
+<h2 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleService</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Service</span><span class="o">&lt;</span><span class="nx">ExampleModule</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Invoked immediately before the service is started for the first</span>
+<span class="cm">     * time to register attributes and perform any other one-time operations.</span>
+<span class="cm">     * This method will not be called again for the duration of the process.</span>
+<span class="cm">     */</span><span class="w"></span>
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">register</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Starts the service.</span>
+<span class="cm">     */</span><span class="w"></span>
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Stops the service.</span>
+<span class="cm">     */</span><span class="w"></span>
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="registering-services">Registering services<a class="headerlink" href="#registering-services" title="Permanent link">&para;</a></h2>
+<p>The <code>register()</code> method is invoked once when the service is started for the first time in an application. This makes it
+the ideal place to implement service attributes and other one-time logic.</p>
+<h2 id="starting-services">Starting services<a class="headerlink" href="#starting-services" title="Permanent link">&para;</a></h2>
+<p>The <code>start()</code> method in each service should asynchronously start all tasks that the service will be performing, and
+should not resolve until they have all been successfully started.</p>
+<p>You should throw errors from this method if the service is unable to start. In such a case, the framework will invoke
+the <code>stop()</code> method to stop any tasks that started before the error, and will terminate the startup.</p>
+<h2 id="stopping-services">Stopping services<a class="headerlink" href="#stopping-services" title="Permanent link">&para;</a></h2>
+<p>The <code>stop()</code> method in each service should asynchronously stop all tasks that it was performing, and should not resolve
+until any outstanding tasks have completed.</p>
+<p>You should avoid throwing errors from this method. If errors are encountered that may be ignored, use the
+<code class="highlight"><span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">emitPassiveError</span><span class="p">()</span><span class="w"></span></code> method to log it. If an error cannot be ignored, then throw it – the framework
+will terminate the process due to an unsafe shutdown.</p>
+<h2 id="error-handling">Error handling<a class="headerlink" href="#error-handling" title="Permanent link">&para;</a></h2>
+<p>Services will typically be running tasks in the background while the application is running. Sometimes, they may
+encounter errors, but due to the asynchronous nature of services, the framework cannot see any errors that are thrown
+from the background.</p>
+<p>Instead of throwing errors, use the service's error manager to log it.</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">emitPassiveError</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;This error is safe to ignore!&#39;</span><span class="p">));</span><span class="w"></span>
+<span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">emitCriticalError</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Stop the application!&#39;</span><span class="p">));</span><span class="w"></span>
+</code></pre></div>
+<p>The error manager exposes methods to easily listen for promise rejections and <code>error</code> events from event emitters. For
+all the details, check out the <a href="../../techniques/error-handling/">error handling</a> technique guide.</p>
+<p>By using the error manager instead of throwing, the application and its modules can intercept, transform, and report
+those errors.</p>
 
               
             </article>

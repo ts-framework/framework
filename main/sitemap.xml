@@ -16,11 +16,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://docs.bailey.sh/ts-framework/main/applications/managing-modules/</loc>
-         <lastmod>2022-05-29</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://docs.bailey.sh/ts-framework/main/applications/sending-events/</loc>
          <lastmod>2022-05-29</lastmod>
          <changefreq>daily</changefreq>

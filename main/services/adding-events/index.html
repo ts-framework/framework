@@ -462,20 +462,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../applications/managing-modules/" class="md-nav__link">
-        Managing modules
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../applications/sending-events/" class="md-nav__link">
         Sending events
       </a>
@@ -667,9 +653,54 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Adding events
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Adding events
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-events" class="md-nav__link">
+    Creating events
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sending-events" class="md-nav__link">
+    Sending events
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-events" class="md-nav__link">
+    Handling events
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1104,6 +1135,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-events" class="md-nav__link">
+    Creating events
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sending-events" class="md-nav__link">
+    Sending events
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-events" class="md-nav__link">
+    Handling events
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1117,7 +1177,51 @@
 
 
 <h1 id="adding-events">Adding events<a class="headerlink" href="#adding-events" title="Permanent link">&para;</a></h1>
-<p>TODO: How to create and invoke service events.</p>
+<p>In this framework, controllers can listen for events which are invoked globally by services. Unlike traditional events,
+which use string keys that can collide, these events use classes which also define the types of data and implement
+strict typing.</p>
+<h2 id="creating-events">Creating events<a class="headerlink" href="#creating-events" title="Permanent link">&para;</a></h2>
+<p>The standard convention for this framework is to create namespaces with event classes inside, thus creating a structure
+similar to an enum.</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="nx">namespace</span><span class="w"> </span><span class="nx">ExampleEvent</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Invoked when the example service starts, along with a timestamp</span>
+<span class="cm">     * for when that happened.</span>
+<span class="cm">     */</span><span class="w"></span>
+<span class="w">    </span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Started</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Event</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+
+<span class="w">    </span><span class="cm">/**</span>
+<span class="cm">     * Invoked when the example service stops, with no associated data.</span>
+<span class="cm">     */</span><span class="w"></span>
+<span class="w">    </span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Stopped</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Event</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="sending-events">Sending events<a class="headerlink" href="#sending-events" title="Permanent link">&para;</a></h2>
+<p>You can then send events from within your service using the protected <code>emit()</code> method.</p>
+<div class="highlight"><pre><span></span><code><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Started</span><span class="p">,</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">());</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Stopped</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>You can also emit events on the application directly, however this is not recommended as the <code>sender</code> property of the
+event will not be accurate.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Started</span><span class="p">,</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">());</span><span class="w"></span>
+</code></pre></div>
+<h2 id="handling-events">Handling events<a class="headerlink" href="#handling-events" title="Permanent link">&para;</a></h2>
+<p>You can listen for events from both services and controllers by using the <code class="highlight"><span class="kd">@EventHandler</span><span class="w"></span></code> decorator along with the
+event class as the parameter type.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">@EventHandler</span><span class="w"></span>
+<span class="k">protected</span><span class="w"> </span><span class="nx">onExampleStarted</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleEvent.Started</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Started at:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Please note that events are global in this framework and these handlers will work regardless of where they are
+implemented.</p>
 
               
             </article>

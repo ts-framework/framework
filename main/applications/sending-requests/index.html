@@ -464,20 +464,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../managing-modules/" class="md-nav__link">
-        Managing modules
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../sending-events/" class="md-nav__link">
         Sending events
       </a>
@@ -501,9 +487,47 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Sending requests
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Sending requests
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#emitting-requests" class="md-nav__link">
+    Emitting requests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-requests" class="md-nav__link">
+    Handling requests
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1104,6 +1128,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#emitting-requests" class="md-nav__link">
+    Emitting requests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-requests" class="md-nav__link">
+    Handling requests
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1117,7 +1163,14 @@
 
 
 <h1 id="sending-requests">Sending requests<a class="headerlink" href="#sending-requests" title="Permanent link">&para;</a></h1>
-<p>TODO: How to send requests into an application and handle the response, both internally and externally.</p>
+<h2 id="emitting-requests">Emitting requests<a class="headerlink" href="#emitting-requests" title="Permanent link">&para;</a></h2>
+<p>You can send requests into an application for controllers to handle. This allows you to externally request information
+from an application.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">requests</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">Request</span><span class="p">);</span><span class="w"></span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">requests</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">Request</span><span class="p">,</span><span class="w"> </span><span class="p">...</span><span class="nx">args</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<h2 id="handling-requests">Handling requests<a class="headerlink" href="#handling-requests" title="Permanent link">&para;</a></h2>
+<p>Check out the documentation on <a href="../../services/adding-requests/">service requests</a> to get started.</p>
 
               
             </article>

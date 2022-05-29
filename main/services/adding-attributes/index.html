@@ -462,20 +462,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../applications/managing-modules/" class="md-nav__link">
-        Managing modules
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../applications/sending-events/" class="md-nav__link">
         Sending events
       </a>
@@ -695,9 +681,115 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Adding attributes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Adding attributes
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-attributes" class="md-nav__link">
+    Creating attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overrides" class="md-nav__link">
+    Overrides
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decorations" class="md-nav__link">
+    Decorations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-attributes" class="md-nav__link">
+    Using attributes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-attributes" class="md-nav__link">
+    Handling attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Handling attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-attribute-instances" class="md-nav__link">
+    Getting attribute instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-target-instances" class="md-nav__link">
+    Getting target instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reflecting-on-targets" class="md-nav__link">
+    Reflecting on targets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatching-methods" class="md-nav__link">
+    Dispatching methods
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    Use cases
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1104,6 +1196,96 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-attributes" class="md-nav__link">
+    Creating attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overrides" class="md-nav__link">
+    Overrides
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decorations" class="md-nav__link">
+    Decorations
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-attributes" class="md-nav__link">
+    Using attributes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-attributes" class="md-nav__link">
+    Handling attributes
+  </a>
+  
+    <nav class="md-nav" aria-label="Handling attributes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-attribute-instances" class="md-nav__link">
+    Getting attribute instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-target-instances" class="md-nav__link">
+    Getting target instances
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reflecting-on-targets" class="md-nav__link">
+    Reflecting on targets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatching-methods" class="md-nav__link">
+    Dispatching methods
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    Use cases
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1117,7 +1299,120 @@
 
 
 <h1 id="adding-attributes">Adding attributes<a class="headerlink" href="#adding-attributes" title="Permanent link">&para;</a></h1>
-<p>TODO: How to create and implement service attributes.</p>
+<p>Attributes are special decorators that your services can use to implement special functionality, create shortcuts,
+and even create entire new frameworks.</p>
+<h2 id="creating-attributes">Creating attributes<a class="headerlink" href="#creating-attributes" title="Permanent link">&para;</a></h2>
+<p>The following example shows the implementation of an attribute class and its conversion into a decorator called
+<code class="highlight"><span class="kd">@Example</span><span class="p">()</span><span class="w"></span></code>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">Example</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Attribute</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="kd">class</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Attribute</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">(</span><span class="k">public</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="nx">message?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">super</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onClass</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">AttributeClassEvent</span><span class="o">&lt;</span><span class="nx">Component</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onMethod</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">AttributeMethodEvent</span><span class="o">&lt;</span><span class="nx">Component</span><span class="p">,</span><span class="w"> </span><span class="nx">any</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onProperty</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">AttributePropertyEvent</span><span class="o">&lt;</span><span class="nx">Component</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onParameter</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">AttributeParameterEvent</span><span class="o">&lt;</span><span class="nx">Component</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+
+<span class="p">});</span><span class="w"></span>
+</code></pre></div>
+<h3 id="overrides">Overrides<a class="headerlink" href="#overrides" title="Permanent link">&para;</a></h3>
+<p>In the above example, you see four blank methods have been implemented, one for each of classes, methods, properties, and
+parameters.</p>
+<p>These methods are special. If you don't override them, the <code class="highlight"><span class="kd">@Example</span><span class="p">()</span><span class="w"></span></code> decorator won't be applicable to those
+types. Indeed, this means if you only override the <code>onClass()</code> method, the decorator can only be used on classes.</p>
+<p>This override magic works even if the method is blank, you simply need to override it. The decorator will be guarded
+against use on non-overridden types both by the TypeScript compiler and at runtime.</p>
+<h3 id="decorations">Decorations<a class="headerlink" href="#decorations" title="Permanent link">&para;</a></h3>
+<p>The above four methods are invoked at decoration time. If you wish to perform any logic when the decorator is applied,
+just like you would with a traditional decorator function, you can place that logic in those methods.</p>
+<h2 id="using-attributes">Using attributes<a class="headerlink" href="#using-attributes" title="Permanent link">&para;</a></h2>
+<p>The above attribute supports all four target types, so it can be used across the application in other services and
+components.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">@Example</span><span class="p">(</span><span class="s1">&#39;Enter a message here!&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleController</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Controller</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">@Example</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">test</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;The test method was invoked.&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h2 id="handling-attributes">Handling attributes<a class="headerlink" href="#handling-attributes" title="Permanent link">&para;</a></h2>
+<p>The above attribute is useless on its own. You'll also want to handle the attribute inside a corresponding service to
+implement some associated behavior.</p>
+<div class="highlight"><pre><span></span><code><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">register</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">classes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">getClasses</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="nx">Example</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">methods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">getMethods</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="nx">Example</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">registration</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">classes</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">registration</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">methods</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>The above code will iterate over the registrations for all classes and methods that use the <code class="highlight"><span class="kd">@Example</span><span class="p">()</span><span class="w"></span></code> decorator.
+There will be one registration per class and per method.</p>
+<p>These registration objects can be used to obtain information about the attribute and the class instances that use it.
+You can also obtain each attribute instance, and in the case of method attributes, you can invoke those methods easily
+using dispatchers.</p>
+<h3 id="getting-attribute-instances">Getting attribute instances<a class="headerlink" href="#getting-attribute-instances" title="Permanent link">&para;</a></h3>
+<p>The <code>attributes</code> property obtains an array of all attribute instances that were applied to the target class, method,
+property, or parameter. The decorator can be used multiple times for each, after all.</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">attribute</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">registration</span><span class="p">.</span><span class="nx">attributes</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">attribute</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>You can also use the <code>first()</code> and <code>last()</code> methods to obtain the first or last attribute instance that was applied to
+the target.</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">registration</span><span class="p">.</span><span class="nx">first</span><span class="p">().</span><span class="nx">message</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<h3 id="getting-target-instances">Getting target instances<a class="headerlink" href="#getting-target-instances" title="Permanent link">&para;</a></h3>
+<p>This framework allows modules to be imported multiple times, which creates multiple instances of all the services and
+controllers in them.</p>
+<p>Perhaps our decorator above was used on a service called <code>ExampleService</code>, but this service is in a module that was
+imported twice. We can obtain all instances of the target class with the <code>targets</code> property.</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">target</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">registration</span><span class="p">.</span><span class="nx">targets</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// All targets will be instances of the same class ...</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// where our decorator was used</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="reflecting-on-targets">Reflecting on targets<a class="headerlink" href="#reflecting-on-targets" title="Permanent link">&para;</a></h3>
+<p>For advanced use cases, a reflection object is provided with each registration. The type of reflection object will
+vary depending on the type of target, for example methods will receive a <code>ReflectionMethod</code> instance.</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">registration</span><span class="p">.</span><span class="nx">reflection</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span><span class="w"></span>
+<span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">registration</span><span class="p">.</span><span class="nx">reflection</span><span class="p">.</span><span class="nx">getParameters</span><span class="p">());</span><span class="w"></span>
+</code></pre></div>
+<p>You can use reflection to query other attributes that have been attached on the target classes, methods, properties,
+and/or parameters.</p>
+<h3 id="dispatching-methods">Dispatching methods<a class="headerlink" href="#dispatching-methods" title="Permanent link">&para;</a></h3>
+<p>Method attributes are special in that the underlying methods can be invoked by the service that handles them. A great
+example of this would be <code class="highlight"><span class="kd">@Get</span><span class="p">()</span><span class="w"></span></code> and <code class="highlight"><span class="kd">@Post</span><span class="p">()</span><span class="w"></span></code> decorators which set up and handle routes on a web server.</p>
+<p>Method registrations expose a <code>dispatchers</code> property that contains a dispatcher for each instance of the target class.</p>
+<p>This dispatcher can invoke the method with dependency injection. It inherits from the application's container, and
+can also be customized.</p>
+<p>In the following example, we'll invoke methods that use the <code class="highlight"><span class="kd">@Example</span><span class="p">(</span><span class="nx">message</span><span class="p">)</span><span class="w"></span></code> decorator with dependency
+injection. If the method has a parameter named <code>message</code>, we'll also replace it with the message in the first attribute.</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">dispatcher</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">registration</span><span class="p">.</span><span class="nx">dispatchers</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">setNamedParameter</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">registration</span><span class="p">.</span><span class="nx">first</span><span class="p">().</span><span class="nx">message</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="nx">dispatcher</span><span class="p">.</span><span class="nx">invoke</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Dispatchers can set four types of overrides for injection:</p>
+<ul>
+<li><code class="highlight"><span class="nx">setNamedParameter</span><span class="p">(</span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">)</span><span class="w"></span></code></li>
+<li><code class="highlight"><span class="nx">setPositionalParameter</span><span class="p">(</span><span class="nx">index</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">)</span><span class="w"></span></code></li>
+<li><code class="highlight"><span class="nx">setTokenParameter</span><span class="p">(</span><span class="nx">token</span><span class="o">:</span><span class="w"> </span><span class="kt">any</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">)</span><span class="w"></span></code></li>
+<li><code class="highlight"><span class="nx">setTypedParameter</span><span class="p">(</span><span class="kr">type</span><span class="o">:</span><span class="w"> </span><span class="nx">Type</span><span class="o">&lt;</span><span class="nx">any</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">)</span><span class="w"></span></code></li>
+</ul>
+<h2 id="use-cases">Use cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h2>
+<p>You'll always want to implement attributes from a service's <code>register()</code> method, but how you go from there is entirely
+up to you.</p>
+<p>You could apply the attributes directly onto an object initialized at construction time, or you could store information
+about the attributes in properties and apply them when the service starts.</p>
 
               
             </article>

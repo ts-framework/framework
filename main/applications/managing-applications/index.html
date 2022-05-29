@@ -459,24 +459,103 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Managing applications
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Managing applications
       </a>
       
-    </li>
-  
+        
 
-            
-          
-            
-              
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
   
-    <li class="md-nav__item">
-      <a href="../managing-modules/" class="md-nav__link">
-        Managing modules
-      </a>
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-an-instance" class="md-nav__link">
+    Creating an instance
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attaching-the-instance" class="md-nav__link">
+    Attaching the instance
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-manually" class="md-nav__link">
+    Starting manually
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-options" class="md-nav__link">
+    Start options
+  </a>
+  
+    <nav class="md-nav" aria-label="Start options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#property:abortOnError" class="md-nav__link">
+    abortOnError
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:envFilePath" class="md-nav__link">
+    envFilePath
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:envPrefix" class="md-nav__link">
+    envPrefix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:environment" class="md-nav__link">
+    environment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1104,6 +1183,83 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-an-instance" class="md-nav__link">
+    Creating an instance
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attaching-the-instance" class="md-nav__link">
+    Attaching the instance
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-manually" class="md-nav__link">
+    Starting manually
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-options" class="md-nav__link">
+    Start options
+  </a>
+  
+    <nav class="md-nav" aria-label="Start options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#property:abortOnError" class="md-nav__link">
+    abortOnError
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:envFilePath" class="md-nav__link">
+    envFilePath
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:envPrefix" class="md-nav__link">
+    envPrefix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:environment" class="md-nav__link">
+    environment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1117,7 +1273,79 @@
 
 
 <h1 id="managing-applications">Managing applications<a class="headerlink" href="#managing-applications" title="Permanent link">&para;</a></h1>
-<p>TODO: How to mount applications to the process, start and stop them manually, handle exceptions, etc.</p>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>This guide shows the different ways you can start and stop your application, the associated options, and how to manage
+things like errors and logging.</p>
+<h2 id="creating-an-instance">Creating an instance<a class="headerlink" href="#creating-an-instance" title="Permanent link">&para;</a></h2>
+<p>Before we can start the application, we'll need to acquire an instance of the application. We can't construct it
+ourselves, or we'll receive an error. Instead, use the <code>ApplicationFactory</code> class to resolve an instance.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ApplicationFactory</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">App</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<h2 id="attaching-the-instance">Attaching the instance<a class="headerlink" href="#attaching-the-instance" title="Permanent link">&para;</a></h2>
+<p>The recommended method to start an application is with the <code>attach()</code> method. This name comes from the idea that we'll
+be "attaching" the application to the running process, such that when the process is running, our application is
+running.</p>
+<p>This method helps automatically configure things like logging, error handling, and graceful shutdowns when interrupt
+signals are received.</p>
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">attach</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<p>This method also accepts various options to tailor the attachment. Here are the default values of these options, with
+the exception that <code>loggingLevel</code> will vary between <code>Information</code> and <code>Debug</code> depending on the current environment.</p>
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">attach</span><span class="p">({</span><span class="w"></span>
+<span class="w">    </span><span class="nx">abortOnError</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">envFilePath</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;.env&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">envPrefix</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">    </span><span class="nx">interceptTerminationSignals</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">loggingLevel</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nx">loggingTransports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="cm">/*console*/</span><span class="p">]</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
+</code></pre></div>
+<p>The <code>attach()</code> method returns a promise that resolves once the application has stopped. You don't need to <code>await</code> this
+promise if you don't want to.</p>
+<h2 id="starting-manually">Starting manually<a class="headerlink" href="#starting-manually" title="Permanent link">&para;</a></h2>
+<p>If you want full control over how the application is started and managed, then the <code>attach()</code> method might not be
+sufficient for you. In this case, you'll want to use the <code>start()</code> method manually. This has some important caveats:</p>
+<ul>
+<li>No transports will be attached to the logger</li>
+<li>No graceful shutdown hooks will be implemented</li>
+</ul>
+<p>To see log output, you will need to attach at least one logger transport.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">transport</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">ConsoleTransport</span><span class="p">();</span><span class="w"></span>
+<span class="nx">transport</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">app</span><span class="p">.</span><span class="nx">logger</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>To start the application manually, use the <code>start()</code> method. A promise will be returned that resolves once the
+application has shut down, or rejects with a critical error.</p>
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<p>You should then implement logic to call and wait for the <code>stop()</code> method before the process shuts down, otherwise data
+loss may occur.</p>
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<h2 id="start-options">Start options<a class="headerlink" href="#start-options" title="Permanent link">&para;</a></h2>
+<h3 _="," id="property:abortOnError"><code class="highlight"><span class="nx">abortOnError?</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"></span></code><a class="headerlink" href="#property:abortOnError" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Sets whether to terminate the process with an erroneous exit code if an unhandled fatal error is encountered within
+the application. Otherwise the <code>start()</code> or <code>attach()</code> methods will reject with the error.</p>
+</blockquote>
+<h3 _="," id="property:envFilePath"><code class="highlight"><span class="nx">envFilePath?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;.env&#39;</span><span class="w"></span></code><a class="headerlink" href="#property:envFilePath" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Sets the name or path of the <code>.env</code> file to use for configuration. This file does not need to exist, as the
+environment will also be loaded from the process. Set this option to <code>false</code> to disable the file entirely.</p>
+</blockquote>
+<h3 _="," id="property:envPrefix"><code class="highlight"><span class="nx">envPrefix?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"></span></code><a class="headerlink" href="#property:envPrefix" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Sets the prefix to use for environment variables in this application. The names of the variables will not change from
+the application's perspective, but must contain the prefix in the <code>.env</code> file and process environment to be
+recognized.</p>
+<p>This is ideal when running multiple applications simultaneously in the same process, in order to isolate their
+configurations.</p>
+</blockquote>
+<h3 _="," id="property:environment"><code class="highlight"><span class="nx">environment?</span><span class="o">:</span><span class="w"> </span><span class="kt">Record</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">any</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span><span class="w"></span></code><a class="headerlink" href="#property:environment" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Sets custom environment variables in the application. The variables defined here will override any variables loaded
+from the working environment or <code>.env</code> file.</p>
+</blockquote>
 
               
             </article>
@@ -1152,13 +1380,13 @@
       
       
         
-        <a href="../managing-modules/" class="md-footer__link md-footer__link--next" aria-label="Next: Managing modules" rel="next">
+        <a href="../sending-events/" class="md-footer__link md-footer__link--next" aria-label="Next: Sending events" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Managing modules
+              Sending events
             </div>
           </div>
           <div class="md-footer__button md-icon">
