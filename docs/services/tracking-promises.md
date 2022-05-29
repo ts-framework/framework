@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Applications frequently perform asynchronous tasks as part of their operation, so they frequently work wiht promises.
+Applications frequently perform asynchronous tasks as part of their operation, so they frequently work with promises.
 When an application is shutting down, it can be easy to leave some promises behind untracked.
 
 It's your responsibility to ensure all promises you create are resolved before your service shuts down. The framework
