@@ -66,7 +66,6 @@ nav:
   - Working with applications:
     - Configuring applications: applications/configuring-applications.md
     - Managing applications: applications/managing-applications.md
-    - Managing modules: applications/managing-modules.md
     - Sending events: applications/sending-events.md
     - Sending requests: applications/sending-requests.md
   - Working with modules:
