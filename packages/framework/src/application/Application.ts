@@ -241,7 +241,7 @@ export abstract class Application extends BaseModule {
 			await this.bootExtensions();
 
 			// Invoke extension composers
-			this.extensions._invokeApplicationComposer(this);
+			this.extensions.augment(this);
 
 			// Register modules
 			this.logger.trace('Registering module imports');

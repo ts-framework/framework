@@ -1,10 +1,12 @@
 import { Logger } from '@baileyherbert/logging';
+import { Promisable } from '@baileyherbert/types';
 import { Application } from '../application/Application';
 import { Controller } from '../controllers/Controller';
 import { ErrorManager } from '../errors/ErrorManager';
 import { Module } from '../modules/Module';
 import { Service } from '../services/Service';
 import { Composer } from './Composer';
+import { ComposerBuilder } from './ComposerBuilder';
 
 /**
  * This is the base class for framework extensions and is required for the implementation of augmented properties
@@ -23,43 +25,22 @@ export abstract class FrameworkExtension {
 	public readonly errors = new ErrorManager(this);
 
 	/**
-	 * Invoked from the constructor of new services.
-	 * @param composer
-	 */
-	public onServiceComposer(composer: Composer<Service>) {
-
-	}
-
-	/**
-	 * Invoked from the constructor of new controllers.
-	 * @param composer
-	 */
-	public onControllerComposer(composer: Composer<Controller>) {
-
-	}
-
-	/**
-	 * Invoked from the constructor of new modules.
-	 * @param composer
-	 */
-	public onModuleComposer(composer: Composer<Module>) {
-
-	}
-
-	/**
-	 * Invoked from the constructor of new application modules.
-	 * @param composer
-	 */
-	public onApplicationComposer(composer: Composer<Application>) {
-
-	}
-
-	/**
 	 * Invoked when the extension is registered into the application.
-	 * @param application
+	 * @param builder
 	 */
-	public async onRegister(application: Application) {
+	protected onRegister(builder: ComposerBuilder): Promisable<void> {
 
+	}
+
+	/**
+	 * Invokes the `onRegister()` method.
+	 * @param application
+	 * @returns
+	 * @internal
+	 */
+	public async _internRegister(application: Application) {
+		const builder = new ComposerBuilder(application, this);
+		return this.onRegister(builder);
 	}
 
 }

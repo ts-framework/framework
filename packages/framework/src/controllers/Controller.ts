@@ -34,7 +34,7 @@ export abstract class Controller<T extends BaseModule = BaseModule> {
 	 * The extensions that have been loaded into this controller.
 	 * @internal
 	 */
-	public _internExtensions = this.application.extensions._invokeControllerComposer(this);
+	public _internExtensions = this.application.extensions.augment(this);
 
 }
 

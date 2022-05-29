@@ -19,7 +19,7 @@ export class Composer<T extends object> extends EventEmitter<ComposerEvents> {
 
 	/**
 	 * Whether the properties set by this composer will be writable.
-	 * @default false
+	 * @default true
 	 */
 	public writable = true;
 

@@ -64,6 +64,7 @@ export * from './errors/kinds/ServiceOperationError';
 export * from './errors/kinds/UncaughtError';
 
 export * from './extensions/Composer';
+export * from './extensions/ComposerBuilder';
 export * from './extensions/ExtensionRegistry';
 export * from './extensions/FrameworkExtension';
 

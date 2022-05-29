@@ -1,3 +1,4 @@
+import { FrameworkExtension } from '../../extensions/FrameworkExtension';
 import { Service } from '../Service';
 
 export class StateManager {
@@ -17,7 +18,15 @@ export class StateManager {
 	 */
 	private initialized = false;
 
-	public constructor(protected service: Service) {}
+	/**
+	 * The extensions that have been loaded into this manager.
+	 * @internal
+	 */
+	public _internExtensions: FrameworkExtension[];
+
+	public constructor(protected service: Service) {
+		this._internExtensions = service.application.extensions.augment(this);
+	}
 
 	/**
 	 * Creates a new managed state property of the given type with an initial value of `undefined`.

@@ -1,4 +1,6 @@
 import { PromiseCompletionSource } from '@baileyherbert/promises';
+import { FrameworkExtension } from '../../extensions/FrameworkExtension';
+import { Service } from '../Service';
 
 export class PromiseManager {
 
@@ -11,6 +13,16 @@ export class PromiseManager {
 	 * The completion sources and their corresponding timeouts.
 	 */
 	private completionSources = new Map<PromiseCompletionSource<boolean>, NodeJS.Timeout | undefined>();
+
+	/**
+	 * The extensions that have been loaded into this manager.
+	 * @internal
+	 */
+	public _internExtensions: FrameworkExtension[];
+
+	public constructor(private readonly service: Service) {
+		this._internExtensions = service.application.extensions.augment(this);
+	}
 
 	/**
 	 * The number of outstanding promises in the manager.

@@ -1,18 +1,18 @@
+import { NestedSet } from '@baileyherbert/nested-collections';
 import { ReflectionClass } from '@baileyherbert/reflection';
-import { Constructor, Key } from '@baileyherbert/types';
-import { Controller } from '../../controllers/Controller';
+import { Constructor, Key, Type } from '@baileyherbert/types';
 import { Composer, ComposerEvents, ComposerTarget } from '../../extensions/Composer';
 import { FrameworkExtension } from '../../extensions/FrameworkExtension';
-import { Module } from '../../modules/Module';
-import { Service } from '../../services/Service';
 import { Application } from '../Application';
 
 export class ApplicationExtensionManager {
 
 	protected extensions = new Set<FrameworkExtension>();
-	protected types = new Map<Constructor<FrameworkExtension>, FrameworkExtension>();
-	protected reflections = new Map<Constructor<any>, ReflectionClass<any>>();
+	protected types = new Map<Type<FrameworkExtension>, FrameworkExtension>();
+	protected reflections = new Map<Type<any>, ReflectionClass<any>>();
 	protected composers = new Map<any, Composer<any>>();
+
+	protected registrations = new NestedSet<Type<any>, ComposerRegistration<any>>();
 
 	public constructor(protected application: Application) {
 
@@ -33,8 +33,8 @@ export class ApplicationExtensionManager {
 			this.application.logger.attach(extension.logger);
 			this.application.errors.attach(extension.errors);
 
-			// Invoke the onRegistered() method
-			await extension.onRegister(this.application);
+			// Invoke the onRegister() method
+			await extension._internRegister(this.application);
 		}
 	}
 
@@ -57,39 +57,29 @@ export class ApplicationExtensionManager {
 	}
 
 	/**
-	 * Invokes the `onServiceComposer()` method for all extensions.
+	 * Invokes composers on the given instance and returns an array of extensions that were applied.
 	 * @param instance
-	 * @internal
+	 * @returns
 	 */
-	public _invokeServiceComposer(instance: Service) {
-		return this.invokeComposers('onServiceComposer', this.createComposer(instance));
-	}
+	public augment(instance: object) {
+		const types = this.getReflection(instance).getHierarchy().map(ref => ref.target);
+		const extensions = new Set<FrameworkExtension>();
 
-	/**
-	 * Invokes the `onControllerComposer()` method for all extensions.
-	 * @param instance
-	 * @internal
-	 */
-	public _invokeControllerComposer(instance: Controller) {
-		return this.invokeComposers('onControllerComposer', this.createComposer(instance));
-	}
+		for (const type of types) {
+			if (this.registrations.hasKey(type)) {
+				const composer = this.createComposer(instance);
+				const registrations = this.registrations.values(type);
 
-	/**
-	 * Invokes the `onModuleComposer()` method for all extensions.
-	 * @param instance
-	 * @internal
-	 */
-	public _invokeModuleComposer(instance: Module) {
-		return this.invokeComposers('onModuleComposer', this.createComposer(instance));
-	}
+				for (const registration of registrations) {
+					registration.handler(composer);
+					extensions.add(registration.extension);
+				}
 
-	/**
-	 * Invokes the `onApplicationComposer()` method for all extensions.
-	 * @param instance
-	 * @internal
-	 */
-	public _invokeApplicationComposer(instance: Application) {
-		return this.invokeComposers('onApplicationComposer', this.createComposer(instance));
+				composer._internApply();
+			}
+		}
+
+		return [...extensions];
 	}
 
 	/**
@@ -104,19 +94,18 @@ export class ApplicationExtensionManager {
 	}
 
 	/**
-	 * Invokes the specified composer callback with the given instance. Returns an array of extensions that were used.
-	 * @param event
-	 * @param composer
+	 * Returns a reflection object for the given instance (with caching).
+	 * @param instance
 	 * @returns
 	 */
-	private invokeComposers<K extends Key<CompositionMethods>>(event: K, composer: CompositionMethods[K]) {
-		for (const extension of this.extensions) {
-			extension[event](composer as any);
+	private getReflection<T extends object>(instance: T): ReflectionClass<T> {
+		const type = instance.constructor as Type<any>;
+
+		if (!this.reflections.has(type)) {
+			this.reflections.set(type, new ReflectionClass(instance));
 		}
 
-		composer._internApply();
-
-		return [...this.extensions];
+		return this.reflections.get(type)!;
 	}
 
 	/**
@@ -126,24 +115,32 @@ export class ApplicationExtensionManager {
 	 */
 	private createComposer<T extends object>(instance: T): Composer<T> {
 		if (!this.composers.has(instance)) {
-			const type = instance.constructor as Constructor<any>;
-
-			if (!this.reflections.has(type)) {
-				this.reflections.set(type, new ReflectionClass(instance));
-			}
-
-			const composer = new Composer(instance, this.reflections.get(type)!);
+			const composer = new Composer(instance, this.getReflection(instance));
 			this.composers.set(instance, composer);
 		}
 
 		return this.composers.get(instance)!;
 	}
 
+	/**
+	 * Attaches a composer handler to the manager.
+	 * @param extension
+	 * @param constructor
+	 * @param handler
+	 * @internal
+	 */
+	public _attachComposer<T extends object>(extension: FrameworkExtension, constructor: Type<T>, handler: ComposerHandler<T>) {
+		this.registrations.add(constructor, {
+			extension,
+			handler
+		});
+	}
+
 }
 
-type CompositionMethods = {
-	onServiceComposer: Composer<Service>;
-	onControllerComposer: Composer<Controller>;
-	onModuleComposer: Composer<Module>;
-	onApplicationComposer: Composer<Application>;
+type ComposerHandler<T extends object> = (composer: Composer<T>) => any;
+
+interface ComposerRegistration<T extends object> {
+	extension: FrameworkExtension;
+	handler: ComposerHandler<T>;
 }

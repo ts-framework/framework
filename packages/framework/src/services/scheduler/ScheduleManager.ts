@@ -1,4 +1,5 @@
 import { PromiseCompletionSource } from '@baileyherbert/promises';
+import { FrameworkExtension } from '../../extensions/FrameworkExtension';
 import { Service } from '../Service';
 import { ScheduleError } from './ScheduleError';
 import { ScheduleHandle } from './ScheduleHandle';
@@ -8,8 +9,14 @@ export class ScheduleManager {
 	private handles = new Set<ScheduleHandle>();
 	private outstanding = new Set<Promise<any>>();
 
-	public constructor(private readonly service: Service) {
+	/**
+	 * The extensions that have been loaded into this manager.
+	 * @internal
+	 */
+	public _internExtensions: FrameworkExtension[];
 
+	public constructor(private readonly service: Service) {
+		this._internExtensions = service.application.extensions.augment(this);
 	}
 
 	/**

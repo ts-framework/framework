@@ -24,8 +24,8 @@ Then run `npm install` to download the new packages.
 
 ## Create the extension
 
-First create a class that extends `FrameworkExtension`. This class has some public methods that are invoked by the
-framework and must be overridden to implement your features.
+First create a class that extends `FrameworkExtension`. Instances of this class can be imported into applications to
+register the extension.
 
 ```ts
 import { FrameworkExtension } from '@ts-framework/framework';
@@ -35,132 +35,154 @@ export class ExampleExtension extends FrameworkExtension {
 }
 ```
 
-## Add methods and properties
+## Registration handler
 
-Let's start with adding our new property to all instances of the `Service` class.
+Override the `onRegister()` method. This method will be invoked as soon as the extension is registered into an
+application, and will receive a `CompositionBuilder` instance that can be used to initiate augmentation.
 
 ```ts
-public override onServiceComposer(composer: Composer<Service>) {
-	composer.createProperty('example', 'This was set from an extension');
+protected override onRegister(builder: ComposerBuilder) {
+
 }
 ```
 
-We'll also add a method to retrieve a similar message.
+## Instance augmentation
+
+From within the `onRegister()` method, you can use the builder instance to listen for the construction of specific
+types of instances in the framework.
 
 ```ts
-public override onServiceComposer(composer: Composer<Service>) {
-	composer.createProperty('example', 'This was set from an extension');
-	composer.createMethod('getExampleMessage', () => {
-		return 'This was returned by an extension';
-	});
+protected override onRegister(builder: ComposerBuilder) {
+	builder.attach(Application, composer => {});
+	builder.attach(Module, composer => {});
+	builder.attach(Service, composer => {});
+	builder.attach(Controller, composer => {});
 }
 ```
 
-Now let's repeat this for the `Controller` and `Module` classes.
+The callbacks in these attachments will be invoked for *each* constructed instance which inherits those types along
+with a `Composer` object that can be used to augment them.
+
+!!! warning
+	You can't pass *any* type in the `attach()` method and expect it to work. It only works against classes which
+	invoke the `application.extensions.augment()` method at construction time. Here are the core classes that support
+	augmentation in this manner:
+
+	- `Application`
+	- `Module`
+	- `Service`
+	- `Controller`
+	- `StateManager`
+	- `ScheduleManager`
+	- `PromiseManager`
+
+### Adding properties
+
+To add a property to an instance, use the `createProperty()` method on the composer. Provide the initial value of the
+property.
 
 ```ts
-public override onControllerComposer(composer: Composer<Controller>) {
-	composer.createProperty('example', 'This was set from an extension');
-	composer.createMethod('getExampleMessage', () => {
-		return 'This was returned by an extension';
-	});
-}
-
-public override onModuleComposer(composer: Composer<Module>) {
-	composer.createProperty('example', 'This was set from an extension');
-	composer.createMethod('getExampleMessage', () => {
-		return 'This was returned by an extension';
-	});
-}
+composer.createProperty('example', 'This was set from an extension');
 ```
 
-## Registering the types
+### Adding methods
 
-With the above code, our properties and methods are now applied and can already be used across your application.
-However, our editors will complain that no such property or method exists as they are not part of the official types.
-
-To address this, we'll augment the framework's types by adding the following module declarations below our extension
-class.
+To add a method to an instance, use the `createMethod()` method on the composer. Provide a callback that will be used
+as the method's implementation.
 
 ```ts
-declare module '@ts-framework/framework/dist/services/Service' {
-	interface Service {
+composer.createMethod('example', () => {
+	return 'This was returned by an extension';
+});
+```
+
+### Adding getters
+
+To add a getter to an instance, use the `createGetter()` method on the composer. Pass a callback that will be used as
+the getter's implementation.
+
+```ts
+composer.createGetter('example', () => {
+	return 'This was returned by an extension';
+});
+```
+
+### Adding setters
+
+To add a setter to an instance, use the `createSetter()` method on the composer. Pass a callback that will be used as
+the setter's implementation.
+
+```ts
+composer.createSetter('example', (value: any) => {
+	// Do something with the value
+});
+```
+
+### Descriptors
+
+Properties, getters, and setters are added to instances via property descriptors. For advanced use cases, composers
+allow you to customize the options in those descriptors. The available options and their default values are listed
+below.
+
+```ts
+composer.configurable = false;
+composer.enumerable = true;
+composer.writable = true;
+```
+
+Please note that the above options will apply to all descriptors created by the composer, regardless of the order in
+which they were registered.
+
+## Type augmentation
+
+The composers demonstrated above will add new properties, methods, and other descriptors to instances of core framework
+classes. However, the compiler will complain that these values do not exist, because they are still not typed.
+
+The following code demonstrates how to augment the official types for each of the core classes that support composer
+augmentation.
+
+```ts
+declare module '@ts-framework/framework/dist/application/Application' {
+	interface Application {
 		example: string;
-		getExampleMessage(): string;
-	}
-}
-
-declare module '@ts-framework/framework/dist/controllers/Controller' {
-	interface Controller {
-		example: string;
-		getExampleMessage(): string;
 	}
 }
 
 declare module '@ts-framework/framework/dist/modules/Module' {
 	interface Module {
 		example: string;
-		getExampleMessage(): string;
 	}
 }
-```
 
-You can then confirm the types have been added successfully by messing around with the `composer.instance` property in
-your extension methods.
-
-```ts hl_lines="7 8"
-public override onModuleComposer(composer: Composer<Module>) {
-	composer.createProperty('example', 'This was set from an extension');
-	composer.createMethod('getExampleMessage', () => {
-		return 'This was returned by an extension';
-	});
-
-	// Your editor should detect this as a (() => string) type
-	composer.instance.getExampleMessage();
+declare module '@ts-framework/framework/dist/controllers/Controller' {
+	interface Controller {
+		example: string;
+	}
 }
-```
 
-## Methods
+declare module '@ts-framework/framework/dist/services/Service' {
+	interface Service {
+		example: string;
+	}
+}
 
-### `onRegister`
+declare module '@ts-framework/framework/dist/services/state/StateManager' {
+	interface StateManager {
+		example: string;
+	}
+}
 
-You can override this method to run code when the extension is registered into the application. This can happen before
-or during the module import cycle depending on how it's imported.
+declare module '@ts-framework/framework/dist/services/scheduler/ScheduleManager' {
+	interface ScheduleManager {
+		example: string;
+	}
+}
 
-```ts
-public override onRegister(application: Application) {}
-```
-
-### `onApplicationComposer`
-
-You can override this method to augment the root `Application` module.
-
-```ts
-public override onApplicationComposer(composer: Composer<Application>) {}
-```
-
-### `onModuleComposer`
-
-You can override this method to augment the `Module` instances.
-
-```ts
-public override onModuleComposer(composer: Composer<Module>) {}
-```
-
-### `onServiceComposer`
-
-You can override this method to augment the `Service` instances.
-
-```ts
-public override onServiceComposer(composer: Composer<Service>) {}
-```
-
-### `onControllerComposer`
-
-You can override this method to augment the `Controller` instances.
-
-```ts
-public override onControllerComposer(composer: Composer<Controller>) {}
+declare module '@ts-framework/framework/dist/services/promises/PromiseManager' {
+	interface PromiseManager {
+		example: string;
+	}
+}
 ```
 
 ## Techniques
@@ -176,18 +198,15 @@ this.logger.info('Hello application!');
 
 ### Events
 
-Most of the methods listed above receive `Composer<T>` instances that can be used to augment the target object.
-However, these instances also have events that you can subscribe to within those methods.
+For some types, composers also emit events for their underlying instances.
 
 ```ts
-public override onServiceComposer(composer: Composer<Service>) {
-	composer.on('beforeStart', () => {
-		this.logger.info(composer.reflection.name, 'is starting');
-	});
-}
+composer.on('beforeStart', () => {
+	this.logger.info(composer.reflection.name, 'is starting');
+});
 ```
 
-These are the events you can subscribe to:
+These are the events you can subscribe to, although usage will vary by type:
 
 - `afterResolution` – After the framework has resolved and registered the instance
 - `beforeStart` – Immediately before the target is started
@@ -195,7 +214,21 @@ These are the events you can subscribe to:
 - `afterStart` – Immediately after the target was started
 - `afterStop` – Immediately after the target was stopped
 
-Note that some of these events don't apply to certain objects.
+### Error handling
 
-For example, the `Application` class will never trigger the `afterResolution` event because it was resolved before
-extensions were loaded. In addition, controllers will never trigger the start/stop events, as they are not stateful.
+Extensions have an `error` property which exposes a dedicated error manager. When the extension is attached to an
+application, this error manager is automatically propagated up into the application's root error manager.
+
+To pipe a passive (non-fatal) error into the application at runtime, use the `emitPassiveError()` method. The
+application will continue operating.
+
+```ts
+this.errors.emitPassiveError(new Error('Something went wrong'));
+```
+
+To pipe a critical (fatal) error into the application at runtime, use the `emitCriticalError()` method. The application
+will shut down due to the error.
+
+```ts
+this.errors.emitCriticalError(new Error('Something went wrong'));
+```

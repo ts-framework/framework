@@ -39,7 +39,7 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	/**
 	 * The promise manager for this service.
 	 */
-	protected readonly promises = new PromiseManager();
+	protected readonly promises: PromiseManager = new PromiseManager(this);
 
 	/**
 	 * The schedule manager for this service.
@@ -55,7 +55,7 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	 * The extensions that have been loaded into this service.
 	 * @internal
 	 */
-	public _internExtensions = this.application.extensions._invokeServiceComposer(this);
+	public _internExtensions = this.application.extensions.augment(this);
 
 	/**
 	 * An array of property names on this instance that represent managed state.

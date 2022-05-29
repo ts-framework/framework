@@ -32,7 +32,7 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	 * The extensions that have been loaded into this module.
 	 * @internal
 	 */
-	public _internExtensions = this.application.extensions._invokeModuleComposer(this);
+	public _internExtensions = this.application.extensions.augment(this);
 
 	/**
 	 * Constructs a new `Module` instance with the given options.
