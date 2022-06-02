@@ -1,8 +1,8 @@
 {
 	"private": true,
 	"scripts": {
-		"dev": "pnpm -r --parallel run dev",
-		"test": "pnpm -r test --workspace-concurrency 1"
+		"dev": "pnpm -r --workspace-concurrency=1 run build && pnpm -r --parallel run dev",
+		"test": "pnpm -r --workspace-concurrency=1 test"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.22.0"

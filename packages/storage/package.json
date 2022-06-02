@@ -14,7 +14,7 @@
 	"keywords": [],
 	"scripts": {
 		"build": "rimraf dist && tsc",
-		"dev": "rimraf dist && tsc -w",
+		"dev": "tsc -w",
 		"test": "jest"
 	},
 	"dependencies": {},
