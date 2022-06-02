@@ -24,6 +24,10 @@ export abstract class FrameworkExtension {
 	 */
 	public readonly errors = new ErrorManager(this);
 
+	public constructor() {
+		this.logger.buffer = true;
+	}
+
 	/**
 	 * Invoked when the application instance is constructed. This is only invoked for extensions that are registered
 	 * directly into the application via its `extensions` property, and not from the `@ExtensionModule()` decorator.

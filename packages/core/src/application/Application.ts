@@ -115,6 +115,7 @@ export abstract class Application extends BaseModule {
 
 		this.options = options;
 		this.logger.level = normalizeLogLevel(this.options.logging);
+		this.logger.buffer = true;
 
 		this.modules = new ApplicationModuleManager(this);
 		this.services = new ApplicationServiceManager(this);
@@ -193,6 +194,7 @@ export abstract class Application extends BaseModule {
 		if (this.appActive) return;
 		this.appActive = true;
 
+		this.logger.flush(true);
 		this.logger.info('Starting the application');
 		this.logger.trace('Starting in %s mode', this.mode);
 

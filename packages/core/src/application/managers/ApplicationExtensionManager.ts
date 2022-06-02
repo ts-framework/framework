@@ -37,6 +37,9 @@ export class ApplicationExtensionManager {
 				this.application.logger.attach(extension.logger);
 				this.application.errors.attach(extension.errors);
 
+				// Flush the logger's buffer
+				extension.logger.flush(true);
+
 				// Invoke the onRegister() method
 				extension._internApplication(composer);
 			}
