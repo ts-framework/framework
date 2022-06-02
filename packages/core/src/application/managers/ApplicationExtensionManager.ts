@@ -19,6 +19,34 @@ export class ApplicationExtensionManager {
 	}
 
 	/**
+	 * Allows the given extensions to augment the application instance at construction time.
+	 * @param extensions
+	 * @internal
+	 */
+	public async construct(extensions: FrameworkExtension[]) {
+		const types = new Set<Constructor<FrameworkExtension>>();
+		const composer = this.createComposer(this.application);
+
+		for (const extension of extensions) {
+			const type = extension.constructor as Constructor<FrameworkExtension>;
+
+			if (!types.has(type)) {
+				types.add(type);
+
+				// Propagate the extension's utilities into the application
+				this.application.logger.attach(extension.logger);
+				this.application.errors.attach(extension.errors);
+
+				// Invoke the onRegister() method
+				extension._internApplication(composer);
+			}
+		}
+
+		composer._internApply();
+		this.composers.delete(this.application);
+	}
+
+	/**
 	 * Registers the given extension into the application.
 	 * @param extension
 	 */

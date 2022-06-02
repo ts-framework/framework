@@ -126,6 +126,9 @@ export abstract class Application extends BaseModule {
 
 		this._initialTransports = [...this.logger.transports];
 		this._initialLoggingLevel = this.logger.level;
+
+		// Allow construction-time augmentation from extensions
+		this.extensions.construct(this.options.extensions ?? []);
 	}
 
 	/**
@@ -168,6 +171,16 @@ export abstract class Application extends BaseModule {
 		}
 
 		return this.start(options);
+	}
+
+	/**
+	 * Bootstraps the application. This is called automaticaly when starting or attaching the application, but you
+	 * can also invoke it manually depending on your needs. It's safe to invoke this method more than once, as
+	 * subsequent calls will be ignored (and will immediately resolve).
+	 * @returns
+	 */
+	public async bootstrap() {
+		return this.boot();
 	}
 
 	/**

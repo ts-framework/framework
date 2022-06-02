@@ -25,6 +25,15 @@ export abstract class FrameworkExtension {
 	public readonly errors = new ErrorManager(this);
 
 	/**
+	 * Invoked when the application instance is constructed. This is only invoked for extensions that are registered
+	 * directly into the application via its `extensions` property, and not from the `@ExtensionModule()` decorator.
+	 * @param composer
+	 */
+	protected onApplication(composer: Composer<Application>) {
+
+	}
+
+	/**
 	 * Invoked when the extension is registered into the application.
 	 * @param builder
 	 */
@@ -41,6 +50,16 @@ export abstract class FrameworkExtension {
 	public async _internRegister(application: Application) {
 		const builder = new ComposerBuilder(application, this);
 		return this.onRegister(builder);
+	}
+
+	/**
+	 * Invokes the `onApplication()` method.
+	 * @param composer
+	 * @returns
+	 * @internal
+	 */
+	public _internApplication(composer: Composer<Application>) {
+		return this.onApplication(composer);
 	}
 
 }
