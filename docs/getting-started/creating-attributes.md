@@ -28,7 +28,7 @@ that spins up an `express` server. For the record, you don't actually need to do
 First and foremost, we'll create the `@Get()` decorator using an attribute.
 
 ```ts title="src/example/attributes/Get.ts"
-import { Attribute, AttributeMethodEvent, Component } from '@ts-framework/framework';
+import { Attribute, AttributeMethodEvent, Component } from '@ts-framework/core';
 
 export const Get = Attribute.create(class GetAttribute extends Attribute {
 	public constructor(public readonly path: string) { super(); }
@@ -46,13 +46,13 @@ We'll also need the `@Req()` and `@Res()` decorators to make it easier to inject
 types which don't have an equivalent class readily available for injection.
 
 ```ts title="src/example/decorators/Req.ts"
-import { Token } from '@ts-framework/framework';
+import { Token } from '@ts-framework/core';
 
 export const Req = () => Token('express:request');
 ```
 
 ```ts title="src/example/decorators/Res.ts"
-import { Token } from '@ts-framework/framework';
+import { Token } from '@ts-framework/core';
 
 export const Res = () => Token('express:response');
 ```
@@ -67,7 +67,7 @@ Create a new `HttpService` and register it in a module of your choosing. Then re
 below.
 
 ```ts title="src/example/HttpService.ts"
-import { PromiseCompletionSource, Service } from '@ts-framework/framework';
+import { PromiseCompletionSource, Service } from '@ts-framework/core';
 import { ExampleModule } from './ExampleModule';
 import { Get } from './attributes/Get';
 import { Server } from 'http';

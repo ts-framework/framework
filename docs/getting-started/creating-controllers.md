@@ -8,7 +8,7 @@ events in this framework come in many forms and controllers can easily become th
 Create a class called `ExampleController` alongside its parent module that looks like the following:
 
 ```ts title="src/example/ExampleController.ts"
-import { Injectable, Controller } from '@ts-framework/framework';
+import { Injectable, Controller } from '@ts-framework/core';
 import { ExampleModule } from './ExampleModule';
 
 @Injectable()
@@ -25,7 +25,7 @@ emit events, and show how to handle those events in the controller.
 Go back to the `ExampleModule.ts` file and add the new class to the `controllers` array.
 
 ```ts title="src/example/ExampleModule.ts"
-import { Module } from '@ts-framework/framework';
+import { Module } from '@ts-framework/core';
 import { App } from '../App';
 import { ExampleService } from './ExampleService';
 import { ExampleController } from './ExampleController';

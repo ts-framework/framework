@@ -28,7 +28,7 @@ Let's create an event called ` ExampleEvent.IntervalInvoked` that accepts an obj
 object, we'll pass a random number, because why not?
 
 ```ts title="src/example/ExampleEvent.ts"
-import { Event } from '@ts-framework/framework';
+import { Event } from '@ts-framework/core';
 
 export namespace ExampleEvent {
 
@@ -47,7 +47,7 @@ Let's go back to the `ExampleController` class and add a method to handle this e
 name, as long as it has the `#!ts @EventHandler` decorator and accepts the event as its sole argument.
 
 ```ts title="src/example/ExampleController.ts"
-import { Injectable, Controller, EventHandler } from '@ts-framework/framework';
+import { Injectable, Controller, EventHandler } from '@ts-framework/core';
 import { ExampleModule } from './ExampleModule';
 
 @Injectable()
@@ -70,7 +70,7 @@ Now let's go back to the `ExampleService` class and change the interval's callba
 emit the event.
 
 ```ts title="src/example/ExampleService.ts"
-import { Injectable, Service } from '@ts-framework/framework';
+import { Injectable, Service } from '@ts-framework/core';
 import { ExampleModule } from './ExampleModule';
 import { ExampleEvent } from './ExampleEvent';
 

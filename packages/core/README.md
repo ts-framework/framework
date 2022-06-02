@@ -1,4 +1,4 @@
-# @ts-framework/framework
+# @ts-framework/core
 
 This is the core framework package for `ts-framework` and will contain all of the foundational moving parts, including:
 

@@ -26,8 +26,8 @@ framework in a front-end project.
 Add the framework into your project as a production dependency.
 
 ```
-npm install @ts-framework/framework
+npm install @ts-framework/core
 ```
 
-It is recommended that the very first import in your project is the `@ts-framework/framework` package, as this will
-ensure runtime reflection is configured before the rest of your code runs.
+It is recommended that the very first import in your project is the `@ts-framework/core` package, as this will ensure
+runtime reflection is configured before the rest of your code runs.

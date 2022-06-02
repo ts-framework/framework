@@ -7,7 +7,7 @@ Create a class called `App` to act as the root module of the application. This c
 application's options.
 
 ```ts title="src/App.ts"
-import { Application } from '@ts-framework/framework';
+import { Application } from '@ts-framework/core';
 
 export class App extends Application {
 	public constructor() {

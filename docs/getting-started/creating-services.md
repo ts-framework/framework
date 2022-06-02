@@ -9,7 +9,7 @@ that later).
 Create a class called `ExampleService` alongside its parent module that looks like the following:
 
 ```ts title="src/example/ExampleService.ts"
-import { Injectable, Service } from '@ts-framework/framework';
+import { Injectable, Service } from '@ts-framework/core';
 import { ExampleModule } from './ExampleModule';
 
 @Injectable()
@@ -57,7 +57,7 @@ was initialized before the error.
 Go back to the `ExampleModule.ts` file and add the new class to the `services` array.
 
 ```ts title="src/example/ExampleModule.ts"
-import { Module } from '@ts-framework/framework';
+import { Module } from '@ts-framework/core';
 import { App } from '../App';
 import { ExampleService } from './ExampleService';
 

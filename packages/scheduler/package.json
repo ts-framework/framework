@@ -18,7 +18,7 @@
 		"test": "jest"
 	},
 	"dependencies": {
-		"@ts-framework/framework": "workspace:^"
+		"@ts-framework/core": "workspace:^"
 	},
 	"devDependencies": {
 		"@types/jest": "^27.4.1",

@@ -13,10 +13,10 @@ You will need to use classes and types from the framework as part of your extens
 
 ```json
 "devDependencies": {
-	"@ts-framework/framework": "^1.0.0"
+	"@ts-framework/core": "^1.0.0"
 },
 "peerDependencies": {
-	"@ts-framework/framework": "^1.0.0"
+	"@ts-framework/core": "^1.0.0"
 }
 ```
 
@@ -28,7 +28,7 @@ First create a class that extends `FrameworkExtension`. Instances of this class 
 register the extension.
 
 ```ts
-import { FrameworkExtension } from '@ts-framework/framework';
+import { FrameworkExtension } from '@ts-framework/core';
 
 export class ExampleExtension extends FrameworkExtension {
 
@@ -142,43 +142,43 @@ The following code demonstrates how to augment the official types for each of th
 augmentation.
 
 ```ts
-declare module '@ts-framework/framework/dist/application/Application' {
+declare module '@ts-framework/core/dist/application/Application' {
 	interface Application {
 		example: string;
 	}
 }
 
-declare module '@ts-framework/framework/dist/modules/Module' {
+declare module '@ts-framework/core/dist/modules/Module' {
 	interface Module {
 		example: string;
 	}
 }
 
-declare module '@ts-framework/framework/dist/controllers/Controller' {
+declare module '@ts-framework/core/dist/controllers/Controller' {
 	interface Controller {
 		example: string;
 	}
 }
 
-declare module '@ts-framework/framework/dist/services/Service' {
+declare module '@ts-framework/core/dist/services/Service' {
 	interface Service {
 		example: string;
 	}
 }
 
-declare module '@ts-framework/framework/dist/services/state/StateManager' {
+declare module '@ts-framework/core/dist/services/state/StateManager' {
 	interface StateManager {
 		example: string;
 	}
 }
 
-declare module '@ts-framework/framework/dist/services/scheduler/ScheduleManager' {
+declare module '@ts-framework/core/dist/services/scheduler/ScheduleManager' {
 	interface ScheduleManager {
 		example: string;
 	}
 }
 
-declare module '@ts-framework/framework/dist/services/promises/PromiseManager' {
+declare module '@ts-framework/core/dist/services/promises/PromiseManager' {
 	interface PromiseManager {
 		example: string;
 	}

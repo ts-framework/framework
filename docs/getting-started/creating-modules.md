@@ -41,7 +41,7 @@ Feel free to use whatever file structure works best for you!
 Create a class called `ExampleModule` that looks like the following:
 
 ```ts title="src/example/ExampleModule.ts"
-import { Module } from '@ts-framework/framework';
+import { Module } from '@ts-framework/core';
 import { App } from '../App';
 
 export class ExampleModule extends Module<App> {
@@ -65,7 +65,7 @@ With the module's class defined, now we must import it inside a parent module. L
 root application module:
 
 ```ts title="src/App.ts"
-import { Application } from '@ts-framework/framework';
+import { Application } from '@ts-framework/core';
 import { ExampleModule } from './example/ExampleModule';
 
 export class App extends Application {

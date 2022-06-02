@@ -10,7 +10,7 @@ importers:
 
   integrations/discord:
     specifiers:
-      '@ts-framework/framework': workspace:^
+      '@ts-framework/core': workspace:^
       '@types/jest': ^27.4.1
       '@types/node': ^16.11.7
       jest: ^27.5.1
@@ -18,7 +18,7 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
-      '@ts-framework/framework': link:../../packages/framework
+      '@ts-framework/core': link:../../packages/core
     devDependencies:
       '@types/jest': 27.5.1
       '@types/node': 16.11.36
@@ -29,7 +29,7 @@ importers:
 
   integrations/express:
     specifiers:
-      '@ts-framework/framework': workspace:^
+      '@ts-framework/core': workspace:^
       '@types/jest': ^27.4.1
       '@types/node': ^16.11.7
       jest: ^27.5.1
@@ -37,7 +37,7 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
-      '@ts-framework/framework': link:../../packages/framework
+      '@ts-framework/core': link:../../packages/core
     devDependencies:
       '@types/jest': 27.5.1
       '@types/node': 16.11.36
@@ -46,7 +46,7 @@ importers:
       ts-jest: 27.1.4_ibhx3ehxrt2kgmkik4bkzmyeei
       typescript: 4.6.4
 
-  packages/framework:
+  packages/core:
     specifiers:
       '@baileyherbert/container': ^2.0.3
       '@baileyherbert/dependency-graph': ^1.0.0
@@ -83,7 +83,7 @@ importers:
 
   packages/queue:
     specifiers:
-      '@ts-framework/framework': workspace:^
+      '@ts-framework/core': workspace:^
       '@types/jest': ^27.4.1
       '@types/node': ^16.11.7
       jest: ^27.5.1
@@ -91,7 +91,7 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
-      '@ts-framework/framework': link:../framework
+      '@ts-framework/core': link:../core
     devDependencies:
       '@types/jest': 27.5.1
       '@types/node': 16.11.36
@@ -102,7 +102,7 @@ importers:
 
   packages/scheduler:
     specifiers:
-      '@ts-framework/framework': workspace:^
+      '@ts-framework/core': workspace:^
       '@types/jest': ^27.4.1
       '@types/node': ^16.11.7
       jest: ^27.5.1
@@ -110,7 +110,7 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     dependencies:
-      '@ts-framework/framework': link:../framework
+      '@ts-framework/core': link:../core
     devDependencies:
       '@types/jest': 27.5.1
       '@types/node': 16.11.36
@@ -119,9 +119,9 @@ importers:
       ts-jest: 27.1.4_ibhx3ehxrt2kgmkik4bkzmyeei
       typescript: 4.6.4
 
-  packages/storage:
+  packages/stores:
     specifiers:
-      '@ts-framework/framework': workspace:^
+      '@ts-framework/core': workspace:^
       '@types/jest': ^27.4.1
       '@types/node': ^16.11.7
       jest: ^27.5.1
@@ -129,7 +129,7 @@ importers:
       ts-jest: ^27.1.3
       typescript: ^4.6.2
     devDependencies:
-      '@ts-framework/framework': link:../framework
+      '@ts-framework/core': link:../core
       '@types/jest': 27.5.1
       '@types/node': 16.11.36
       jest: 27.5.1
