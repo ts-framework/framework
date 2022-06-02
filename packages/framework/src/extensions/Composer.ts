@@ -153,7 +153,7 @@ export class Composer<T extends object> extends EventEmitter<ComposerEvents> {
 
 }
 
-export type ComposerTarget = Component | Application | Module;
+export type ComposerTarget = object;
 export type ComposerGetter = () => any;
 export type ComposerSetter = (value: any) => any;
 export type ComposerMethod = (...args: any[]) => any;

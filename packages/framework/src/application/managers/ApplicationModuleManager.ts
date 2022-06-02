@@ -82,12 +82,7 @@ export class ApplicationModuleManager {
 			}
 		}
 
-		if (module instanceof Module) {
-			this.application.extensions._invokeComposerEvent(module, 'afterResolution');
-		}
-		else if (module instanceof Application) {
-			this.application.extensions._invokeComposerEvent(module, 'afterResolution');
-		}
+		this.application.extensions._invokeComposerEvent(module, 'afterResolution');
 
 		module._internLoadEnvironment(this.application, this.application.environmentManager!);
 		await this.invokeLifecycle(module, 'onModuleRegister');
@@ -423,12 +418,7 @@ export class ApplicationModuleManager {
 	 * @param event
 	 */
 	private _invokeExtensionEvent(module: BaseModule, event: Key<ComposerEvents>) {
-		if (module instanceof Module) {
-			this.application.extensions._invokeComposerEvent(module, event);
-		}
-		else if (module instanceof Application) {
-			this.application.extensions._invokeComposerEvent(module, event);
-		}
+		this.application.extensions._invokeComposerEvent(module, event);
 	}
 
 }

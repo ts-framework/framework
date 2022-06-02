@@ -19,7 +19,7 @@ export abstract class Service<T extends BaseModule = BaseModule> {
 	/**
 	 * The application that this service is attached to.
 	 */
-	public readonly application = this.container.resolve(Application) as GetApplication<T>;
+	public readonly application = this.container.resolve('app') as GetApplication<T>;
 
 	/**
 	 * The module that this service belongs to.

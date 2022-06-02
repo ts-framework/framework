@@ -150,7 +150,7 @@ export abstract class Application extends BaseModule {
 			transport.attach(this.logger);
 		}
 
-		if (opts.interceptTerminationSignals) {
+		if (opts.interceptTerminationSignals && typeof process !== 'undefined') {
 			onExit(async callback => {
 				try {
 					await this.stop();
@@ -483,7 +483,7 @@ export abstract class Application extends BaseModule {
 	public getEnvironmentManager(options: Required<ApplicationStartOptions>) {
 		const sources = [new ProcessEnvironmentSource()];
 
-		if (options.envFilePath !== false) {
+		if (options.envFilePath !== false && typeof process !== 'undefined') {
 			sources.push(new FileEnvironmentSource(options.envFilePath));
 		}
 

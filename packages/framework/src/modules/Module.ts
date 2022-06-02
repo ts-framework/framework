@@ -16,7 +16,7 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	/**
 	 * The application that this module is attached to.
 	 */
-	public readonly application: GetApplication<T> = this.container.resolve(Application) as any;
+	public readonly application: GetApplication<T> = this.container.resolve('app') as any;
 
 	/**
 	 * The logger for this module.
@@ -48,8 +48,8 @@ export abstract class Module<T extends BaseModule = BaseModule> extends BaseModu
 	 */
 	public get parent(): GetParent<T> {
 		return (
-			this.container.resolve(Application).modules.getParentModule(this) ??
-			this.container.resolve(Application)
+			this.container.resolve<Application>('app').modules.getParentModule(this) ??
+			this.container.resolve('app')
 		) as any;
 	}
 

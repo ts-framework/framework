@@ -15,6 +15,7 @@ class ApplicationFactoryImpl {
 		const instance = container.resolve(constructor);
 
 		container.register(Application, { useValue: instance });
+		container.register('app', { useValue: instance });
 		container.registerInstance(instance);
 
 		return instance;
