@@ -17,6 +17,9 @@
 		"dev": "tsc -w",
 		"test": "jest"
 	},
+	"engines": {
+		"node": ">=16.0.0"
+	},
 	"dependencies": {
 		"@baileyherbert/container": "^2.0.3",
 		"@baileyherbert/dependency-graph": "^1.0.0",
