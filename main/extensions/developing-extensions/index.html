@@ -1349,17 +1349,17 @@ modules.</p>
 <p>You will need to use classes and types from the framework as part of your extension. Add the framework as both a
 <code>dev</code> and <code>peer</code> dependency in your <code>package.json</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;@ts-framework/framework&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;@ts-framework/core&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="w"></span>
 <span class="p">},</span><span class="w"></span>
 <span class="nt">&quot;peerDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;@ts-framework/framework&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;@ts-framework/core&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>Then run <code>npm install</code> to download the new packages.</p>
 <h2 id="create-the-extension">Create the extension<a class="headerlink" href="#create-the-extension" title="Permanent link">&para;</a></h2>
 <p>First create a class that extends <code>FrameworkExtension</code>. Instances of this class can be imported into applications to
 register the extension.</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">FrameworkExtension</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework&#39;</span><span class="p">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">FrameworkExtension</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core&#39;</span><span class="p">;</span><span class="w"></span>
 
 <span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleExtension</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">FrameworkExtension</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
@@ -1440,43 +1440,43 @@ which they were registered.</p>
 classes. However, the compiler will complain that these values do not exist, because they are still not typed.</p>
 <p>The following code demonstrates how to augment the official types for each of the core classes that support composer
 augmentation.</p>
-<div class="highlight"><pre><span></span><code><span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework/dist/application/Application&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/application/Application&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Application</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework/dist/modules/Module&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/modules/Module&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework/dist/controllers/Controller&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/controllers/Controller&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Controller</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework/dist/services/Service&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/services/Service&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Service</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework/dist/services/state/StateManager&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/services/state/StateManager&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">StateManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework/dist/services/scheduler/ScheduleManager&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/services/scheduler/ScheduleManager&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">ScheduleManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
-<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/framework/dist/services/promises/PromiseManager&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/services/promises/PromiseManager&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">PromiseManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
