@@ -18,7 +18,7 @@
 
 # ts-framework
 
-An architectural framework for building modular applications. Great for event-driven use cases such as web apps, chat bots, and real-time services. Helps to simplify and organize code, and to reduce repetitive and difficult tasks. Easy to build upon, and can even be used to build entirely new frameworks. ✌️
+An architectural framework for building modular applications. Great for event-driven use cases such as web apps, chat bots, and real-time services. Helps to simplify and organize code, and to reduce repetitive or difficult tasks. Easy to build upon, and can even be used to build entirely new frameworks. ✌️
 
 ## milestones
 
