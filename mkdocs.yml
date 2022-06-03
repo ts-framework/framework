@@ -70,8 +70,8 @@ nav:
     - Sending requests: applications/sending-requests.md
   - Working with modules:
     - Configuring modules: modules/configuring-modules.md
-    - Lifecycle methods: modules/lifecycle-methods.md
     - Importing modules: modules/importing-modules.md
+    - Lifecycle methods: modules/lifecycle-methods.md
   - Working with services:
     - Implementing services: services/implementing-services.md
     - Implementing state: services/implementing-state.md
