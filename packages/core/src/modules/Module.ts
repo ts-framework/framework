@@ -175,11 +175,11 @@ type InnerType<T> = T extends Function & { new (...args: any[]): infer U; } ? U 
 
 // @ts-ignore
 type ModuleEnvironmentType<T> = T extends BaseModule ? Partial<ReturnType<T['onEnvironment']>> : {};
-type EnvironmentMap<T extends {}> = { [key in keyof T]: T[key] | string; };
+type EnvironmentMap<T extends {}> = { [key in keyof T]: EnvironmentCompatType<T[key]> };
+type EnvironmentCompatType<T> = NonNullable<T> extends string ? T : T | string;
 type MapWithExtras<T extends {}> = T & { [key: string]: any };
 
 type EnvironmentType<T> = MapWithExtras<EnvironmentMap<ModuleEnvironmentType<InnerType<T>>>>;
-
 
 type InheritedEnvironmentType<T extends Module, P> = (
 	// @ts-ignore
