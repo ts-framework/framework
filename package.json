@@ -5,7 +5,7 @@
 		"test": "pnpm -r --workspace-concurrency=1 test"
 	},
 	"devDependencies": {
-		"@changesets/cli": "^2.22.0"
+		"@changesets/cli": "^2.23.2"
 	},
 	"pnpm": {
 		"peerDependencyRules": {
