@@ -1,13 +1,13 @@
 {
-	"name": "@ts-framework/storage",
+	"name": "@ts-framework/stores",
 	"version": "0.0.1",
 	"description": "",
 	"author": "Bailey Herbert <git@bailey.sh> (https://bailey.sh)",
 	"repository": "github:baileyherbert/ts-framework",
 	"bugs": "https://github.com/baileyherbert/ts-framework/issues",
 	"license": "MIT",
-	"main": "dist/main.js",
-	"types": "dist/main.d.ts",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"files": [
 		"dist/**/*"
 	],
