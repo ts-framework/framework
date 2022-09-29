@@ -42,4 +42,8 @@ export class RecordEnvironmentSource extends EnvironmentSource {
 		return false;
 	}
 
+	public all(): Map<string, string> {
+		return new Map(Object.entries(this.record));
+	}
+
 }

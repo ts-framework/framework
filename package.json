@@ -23,7 +23,7 @@
 	"dependencies": {
 		"@baileyherbert/container": "^2.0.3",
 		"@baileyherbert/dependency-graph": "^1.0.0",
-		"@baileyherbert/env": "^1.3.0",
+		"@baileyherbert/env": "^2.0.1",
 		"@baileyherbert/events": "^1.0.1",
 		"@baileyherbert/logging": "^2.1.0",
 		"@baileyherbert/nested-collections": "^1.3.0",
