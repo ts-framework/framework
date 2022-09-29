@@ -45,7 +45,8 @@ markdown_extensions:
       separator: '-'
   - admonition
   - footnotes
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      preserve_tabs: true
   - pymdownx.saneheaders
   - pymdownx.tabbed
   - pymdownx.inlinehilite
