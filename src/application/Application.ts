@@ -12,8 +12,8 @@ import { onExit } from '../utilities/async-exit-hook';
 import { normalizeLogLevel } from '../utilities/normalizers';
 import { ApplicationAttachOptions } from './ApplicationAttachOptions';
 import { ApplicationEnvironment } from './ApplicationEnvironment';
+import { ApplicationFactoryOptions } from './ApplicationFactoryOptions';
 import { ApplicationOptions } from './ApplicationOptions';
-import { ApplicationStartOptions } from './ApplicationStartOptions';
 import { ApplicationAttributeManager } from './managers/ApplicationAttributeManager';
 import { ApplicationControllerManager } from './managers/ApplicationControllerManager';
 import { ApplicationEventManager } from './managers/ApplicationEventManager';
@@ -80,10 +80,10 @@ export abstract class Application extends BaseModule {
 	public readonly extensions: ApplicationExtensionManager;
 
 	/**
-	 * The options used to start the application.
+	 * The options provided to the application from the factory.
 	 * @internal
 	 */
-	public startOptions?: Required<ApplicationStartOptions>;
+	public factoryOptions!: Required<ApplicationFactoryOptions>;
 
 	/**
 	 * The environment manager for the application, to be created when it is started.
@@ -146,9 +146,6 @@ export abstract class Application extends BaseModule {
 
 		const opts = this.getAttachOptions(options);
 
-		// Set the logging level
-		this.logger.level = normalizeLogLevel(opts.loggingLevel, this.getDefaultLogLevel());
-
 		// Attach logging transports
 		for (const transport of opts.loggingTransports) {
 			transport.attach(this.logger);
@@ -171,25 +168,14 @@ export abstract class Application extends BaseModule {
 			});
 		}
 
-		return this.start(options);
-	}
-
-	/**
-	 * Bootstraps the application. This is called automaticaly when starting or attaching the application, but you
-	 * can also invoke it manually depending on your needs. It's safe to invoke this method more than once, as
-	 * subsequent calls will be ignored (and will immediately resolve).
-	 * @returns
-	 */
-	public async bootstrap() {
-		return this.boot();
+		return this.start();
 	}
 
 	/**
 	 * Starts the application. Returns a promise which resolves once the application has stopped.
-	 * @param options
 	 * @returns
 	 */
-	public async start(options?: ApplicationAttachOptions) {
+	public async start() {
 		// Guard against starting multiple times at once
 		if (this.appActive) return;
 		this.appActive = true;
@@ -197,10 +183,6 @@ export abstract class Application extends BaseModule {
 		this.logger.flush(true);
 		this.logger.info('Starting the application');
 		this.logger.trace('Starting in %s mode', this.mode);
-
-		this.startOptions = this.getStartOptions(options);
-		this.environmentManager = this.getEnvironmentManager(this.startOptions);
-		this._internCustomEnvironment = this.startOptions.environment ?? {};
 
 		try {
 			if (await this.boot()) {
@@ -218,7 +200,7 @@ export abstract class Application extends BaseModule {
 			this.resetInternals();
 
 			// Terminate the process if abortOnError is enabled
-			if (this.startOptions.abortOnError) {
+			if (this.factoryOptions.abortOnError) {
 				this.logger.critical('Application stopped due to a critical error');
 				process.exit(1);
 			}
@@ -237,13 +219,19 @@ export abstract class Application extends BaseModule {
 	/**
 	 * Bootstraps the application. Returns a boolean indicating success.
 	 * @returns
+	 * @internal
 	 */
-	private async boot(): Promise<boolean> {
+	public async boot(): Promise<boolean> {
 		try {
 			if (this.isBootstrapped) return true;
 			this.isBootstrapped = true;
 
-			this.logger.trace('Starting application bootstrap for first run');
+			// Set factory options
+			this.logger.level = normalizeLogLevel(this.factoryOptions.loggingLevel, this.getDefaultLogLevel());
+			this._internCustomEnvironment = this.factoryOptions.environment ?? {};
+
+			// Initialize the environment
+			this.environmentManager = this.getEnvironmentManager();
 
 			// Attach error handling
 			this.errors.on('passive', event => this.handleError(LogLevel.Error, event));
@@ -454,31 +442,12 @@ export abstract class Application extends BaseModule {
 	public getAttachOptions(options?: ApplicationAttachOptions): Required<ApplicationAttachOptions> {
 		options ??= {};
 
-		options.abortOnError ??= true;
 		options.interceptTerminationSignals ??= true;
-
-		options.loggingLevel ??= this.getDefaultLogLevel();
 		options.loggingTransports ??= [
 			new ConsoleTransport()
 		];
 
 		return options as Required<ApplicationAttachOptions>;
-	}
-
-	/**
-	 * Returns the start options with defaults applied.
-	 * @param options
-	 * @returns
-	 * @internal
-	 */
-	public getStartOptions(options?: ApplicationStartOptions): Required<ApplicationStartOptions> {
-		options ??= {};
-
-		options.abortOnError ??= true;
-		options.envFilePath ??= '.env';
-		options.envPrefix ??= '';
-
-		return options as Required<ApplicationStartOptions>;
 	}
 
 	/**
@@ -492,17 +461,17 @@ export abstract class Application extends BaseModule {
 
 	/**
 	 * Creates the environment manager instance for the given configuration.
-	 * @param options
 	 * @returns
 	 */
 	public getEnvironmentManager(options: Required<ApplicationStartOptions>) {
+	public getEnvironmentManager() {
 		const sources = [new ProcessEnvironmentSource()];
 
-		if (options.envFilePath !== false && typeof process !== 'undefined') {
 			sources.push(new FileEnvironmentSource(options.envFilePath));
+			sources.push(new FileEnvironmentSource(this.factoryOptions.envFilePath));
 		}
 
-		return new EnvironmentManager(sources, options.envPrefix);
+		return new EnvironmentManager(sources, this.factoryOptions.envPrefix);
 	}
 
 	/**
@@ -557,7 +526,7 @@ export abstract class Application extends BaseModule {
 	 * @internal
 	 */
 	public override _internGetEnvironmentPrefix() {
-		return this.startOptions?.envPrefix ?? '';
+		return this.factoryOptions?.envPrefix ?? '';
 	}
 
 }

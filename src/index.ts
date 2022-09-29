@@ -1,8 +1,8 @@
 export * from './application/Application';
 export * from './application/ApplicationOptions';
 export * from './application/ApplicationAttachOptions';
-export * from './application/ApplicationStartOptions';
 export * from './application/ApplicationFactory';
+export * from './application/ApplicationFactoryOptions';
 
 export * from './application/managers/ApplicationAttributeManager';
 export * from './application/managers/ApplicationControllerManager';

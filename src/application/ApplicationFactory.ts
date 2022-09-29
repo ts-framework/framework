@@ -1,6 +1,7 @@
 import { Container } from '@baileyherbert/container';
 import { Constructor } from '@baileyherbert/types';
 import { Application } from './Application';
+import { ApplicationFactoryOptions } from './ApplicationFactoryOptions';
 
 class ApplicationFactoryImpl {
 
@@ -10,7 +11,7 @@ class ApplicationFactoryImpl {
 	 * @param constructor
 	 * @returns
 	 */
-	public create<T extends Application>(constructor: Constructor<T>): T {
+	public async create<T extends Application>(constructor: Constructor<T>, options?: ApplicationFactoryOptions): Promise<T> {
 		const container = new Container();
 		const instance = container.resolve(constructor);
 
@@ -18,7 +19,26 @@ class ApplicationFactoryImpl {
 		container.register('app', { useValue: instance });
 		container.registerInstance(instance);
 
+		instance.factoryOptions = this.getFactoryOptions(options);
+		await instance.boot();
+
 		return instance;
+	}
+
+	/**
+	 * Applies default settings to the given factory options object.
+	 *
+	 * @param input
+	 * @returns
+	 */
+	private getFactoryOptions(input: ApplicationFactoryOptions = {}): Required<ApplicationFactoryOptions> {
+		input.abortOnError ??= true;
+		input.envFilePath ??= '.env';
+		input.envPrefix ??= '';
+		input.environment ??= {};
+		input.loggingLevel ??= true;
+
+		return input as Required<ApplicationFactoryOptions>;
 	}
 
 }

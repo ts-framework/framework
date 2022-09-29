@@ -11,7 +11,17 @@ Before we can start the application, we'll need to acquire an instance of the ap
 ourselves, or we'll receive an error. Instead, use the `ApplicationFactory` class to resolve an instance.
 
 ```ts
-const app = ApplicationFactory.create(App);
+const app = await ApplicationFactory.create(App);
+```
+
+The second argument accepts additional options for the application.
+
+```ts
+const app = await ApplicationFactory.create(App, {
+	loggingLevel: LogLevel.Information,
+	envFilePath: '.env',
+	environment: {}
+});
 ```
 
 ## Attaching the instance
@@ -27,17 +37,11 @@ signals are received.
 await app.attach();
 ```
 
-This method also accepts various options to tailor the attachment. Here are the default values of these options, with
-the exception that `loggingLevel` will vary between `Information` and `Debug` depending on the current environment.
+This method also accepts additional options to tailor the attachment.
 
 ```ts
 await app.attach({
-	abortOnError: true,
-	envFilePath: '.env',
-	envPrefix: '',
-	environment: {},
 	interceptTerminationSignals: true,
-	loggingLevel: LogLevel.Information,
 	loggingTransports: [/*console*/]
 });
 ```
@@ -67,14 +71,14 @@ application has shut down, or rejects with a critical error.
 await app.start();
 ```
 
-You should then implement logic to call and wait for the `stop()` method before the process shuts down, otherwise data
-loss may occur.
+You should then implement logic to call and wait for the `stop()` method before the process shuts down (such as from a
+`SIGTERM` signal), otherwise data loss may occur.
 
 ```ts
 await app.stop();
 ```
 
-## Start options
+## Factory options
 
 ### `#!ts abortOnError?: boolean = true` { data-toc-label="abortOnError", id="property:abortOnError" }
 
@@ -99,3 +103,8 @@ await app.stop();
 
 > Sets custom environment variables in the application. The variables defined here will override any variables loaded
 > from the working environment or `.env` file.
+
+### `#!ts loggingLevel?: LogLevel | boolean = true` { data-toc-label="loggingLevel", id="property:loggingLevel" }
+
+> Sets the logging level for the application. When not specified, defaults to `Info` in production and `Debug` in
+> development. Set to `true` to use the default logging level and `false` to disable logging.
