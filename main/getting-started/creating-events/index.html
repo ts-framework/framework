@@ -1217,11 +1217,11 @@ object, we'll pass a random number, because why not?</p>
 
 <span class="k">export</span><span class="w"> </span><span class="nx">namespace</span><span class="w"> </span><span class="nx">ExampleEvent</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">    </span><span class="cm">/**</span>
-<span class="cm">     * Emitted when the example service&#39;s interval is invoked. The service</span>
-<span class="cm">     * will generate and pass a random number with each invocation.</span>
-<span class="cm">     */</span><span class="w"></span>
-<span class="w">    </span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Interval</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Event</span><span class="o">&lt;</span><span class="p">{</span><span class="w"> </span><span class="nx">randomNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="p">}</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">	</span><span class="cm">/**</span>
+<span class="cm">	 * Emitted when the example service&#39;s interval is invoked. The service</span>
+<span class="cm">	 * will generate and pass a random number with each invocation.</span>
+<span class="cm">	 */</span><span class="w"></span>
+<span class="w">	</span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Interval</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Event</span><span class="o">&lt;</span><span class="p">{</span><span class="w"> </span><span class="nx">randomNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="p">}</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
 
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
@@ -1234,13 +1234,13 @@ name, as long as it has the <code class="highlight"><span class="kd">@EventHandl
 <span class="kd">@Injectable</span><span class="p">()</span><span class="w"></span>
 <span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleController</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Controller</span><span class="o">&lt;</span><span class="nx">ExampleModule</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">    </span><span class="kd">@EventHandler</span><span class="w"></span>
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="nx">onInterval</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleEvent.Interval</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="w"></span>
-<span class="w">            </span><span class="s1">&#39;Got an invocation with random number:&#39;</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">randomNumber</span><span class="w"></span>
-<span class="w">        </span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="kd">@EventHandler</span><span class="w"></span>
+<span class="w">	</span><span class="k">public</span><span class="w"> </span><span class="nx">onInterval</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleEvent.Interval</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="w"></span>
+<span class="w">			</span><span class="s1">&#39;Got an invocation with random number:&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">			</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">randomNumber</span><span class="w"></span>
+<span class="w">		</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
@@ -1254,27 +1254,27 @@ emit the event.</p>
 <span class="kd">@Injectable</span><span class="p">()</span><span class="w"></span>
 <span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleService</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Service</span><span class="o">&lt;</span><span class="nx">ExampleModule</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="nx">interval?</span><span class="o">:</span><span class="w"> </span><span class="kt">NodeJS.Timeout</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="k">private</span><span class="w"> </span><span class="nx">interval?</span><span class="o">:</span><span class="w"> </span><span class="kt">NodeJS.Timeout</span><span class="p">;</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">super</span><span class="p">();</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="k">super</span><span class="p">();</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Creating the interval&#39;</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">setInterval</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Interval</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="nx">randomNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">Math.floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span><span class="w"></span>
-<span class="w">            </span><span class="p">});</span><span class="w"></span>
-<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Creating the interval&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">		</span><span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">setInterval</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">			</span><span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Interval</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">				</span><span class="nx">randomNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">Math.floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1000</span><span class="p">)</span><span class="w"></span>
+<span class="w">			</span><span class="p">});</span><span class="w"></span>
+<span class="w">		</span><span class="p">},</span><span class="w"> </span><span class="mf">1000</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Clearing the interval&#39;</span><span class="p">);</span><span class="w"></span>
-<span class="w">            </span><span class="nx">clearInterval</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="p">);</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">			</span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Clearing the interval&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">			</span><span class="nx">clearInterval</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">interval</span><span class="p">);</span><span class="w"></span>
+<span class="w">		</span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
@@ -1287,12 +1287,12 @@ This is possible due to the fact that each event class is its own unique signatu
 method inside services is preferred.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// Emitting events</span><span class="w"></span>
 <span class="nx">app</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Interval</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">randomNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">0</span><span class="w"></span>
+<span class="w">	</span><span class="nx">randomNumber</span><span class="o">:</span><span class="w"> </span><span class="kt">0</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 
 <span class="c1">// Listening to events</span><span class="w"></span>
 <span class="nx">app</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Interval</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">randomNumber</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">randomNumber</span><span class="p">);</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <p>For more advanced usage details, check out the complete <a href="../../services/adding-events/">service events guide</a>.</p>

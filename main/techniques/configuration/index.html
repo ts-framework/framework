@@ -1203,11 +1203,11 @@ instance of <code>EnvironmentManager</code> and are then expected to return the 
 method on that instance.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="o">&lt;</span><span class="nx">App</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onEnvironment</span><span class="p">(</span><span class="nx">env</span><span class="o">:</span><span class="w"> </span><span class="kt">EnvironmentManager</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">env</span><span class="p">.</span><span class="nx">rules</span><span class="p">({</span><span class="w"></span>
-<span class="w">            </span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="kt">env.schema.string</span><span class="p">()</span><span class="w"></span>
-<span class="w">        </span><span class="p">});</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onEnvironment</span><span class="p">(</span><span class="nx">env</span><span class="o">:</span><span class="w"> </span><span class="kt">EnvironmentManager</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="k">return</span><span class="w"> </span><span class="nx">env</span><span class="p">.</span><span class="nx">rules</span><span class="p">({</span><span class="w"></span>
+<span class="w">			</span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="kt">env.schema.string</span><span class="p">()</span><span class="w"></span>
+<span class="w">		</span><span class="p">});</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
@@ -1218,15 +1218,15 @@ part of the process environment. You can learn more about declaring and validati
 <p>You can retrieve values from a module's configuration using its <code>env</code> property if you have a reference to it.
 The below example shows how to do this from a service, assuming the <code>Service&lt;T&gt;</code> generic is configured properly.</p>
 <div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.env.TOKEN</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.env.TOKEN</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>Note that these environment variables are available globally across the application and multiple modules can use the
 same names. This also means you can retrieve the value using an environment manager which is commonly exposed as an
 <code>environment</code> property.</p>
 <div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.environment.get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">environment</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="kr">module</span><span class="nx">.environment.get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="kd">const</span><span class="w"> </span><span class="nx">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">application</span><span class="p">.</span><span class="nx">environment</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;TOKEN&#39;</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h2 id="setting-values-on-imports">Setting values on imports<a class="headerlink" href="#setting-values-on-imports" title="Permanent link">&para;</a></h2>
@@ -1234,15 +1234,15 @@ same names. This also means you can retrieve the value using an environment mana
 importing them.</p>
 <div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">App</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Application</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
-<span class="w">            </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">                </span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withEnvironment</span><span class="p">({</span><span class="w"></span>
-<span class="w">                    </span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Sets or overrides the value&#39;</span><span class="w"></span>
-<span class="w">                </span><span class="p">})</span><span class="w"></span>
-<span class="w">            </span><span class="p">]</span><span class="w"></span>
-<span class="w">        </span><span class="p">});</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="k">super</span><span class="p">({</span><span class="w"></span>
+<span class="w">			</span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">				</span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withEnvironment</span><span class="p">({</span><span class="w"></span>
+<span class="w">					</span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Sets or overrides the value&#39;</span><span class="w"></span>
+<span class="w">				</span><span class="p">})</span><span class="w"></span>
+<span class="w">			</span><span class="p">]</span><span class="w"></span>
+<span class="w">		</span><span class="p">});</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
@@ -1254,9 +1254,9 @@ application will not. This makes it great for module-specific configuration, and
 <p>When starting or attaching the application, you have an opportunity to set or override its environment variables
 without affecting the rest of the application (or other instances of the framework).</p>
 <div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">({</span><span class="w"></span>
-<span class="w">    </span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Sets or overrides the value&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">TOKEN</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Sets or overrides the value&#39;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <h2 id="environment-prefixes">Environment prefixes<a class="headerlink" href="#environment-prefixes" title="Permanent link">&para;</a></h2>
@@ -1269,26 +1269,26 @@ module and its children, or in some cases, the entire application:</p>
 <p>You can pass the <code>envPrefix</code> option when starting the application or when importing a module. All environment variables
 within the module will then start with that prefix.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">    </span><span class="nx">HttpModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
-<span class="w">        </span><span class="nx">envPrefix</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;HTTP_&#39;</span><span class="w"></span>
-<span class="w">    </span><span class="p">})</span><span class="w"></span>
+<span class="w">	</span><span class="nx">HttpModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
+<span class="w">		</span><span class="nx">envPrefix</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;HTTP_&#39;</span><span class="w"></span>
+<span class="w">	</span><span class="p">})</span><span class="w"></span>
 <span class="p">]</span><span class="w"></span>
 </code></pre></div>
 <p>You can also use the static <code>withEnvironmentPrefix()</code> shortcut method on the module.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">    </span><span class="nx">HttpModule</span><span class="p">.</span><span class="nx">withEnvironmentPrefix</span><span class="p">(</span><span class="s1">&#39;HTTP_&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="nx">HttpModule</span><span class="p">.</span><span class="nx">withEnvironmentPrefix</span><span class="p">(</span><span class="s1">&#39;HTTP_&#39;</span><span class="p">)</span><span class="w"></span>
 <span class="p">]</span><span class="w"></span>
 </code></pre></div>
 <p>Now, let's assume the above <code>HttpModule</code> utilizes an environment variable named <code>PORT</code>. It's important to note that
 this prefix does not apply everywhere. From within your source code, you will continue to refer to it as <code>PORT</code>. For
 example, the following is valid:</p>
 <div class="highlight"><pre><span></span><code><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">    </span><span class="nx">HttpModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
-<span class="w">        </span><span class="nx">envPrefix</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;HTTP_&#39;</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="nx">env</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nx">PORT</span><span class="o">:</span><span class="w"> </span><span class="kt">8080</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">})</span><span class="w"></span>
+<span class="w">	</span><span class="nx">HttpModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
+<span class="w">		</span><span class="nx">envPrefix</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;HTTP_&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">		</span><span class="nx">env</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">			</span><span class="nx">PORT</span><span class="o">:</span><span class="w"> </span><span class="kt">8080</span><span class="w"></span>
+<span class="w">		</span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="p">})</span><span class="w"></span>
 <span class="p">]</span><span class="w"></span>
 </code></pre></div>
 <p>Inside the module and its children, the environment variable will also continue to be exposed with the name <code>PORT</code>,

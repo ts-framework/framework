@@ -1172,13 +1172,13 @@
 you'll also need to specify the request class as its sole parameter.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">@RequestHandler</span><span class="w"></span>
 <span class="k">protected</span><span class="w"> </span><span class="nx">onAdd</span><span class="p">(</span><span class="nx">request</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleRequest.Add</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 
-<span class="w">    </span><span class="nx">request</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">sum</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="nx">request</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">sum</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>The framework will attach these methods to the root request manager at startup. It will use runtime reflection to
@@ -1186,7 +1186,7 @@ identify the target request type from the parameters.</p>
 <h2 id="handling-manually">Handling manually<a class="headerlink" href="#handling-manually" title="Permanent link">&para;</a></h2>
 <p>You can utilize the application's root request manager to manually register handlers.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">requests</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="nx">ExampleRequest</span><span class="p">.</span><span class="nx">Add</span><span class="p">,</span><span class="w"> </span><span class="nx">request</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">request</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="mf">6</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="nx">request</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="mf">6</span><span class="p">);</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <p>At this time, these handlers are permanent once attached.</p>

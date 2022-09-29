@@ -1175,27 +1175,27 @@ strict typing.</p>
 similar to an enum.</p>
 <div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="nx">namespace</span><span class="w"> </span><span class="nx">ExampleEvent</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">    </span><span class="cm">/**</span>
-<span class="cm">     * Invoked when the example service starts, along with a timestamp</span>
-<span class="cm">     * for when that happened.</span>
-<span class="cm">     */</span><span class="w"></span>
-<span class="w">    </span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Started</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Event</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">	</span><span class="cm">/**</span>
+<span class="cm">	 * Invoked when the example service starts, along with a timestamp</span>
+<span class="cm">	 * for when that happened.</span>
+<span class="cm">	 */</span><span class="w"></span>
+<span class="w">	</span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Started</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Event</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
 
-<span class="w">    </span><span class="cm">/**</span>
-<span class="cm">     * Invoked when the example service stops, with no associated data.</span>
-<span class="cm">     */</span><span class="w"></span>
-<span class="w">    </span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Stopped</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Event</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">	</span><span class="cm">/**</span>
+<span class="cm">	 * Invoked when the example service stops, with no associated data.</span>
+<span class="cm">	 */</span><span class="w"></span>
+<span class="w">	</span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Stopped</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Event</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
 
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h2 id="sending-events">Sending events<a class="headerlink" href="#sending-events" title="Permanent link">&para;</a></h2>
 <p>You can then send events from within your service using the protected <code>emit()</code> method.</p>
 <div class="highlight"><pre><span></span><code><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Started</span><span class="p">,</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">());</span><span class="w"></span>
+<span class="w">	</span><span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Started</span><span class="p">,</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">());</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">stop</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Stopped</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="k">this</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Stopped</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>You can also emit events on the application directly, however this is not recommended as the <code>sender</code> property of the
@@ -1207,7 +1207,7 @@ event will not be accurate.</p>
 event class as the parameter type.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">@EventHandler</span><span class="w"></span>
 <span class="k">protected</span><span class="w"> </span><span class="nx">onExampleStarted</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleEvent.Started</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Started at:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Started at:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>Please note that events are global in this framework and these handlers will work regardless of where they are

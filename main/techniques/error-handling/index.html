@@ -1338,14 +1338,14 @@ available error manager object.</p>
 <p>In both cases, you can chain errors by supplying the original error in the second argument of the emit method,
 preserving the original message and stack as well.</p>
 <div class="highlight"><pre><span></span><code><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">passive</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Task failed&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="k">this</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">passive</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Task failed&#39;</span><span class="p">),</span><span class="w"> </span><span class="nx">error</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>The full stack for each error in the chain will still be available when handling the error. However, the resulting
 error will be logged by the framework as the following:</p>
 <div class="highlight"><pre><span></span><code>Error: Task failed: This is the original error message
     at &lt;original stack&gt;
-    from Error at &lt;outer stack throw statement&gt;
+	from Error at &lt;outer stack throw statement&gt;
 </code></pre></div>
 <h3 id="from-event-emitters">From event emitters<a class="headerlink" href="#from-event-emitters" title="Permanent link">&para;</a></h3>
 <p>In cases where you have an event emitter with an <code>error</code> event, you can easily attach it to the nearest manager and it
@@ -1389,8 +1389,8 @@ manager will receive all errors across the entire application, while a module's 
 originating from it or its children.</p>
 <p>Then listen for the <code>passive</code> or <code>critical</code> events to intercept those error types.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;passive&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Intercepted:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Emitted by:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">sender</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Intercepted:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Emitted by:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">sender</span><span class="p">);</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <p>You can stop the error from propagating further using the <code>stopPropagation()</code> method.</p>
@@ -1406,14 +1406,14 @@ demonstrated above.</p>
 <p>In the following example, we'll use the <code>transform()</code> method to chain errors coming from a specific module such that
 the topmost error is an <code>InternalServerErrorException</code> instance.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">httpModule</span><span class="p">.</span><span class="nx">errors</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;passive&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">event</span><span class="p">.</span><span class="nx">transform</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nx">InternalServerErrorException</span><span class="p">());</span><span class="w"></span>
+<span class="w">	</span><span class="nx">event</span><span class="p">.</span><span class="nx">transform</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nx">InternalServerErrorException</span><span class="p">());</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <p>If you don't silence or stop the error from propagating, it will appear in the application's output under the <code>Error</code>
 logging level looking something like this:</p>
 <div class="highlight"><pre><span></span><code>InternalServerErrorException: This is the original error message
     at &lt;original stack&gt;
-    from Error at &lt;transform call&gt;
+	from Error at &lt;transform call&gt;
 </code></pre></div>
 <h2 id="creating-managers">Creating managers<a class="headerlink" href="#creating-managers" title="Permanent link">&para;</a></h2>
 <p>In some circumstances you may wish to create your own managers. You have two options – you can spawn a child manager

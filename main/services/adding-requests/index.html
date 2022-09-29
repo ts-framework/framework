@@ -1190,10 +1190,10 @@ query information from one another.</p>
 structure similar to an enum.</p>
 <div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="nx">namespace</span><span class="w"> </span><span class="nx">ExampleRequest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">    </span><span class="cm">/**</span>
-<span class="cm">     * Adds two or more numbers together and returns the sum.</span>
-<span class="cm">     */</span><span class="w"></span>
-<span class="w">    </span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Add</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Request</span><span class="o">&lt;</span><span class="kt">number</span><span class="p">[],</span><span class="w"> </span><span class="kt">number</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">	</span><span class="cm">/**</span>
+<span class="cm">	 * Adds two or more numbers together and returns the sum.</span>
+<span class="cm">	 */</span><span class="w"></span>
+<span class="w">	</span><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">Add</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Request</span><span class="o">&lt;</span><span class="kt">number</span><span class="p">[],</span><span class="w"> </span><span class="kt">number</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
 
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
@@ -1207,13 +1207,13 @@ structure similar to an enum.</p>
 request class as the parameter type.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">@RequestHandler</span><span class="w"></span>
 <span class="k">protected</span><span class="w"> </span><span class="nx">onAdd</span><span class="p">(</span><span class="nx">request</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleRequest.Add</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="nx">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 
-<span class="w">    </span><span class="nx">request</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">sum</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="nx">request</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">sum</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>You must use the <code>resolve()</code> method to respond with a value, and the <code>reject()</code> method to respond with an error.</p>

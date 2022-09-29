@@ -1309,7 +1309,7 @@ configurable.</p>
 <p>Each service, controller, and module in the application has a built-in logger that can be accessed with the protected
 <code>logger</code> property. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="nx">start</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Starting the service!&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Starting the service!&#39;</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h2 id="writing-output">Writing output<a class="headerlink" href="#writing-output" title="Permanent link">&para;</a></h2>
@@ -1328,29 +1328,29 @@ configuration and enforce a logging level when importing a module.</p>
 <p>To set the logging level of a module from its configuration:</p>
 <div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nx">ExampleModule</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">Module</span><span class="o">&lt;</span><span class="nx">App</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="k">super</span><span class="p">({</span><span class="w"></span>
-<span class="w">            </span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
-<span class="w">        </span><span class="p">});</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="k">super</span><span class="p">({</span><span class="w"></span>
+<span class="w">			</span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="p">,</span><span class="w"></span>
+<span class="w">			</span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[],</span><span class="w"></span>
+<span class="w">		</span><span class="p">});</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h3 id="from-module-imports">From module imports<a class="headerlink" href="#from-module-imports" title="Permanent link">&para;</a></h3>
 <p>To enforce a logging level on a module when importing it:</p>
 <div class="highlight"><pre><span></span><code><span class="k">super</span><span class="p">({</span><span class="w"></span>
-<span class="w">    </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
-<span class="w">            </span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="w"></span>
-<span class="w">        </span><span class="p">})</span><span class="w"></span>
-<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">	</span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">		</span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
+<span class="w">			</span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="w"></span>
+<span class="w">		</span><span class="p">})</span><span class="w"></span>
+<span class="w">	</span><span class="p">]</span><span class="w"></span>
 <span class="p">})</span><span class="w"></span>
 </code></pre></div>
 <h3 id="from-application-start">From application start<a class="headerlink" href="#from-application-start" title="Permanent link">&para;</a></h3>
 <p>To enforce a logging level on the entire application when attaching it:</p>
 <div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">attach</span><span class="p">({</span><span class="w"></span>
-<span class="w">    </span><span class="nx">loggingLevel</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="w"></span>
+<span class="w">	</span><span class="nx">loggingLevel</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="w"></span>
 <span class="p">})</span><span class="w"></span>
 </code></pre></div>
 <h3 id="logger-hierarchy">Logger hierarchy<a class="headerlink" href="#logger-hierarchy" title="Permanent link">&para;</a></h3>
@@ -1377,18 +1377,18 @@ too many modules, it will become difficult to track and modify in the future.</p
 the attachment options. However, doing so will completely override the default transport (console), so we'll need to
 add both.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">attach</span><span class="p">({</span><span class="w"></span>
-<span class="w">    </span><span class="nx">loggingTransports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="ow">new</span><span class="w"> </span><span class="nx">ConsoleTransport</span><span class="p">(),</span><span class="w"></span>
-<span class="w">        </span><span class="ow">new</span><span class="w"> </span><span class="nx">FileTransport</span><span class="p">({</span><span class="w"></span>
-<span class="w">            </span><span class="nx">fileName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console.log&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="p">})</span><span class="w"></span>
-<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">	</span><span class="nx">loggingTransports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">		</span><span class="ow">new</span><span class="w"> </span><span class="nx">ConsoleTransport</span><span class="p">(),</span><span class="w"></span>
+<span class="w">		</span><span class="ow">new</span><span class="w"> </span><span class="nx">FileTransport</span><span class="p">({</span><span class="w"></span>
+<span class="w">			</span><span class="nx">fileName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console.log&#39;</span><span class="w"></span>
+<span class="w">		</span><span class="p">})</span><span class="w"></span>
+<span class="w">	</span><span class="p">]</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <p>You can customize the minimum logging level individually for each transport as well by passing the logging level as
 the first parameter, such as:</p>
 <div class="highlight"><pre><span></span><code><span class="ow">new</span><span class="w"> </span><span class="nx">FileTransport</span><span class="p">(</span><span class="nx">LogLevel</span><span class="p">.</span><span class="ne">Error</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">fileName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console.log&#39;</span><span class="w"></span>
+<span class="w">	</span><span class="nx">fileName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console.log&#39;</span><span class="w"></span>
 <span class="p">})</span><span class="w"></span>
 </code></pre></div>
 <p>Note that the file transport has built-in automatic rotation that can be configured. Check out the
@@ -1398,7 +1398,7 @@ the first parameter, such as:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">AppFactory</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">App</span><span class="p">);</span><span class="w"></span>
 
 <span class="nx">app</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">createFileTransport</span><span class="p">({</span><span class="w"></span>
-<span class="w">    </span><span class="nx">fileName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console.log&#39;</span><span class="w"></span>
+<span class="w">	</span><span class="nx">fileName</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;console.log&#39;</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 
 <span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span><span class="w"></span>

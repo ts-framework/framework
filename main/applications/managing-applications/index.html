@@ -515,11 +515,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#start-options" class="md-nav__link">
-    Start options
+  <a href="#factory-options" class="md-nav__link">
+    Factory options
   </a>
   
-    <nav class="md-nav" aria-label="Start options">
+    <nav class="md-nav" aria-label="Factory options">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -546,6 +546,13 @@
           <li class="md-nav__item">
   <a href="#property:environment" class="md-nav__link">
     environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:loggingLevel" class="md-nav__link">
+    loggingLevel
   </a>
   
 </li>
@@ -1207,11 +1214,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#start-options" class="md-nav__link">
-    Start options
+  <a href="#factory-options" class="md-nav__link">
+    Factory options
   </a>
   
-    <nav class="md-nav" aria-label="Start options">
+    <nav class="md-nav" aria-label="Factory options">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1238,6 +1245,13 @@
           <li class="md-nav__item">
   <a href="#property:environment" class="md-nav__link">
     environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#property:loggingLevel" class="md-nav__link">
+    loggingLevel
   </a>
   
 </li>
@@ -1269,7 +1283,14 @@ things like errors and logging.</p>
 <h2 id="creating-an-instance">Creating an instance<a class="headerlink" href="#creating-an-instance" title="Permanent link">&para;</a></h2>
 <p>Before we can start the application, we'll need to acquire an instance of the application. We can't construct it
 ourselves, or we'll receive an error. Instead, use the <code>ApplicationFactory</code> class to resolve an instance.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">ApplicationFactory</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">App</span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">ApplicationFactory</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">App</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>The second argument accepts additional options for the application.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">ApplicationFactory</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">App</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">	</span><span class="nx">loggingLevel</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="p">,</span><span class="w"></span>
+<span class="w">	</span><span class="nx">envFilePath</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;.env&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="w">	</span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <h2 id="attaching-the-instance">Attaching the instance<a class="headerlink" href="#attaching-the-instance" title="Permanent link">&para;</a></h2>
 <p>The recommended method to start an application is with the <code>attach()</code> method. This name comes from the idea that we'll
@@ -1279,16 +1300,10 @@ running.</p>
 signals are received.</p>
 <div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">attach</span><span class="p">();</span><span class="w"></span>
 </code></pre></div>
-<p>This method also accepts various options to tailor the attachment. Here are the default values of these options, with
-the exception that <code>loggingLevel</code> will vary between <code>Information</code> and <code>Debug</code> depending on the current environment.</p>
+<p>This method also accepts additional options to tailor the attachment.</p>
 <div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">attach</span><span class="p">({</span><span class="w"></span>
-<span class="w">    </span><span class="nx">abortOnError</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="nx">envFilePath</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;.env&#39;</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="nx">envPrefix</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
-<span class="w">    </span><span class="nx">interceptTerminationSignals</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="nx">loggingLevel</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="nx">loggingTransports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="cm">/*console*/</span><span class="p">]</span><span class="w"></span>
+<span class="w">	</span><span class="nx">interceptTerminationSignals</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">	</span><span class="nx">loggingTransports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="cm">/*console*/</span><span class="p">]</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <p>The <code>attach()</code> method returns a promise that resolves once the application has stopped. You don't need to <code>await</code> this
@@ -1308,11 +1323,11 @@ sufficient for you. In this case, you'll want to use the <code>start()</code> me
 application has shut down, or rejects with a critical error.</p>
 <div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span><span class="w"></span>
 </code></pre></div>
-<p>You should then implement logic to call and wait for the <code>stop()</code> method before the process shuts down, otherwise data
-loss may occur.</p>
+<p>You should then implement logic to call and wait for the <code>stop()</code> method before the process shuts down (such as from a
+<code>SIGTERM</code> signal), otherwise data loss may occur.</p>
 <div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">app</span><span class="p">.</span><span class="nx">stop</span><span class="p">();</span><span class="w"></span>
 </code></pre></div>
-<h2 id="start-options">Start options<a class="headerlink" href="#start-options" title="Permanent link">&para;</a></h2>
+<h2 id="factory-options">Factory options<a class="headerlink" href="#factory-options" title="Permanent link">&para;</a></h2>
 <h3 _="," id="property:abortOnError"><code class="highlight"><span class="nx">abortOnError?</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"></span></code><a class="headerlink" href="#property:abortOnError" title="Permanent link">&para;</a></h3>
 <blockquote>
 <p>Sets whether to terminate the process with an erroneous exit code if an unhandled fatal error is encountered within
@@ -1335,6 +1350,11 @@ configurations.</p>
 <blockquote>
 <p>Sets custom environment variables in the application. The variables defined here will override any variables loaded
 from the working environment or <code>.env</code> file.</p>
+</blockquote>
+<h3 _="," id="property:loggingLevel"><code class="highlight"><span class="nx">loggingLevel?</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"></span></code><a class="headerlink" href="#property:loggingLevel" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Sets the logging level for the application. When not specified, defaults to <code>Info</code> in production and <code>Debug</code> in
+development. Set to <code>true</code> to use the default logging level and <code>false</code> to disable logging.</p>
 </blockquote>
 
 

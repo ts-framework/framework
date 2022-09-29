@@ -1353,10 +1353,10 @@ modules.</p>
 <p>You will need to use classes and types from the framework as part of your extension. Add the framework as both a
 <code>dev</code> and <code>peer</code> dependency in your <code>package.json</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;devDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;@ts-framework/core&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="nt">&quot;@ts-framework/core&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="w"></span>
 <span class="p">},</span><span class="w"></span>
 <span class="nt">&quot;peerDependencies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nt">&quot;@ts-framework/core&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="w"></span>
+<span class="w">	</span><span class="nt">&quot;@ts-framework/core&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;^1.0.0&quot;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>Then run <code>npm install</code> to download the new packages.</p>
@@ -1380,10 +1380,10 @@ application, and will receive a <code>CompositionBuilder</code> instance that ca
 <p>From within the <code>onRegister()</code> method, you can use the builder instance to listen for the construction of specific
 types of instances in the framework.</p>
 <div class="highlight"><pre><span></span><code><span class="k">protected</span><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="nx">onRegister</span><span class="p">(</span><span class="nx">builder</span><span class="o">:</span><span class="w"> </span><span class="kt">ComposerBuilder</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">builder</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Application</span><span class="p">,</span><span class="w"> </span><span class="nx">composer</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{});</span><span class="w"></span>
-<span class="w">    </span><span class="nx">builder</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Module</span><span class="p">,</span><span class="w"> </span><span class="nx">composer</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{});</span><span class="w"></span>
-<span class="w">    </span><span class="nx">builder</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Service</span><span class="p">,</span><span class="w"> </span><span class="nx">composer</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{});</span><span class="w"></span>
-<span class="w">    </span><span class="nx">builder</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Controller</span><span class="p">,</span><span class="w"> </span><span class="nx">composer</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{});</span><span class="w"></span>
+<span class="w">	</span><span class="nx">builder</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Application</span><span class="p">,</span><span class="w"> </span><span class="nx">composer</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{});</span><span class="w"></span>
+<span class="w">	</span><span class="nx">builder</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Module</span><span class="p">,</span><span class="w"> </span><span class="nx">composer</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{});</span><span class="w"></span>
+<span class="w">	</span><span class="nx">builder</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Service</span><span class="p">,</span><span class="w"> </span><span class="nx">composer</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{});</span><span class="w"></span>
+<span class="w">	</span><span class="nx">builder</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="nx">Controller</span><span class="p">,</span><span class="w"> </span><span class="nx">composer</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{});</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>The callbacks in these attachments will be invoked for <em>each</em> constructed instance which inherits those types along
@@ -1412,21 +1412,21 @@ property.</p>
 <p>To add a method to an instance, use the <code>createMethod()</code> method on the composer. Provide a callback that will be used
 as the method's implementation.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">composer</span><span class="p">.</span><span class="nx">createMethod</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;This was returned by an extension&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;This was returned by an extension&#39;</span><span class="p">;</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <h3 id="adding-getters">Adding getters<a class="headerlink" href="#adding-getters" title="Permanent link">&para;</a></h3>
 <p>To add a getter to an instance, use the <code>createGetter()</code> method on the composer. Pass a callback that will be used as
 the getter's implementation.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">composer</span><span class="p">.</span><span class="nx">createGetter</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;This was returned by an extension&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="k">return</span><span class="w"> </span><span class="s1">&#39;This was returned by an extension&#39;</span><span class="p">;</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <h3 id="adding-setters">Adding setters<a class="headerlink" href="#adding-setters" title="Permanent link">&para;</a></h3>
 <p>To add a setter to an instance, use the <code>createSetter()</code> method on the composer. Pass a callback that will be used as
 the setter's implementation.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">composer</span><span class="p">.</span><span class="nx">createSetter</span><span class="p">(</span><span class="s1">&#39;example&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">any</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// Do something with the value</span><span class="w"></span>
+<span class="w">	</span><span class="c1">// Do something with the value</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <h3 id="descriptors">Descriptors<a class="headerlink" href="#descriptors" title="Permanent link">&para;</a></h3>
@@ -1445,45 +1445,45 @@ classes. However, the compiler will complain that these values do not exist, bec
 <p>The following code demonstrates how to augment the official types for each of the core classes that support composer
 augmentation.</p>
 <div class="highlight"><pre><span></span><code><span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/application/Application&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Application</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="kd">interface</span><span class="w"> </span><span class="nx">Application</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/modules/Module&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="kd">interface</span><span class="w"> </span><span class="nx">Module</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/controllers/Controller&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Controller</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="kd">interface</span><span class="w"> </span><span class="nx">Controller</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/services/Service&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">Service</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="kd">interface</span><span class="w"> </span><span class="nx">Service</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/services/state/StateManager&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">StateManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="kd">interface</span><span class="w"> </span><span class="nx">StateManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/services/scheduler/ScheduleManager&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">ScheduleManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="kd">interface</span><span class="w"> </span><span class="nx">ScheduleManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 
 <span class="kr">declare</span><span class="w"> </span><span class="nx">module</span><span class="w"> </span><span class="s1">&#39;@ts-framework/core/dist/services/promises/PromiseManager&#39;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nx">PromiseManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="kd">interface</span><span class="w"> </span><span class="nx">PromiseManager</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">		</span><span class="nx">example</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"></span>
+<span class="w">	</span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h2 id="techniques">Techniques<a class="headerlink" href="#techniques" title="Permanent link">&para;</a></h2>
@@ -1495,7 +1495,7 @@ automatically attached to the application's root logger. This happens before the
 <h3 id="events">Events<a class="headerlink" href="#events" title="Permanent link">&para;</a></h3>
 <p>For some types, composers also emit events for their underlying instances.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">composer</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;beforeStart&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">composer</span><span class="p">.</span><span class="nx">reflection</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;is starting&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">composer</span><span class="p">.</span><span class="nx">reflection</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;is starting&#39;</span><span class="p">);</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <p>These are the events you can subscribe to, although usage will vary by type:</p>

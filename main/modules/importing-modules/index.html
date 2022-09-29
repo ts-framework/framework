@@ -1187,57 +1187,57 @@ more advanced than others but unlock additional functionality.</p>
 <p>Importing modules in the most basic form can be done by supplying the module's constructor. The framework will then
 create instances of that module with default options.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">ExampleModule</span><span class="p">]</span><span class="w"></span>
+<span class="w">	</span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">ExampleModule</span><span class="p">]</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h2 id="configured-imports">Configured imports<a class="headerlink" href="#configured-imports" title="Permanent link">&para;</a></h2>
 <p>Passing an object with an <code>import</code> property set to the module constructor will allow you to pass additional options for
 the module to override its logging level, set custom logging levels, and set its environment prefix.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="p">{</span><span class="w"></span>
-<span class="w">            </span><span class="nx">import</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleModule</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="nx">EXAMPLE</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Override the environment&#39;</span><span class="w"></span>
-<span class="w">            </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="p">}</span><span class="w"></span>
-<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">	</span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">		</span><span class="p">{</span><span class="w"></span>
+<span class="w">			</span><span class="nx">import</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleModule</span><span class="p">,</span><span class="w"></span>
+<span class="w">			</span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="p">,</span><span class="w"></span>
+<span class="w">			</span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">				</span><span class="nx">EXAMPLE</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Override the environment&#39;</span><span class="w"></span>
+<span class="w">			</span><span class="p">}</span><span class="w"></span>
+<span class="w">		</span><span class="p">}</span><span class="w"></span>
+<span class="w">	</span><span class="p">]</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>All modules also have a static method called <code>withOptions()</code> that can be used as a shortcut for the above code.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
-<span class="w">            </span><span class="nx">import</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleModule</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">                </span><span class="nx">EXAMPLE</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Override the environment&#39;</span><span class="w"></span>
-<span class="w">            </span><span class="p">}</span><span class="w"></span>
-<span class="w">        </span><span class="p">})</span><span class="w"></span>
-<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">	</span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">		</span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withOptions</span><span class="p">({</span><span class="w"></span>
+<span class="w">			</span><span class="nx">import</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleModule</span><span class="p">,</span><span class="w"></span>
+<span class="w">			</span><span class="nx">logging</span><span class="o">:</span><span class="w"> </span><span class="kt">LogLevel.Information</span><span class="p">,</span><span class="w"></span>
+<span class="w">			</span><span class="nx">environment</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">				</span><span class="nx">EXAMPLE</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Override the environment&#39;</span><span class="w"></span>
+<span class="w">			</span><span class="p">}</span><span class="w"></span>
+<span class="w">		</span><span class="p">})</span><span class="w"></span>
+<span class="w">	</span><span class="p">]</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h2 id="environment-imports">Environment imports<a class="headerlink" href="#environment-imports" title="Permanent link">&para;</a></h2>
 <p>All modules have a static method called <code>withEnvironment()</code> that can be used to import the module with specific
 environment variable overrides.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withEnvironment</span><span class="p">({</span><span class="w"></span>
-<span class="w">            </span><span class="nx">EXAMPLE</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Override the environment&#39;</span><span class="w"></span>
-<span class="w">        </span><span class="p">})</span><span class="w"></span>
-<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">	</span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">		</span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withEnvironment</span><span class="p">({</span><span class="w"></span>
+<span class="w">			</span><span class="nx">EXAMPLE</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Override the environment&#39;</span><span class="w"></span>
+<span class="w">		</span><span class="p">})</span><span class="w"></span>
+<span class="w">	</span><span class="p">]</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>There is also an asynchronous version called <code>withEnvironmentAsync()</code> that can reference environment variables or
 methods from the current module.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withEnvironmentAsync</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span><span class="w"></span>
-<span class="w">            </span><span class="nx">EXAMPLE</span><span class="o">:</span><span class="w"> </span><span class="kt">this.env.MESSAGE</span><span class="p">,</span><span class="w"></span>
-<span class="w">            </span><span class="nx">ANOTHER</span><span class="o">:</span><span class="w"> </span><span class="kt">this.environment.get</span><span class="p">(</span><span class="s1">&#39;NAME&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="p">}))</span><span class="w"></span>
-<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">	</span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">		</span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withEnvironmentAsync</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span><span class="w"></span>
+<span class="w">			</span><span class="nx">EXAMPLE</span><span class="o">:</span><span class="w"> </span><span class="kt">this.env.MESSAGE</span><span class="p">,</span><span class="w"></span>
+<span class="w">			</span><span class="nx">ANOTHER</span><span class="o">:</span><span class="w"> </span><span class="kt">this.environment.get</span><span class="p">(</span><span class="s1">&#39;NAME&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">		</span><span class="p">}))</span><span class="w"></span>
+<span class="w">	</span><span class="p">]</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h2 id="environment-prefix-imports">Environment prefix imports<a class="headerlink" href="#environment-prefix-imports" title="Permanent link">&para;</a></h2>
@@ -1245,9 +1245,9 @@ methods from the current module.</p>
 a custom environment prefix. This prefix will be prepended to all configured environment variables under the module
 (recursively).</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">        </span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withEnvironmentPrefix</span><span class="p">(</span><span class="s1">&#39;EXAMPLE_&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">	</span><span class="nx">imports</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">		</span><span class="nx">ExampleModule</span><span class="p">.</span><span class="nx">withEnvironmentPrefix</span><span class="p">(</span><span class="s1">&#39;EXAMPLE_&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="w">	</span><span class="p">]</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 

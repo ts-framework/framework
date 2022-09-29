@@ -1172,7 +1172,7 @@
 also need to specify the event class as its sole parameter.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">@EventHandler</span><span class="w"></span>
 <span class="k">protected</span><span class="w"> </span><span class="nx">onExampleStarted</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleEvent.Started</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Started at:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="k">this</span><span class="p">.</span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="s1">&#39;Started at:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>The framework will attach these methods to the root event manager at startup. It will use runtime reflection to
@@ -1180,7 +1180,7 @@ identify the target event type from the parameters.</p>
 <h2 id="handling-manually">Handling manually<a class="headerlink" href="#handling-manually" title="Permanent link">&para;</a></h2>
 <p>You can utilize the application's root event manager to manually listen for events.</p>
 <div class="highlight"><pre><span></span><code><span class="nx">app</span><span class="p">.</span><span class="nx">events</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="nx">ExampleEvent</span><span class="p">.</span><span class="nx">Started</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Started at:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Started at:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span><span class="w"></span>
 <span class="p">});</span><span class="w"></span>
 </code></pre></div>
 <p>Unlike handlers from decorations, which are detached when the application stops, these event handlers are permanent
@@ -1191,7 +1191,7 @@ controller's error manager as a passive error. This means you don't need to do a
 callbacks.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">@EventHandler</span><span class="w"></span>
 <span class="k">protected</span><span class="w"> </span><span class="nx">onExampleStarted</span><span class="p">(</span><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleEvent.Started</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;I will be caught and logged&#39;</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;I will be caught and logged&#39;</span><span class="p">);</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 

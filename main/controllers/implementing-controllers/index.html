@@ -1180,7 +1180,7 @@ handlers.</p>
 <p>If you're developing with separation of concerns, you'll likely want to import one or more services into your
 controller by specifying them as constructor parameters.</p>
 <div class="highlight"><pre><span></span><code><span class="k">public</span><span class="w"> </span><span class="kr">constructor</span><span class="p">(</span><span class="k">protected</span><span class="w"> </span><span class="k">readonly</span><span class="w"> </span><span class="nx">service</span><span class="o">:</span><span class="w"> </span><span class="kt">ExampleService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">super</span><span class="p">();</span><span class="w"></span>
+<span class="w">	</span><span class="k">super</span><span class="p">();</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <p>Make sure that you've applied the <code class="highlight"><span class="kd">@Injectable</span><span class="p">()</span><span class="w"></span></code> decorator to the class, otherwise the framework won't be able

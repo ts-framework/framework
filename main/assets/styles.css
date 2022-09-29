@@ -132,3 +132,7 @@ table thead tr th {
 		margin-top: 0.625em;
 	}
 }
+
+code {
+	tab-size: 3;
+}
