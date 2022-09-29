@@ -1,10 +1,10 @@
 site_name: ts-framework
-site_url: https://docs.bailey.sh/ts-framework/
+site_url: https://ts-framework.docs.bailey.sh/
 site_author: Bailey Herbert
 site_description:
 
-repo_name: baileyherbert/ts-framework
-repo_url: https://github.com/baileyherbert/ts-framework
+repo_name: ts-framework/framework
+repo_url: https://github.com/ts-framework/framework
 edit_uri: ""
 
 theme:
@@ -109,6 +109,4 @@ extra:
     default: latest
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/baileyherbert
-    - icon: fontawesome/brands/docker
-      link: https://hub.docker.com/u/baileyherbert
+      link: https://github.com/ts-framework
